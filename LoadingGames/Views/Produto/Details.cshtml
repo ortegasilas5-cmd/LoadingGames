@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Detalhes do jogo";
+}
+
+<div class="text-center">
+
+    @if ((int)ViewData["Id"] == 1)
+    {   
+        <img src="~/images/capagtav.jpg"
+            alt="Capa do GTA V"
+            style="width: 250px;">
+
+        <h1>GTA V</h1>
+
+        <p>
+            Grand Theft Auto V para PC.
+        </p>
+
+        <p>
+            <strong>Preço:</strong> R$ 99,90
+        </p>
+
+        <p>
+            <strong>Plataforma:</strong> PC
+        </p>
+    }
+    else if ((int)ViewData["Id"] == 2)
+    {
+         <img src="~/images/capareddead.jpg"
+            alt="Capa do Red Dead Redemption 2"
+            style="width: 250px;">
+
+        <h1>Red Dead Redemption 2</h1>
+
+        <p>
+            Red Dead Redemption 2 para PC.
+        </p>
+
+        <p>
+            <strong>Preço:</strong> R$ 199,90
+        </p>
+
+        <p>
+            <strong>Plataforma:</strong> PC
+        </p>
+    }
+    else
+    {
+        <h1>Jogo não encontrado</h1>
+
+        <p>
+            O jogo selecionado não existe.
+        </p>
+    }
+
+</div>
