@@ -29,3 +29,30 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Cores da LoadingGames */
+
+.btn-primary {
+    background-color: #6f2dbd;
+    border-color: #6f2dbd;
+}
+
+    .btn-primary:hover {
+        background-color: #5a239b;
+        border-color: #5a239b;
+    }
+
+/* Barra de navegação */
+
+.navbar {
+    background-color: #6f2dbd !important;
+}
+
+    .navbar .navbar-brand,
+    .navbar .nav-link {
+        color: white !important;
+    }
+
+        .navbar .nav-link:hover {
+            color: #e0c3ff !important;
+        }

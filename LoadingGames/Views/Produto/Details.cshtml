@@ -5,10 +5,10 @@
 <div class="text-center">
 
     @if ((int)ViewData["Id"] == 1)
-    {   
+    {
         <img src="~/images/capagtav.jpg"
-            alt="Capa do GTA V"
-            style="width: 250px;">
+             alt="Capa do GTA V"
+             style="width: 250px;">
 
         <h1>GTA V</h1>
 
@@ -26,9 +26,9 @@
     }
     else if ((int)ViewData["Id"] == 2)
     {
-         <img src="~/images/capareddead.jpg"
-            alt="Capa do Red Dead Redemption 2"
-            style="width: 250px;">
+        <img src="~/images/capareddead.jpg"
+             alt="Capa do Red Dead Redemption 2"
+             style="width: 250px;">
 
         <h1>Red Dead Redemption 2</h1>
 
@@ -38,6 +38,26 @@
 
         <p>
             <strong>Preço:</strong> R$ 199,90
+        </p>
+
+        <p>
+            <strong>Plataforma:</strong> PC
+        </p>
+    }
+    else if ((int)ViewData["Id"] == 3)
+    {
+        <img src="~/images/capacyberpunk.jpg"
+             alt="Capa do Cyberpunk 2077"
+             style="width: 250px;">
+
+        <h1>Cyberpunk 2077</h1>
+
+        <p>
+            Cyberpunk 2077 para PC.
+        </p>
+
+        <p>
+            <strong>Preço:</strong> R$ 149,90
         </p>
 
         <p>
