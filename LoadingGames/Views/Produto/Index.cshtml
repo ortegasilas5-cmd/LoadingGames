@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<LoadingGames.Models.Produto>
+
+@{
     ViewData["Title"] = "Jogos";
 }
 
@@ -10,82 +12,35 @@
 
 <div class="row">
 
-    <!-- Card GTA V -->
-    <div class="card" style="width: 18rem; margin: 20px auto;">
+    @foreach (var produto in Model)
+    {
+        <div class="card" style="width: 18rem; margin: 20px auto;">
 
-        <img src="~/images/capagtav.jpg" class="card-img-top" alt="Capa do GTA V">
+            <img src="~/images/@produto.ImagemUrl"
+                 class="card-img-top"
+                 alt="Capa do @produto.Nome">
 
-        <div class="card-body">
-            <h5 class="card-title">GTA V</h5>
+            <div class="card-body">
 
-            <p class="card-text">
-                Grand Theft Auto V para PC.
-            </p>
+                <h5 class="card-title">@produto.Nome</h5>
 
-            <p>
-                <strong>R$ 99,90</strong>
-            </p>
+                <p class="card-text">
+                    @produto.Descricao
+                </p>
 
-            <a asp-controller="Produto"
-               asp-action="Details"
-               asp-route-id="1"
-               class="btn btn-primary">
-                Ver detalhes
-            </a>
+                <p>
+                    <strong>R$ @produto.Preco.ToString("0.00")</strong>
+                </p>
+
+                <a asp-controller="Produto"
+                   asp-action="Details"
+                   asp-route-id="@produto.IdProduto"
+                   class="btn btn-primary">
+                    Ver detalhes
+                </a>
+
+            </div>
+
         </div>
-
-    </div>
-
-    <!-- Card Red Dead Redemption 2 -->
-    <div class="card" style="width: 18rem; margin: 20px auto;">
-
-        <img src="~/images/capareddead.jpg" class="card-img-top" alt="Capa do Red Dead Redemption 2">
-
-        <div class="card-body">
-            <h5 class="card-title">Red Dead Redemption 2</h5>
-
-            <p class="card-text">
-                Red Dead Redemption 2 para PC.
-            </p>
-
-            <p>
-                <strong>R$ 199,90</strong>
-            </p>
-
-            <a asp-controller="Produto"
-               asp-action="Details"
-               asp-route-id="2"
-               class="btn btn-primary">
-                Ver detalhes
-            </a>
-        </div>
-
-    </div>
-
-    <!-- Card Cyberpunk 2077 -->
-    <div class="card" style="width: 18rem; margin: 20px auto;">
-
-        <img src="~/images/capacyberpunk.jpg" class="card-img-top" alt="Capa do Cyberpunk 2077">
-
-        <div class="card-body">
-            <h5 class="card-title">Cyberpunk 2077</h5>
-
-            <p class="card-text">
-                Cyberpunk 2077 para PC.
-            </p>
-
-            <p>
-                <strong>R$ 149,90</strong>
-            </p>
-
-            <a asp-controller="Produto"
-               asp-action="Details"
-               asp-route-id="3"
-               class="btn btn-primary">
-                Ver detalhes
-            </a>
-        </div>
-
-    </div>
-
+    }
 </div>

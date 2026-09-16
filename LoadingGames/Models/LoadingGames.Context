@@ -1,0 +1,14 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace LoadingGames.Models
+{
+    public class LoadingGamesContext : DbContext
+    {
+        public LoadingGamesContext(DbContextOptions<LoadingGamesContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<Produto> Produtos { get; set; }
+    }
+}
