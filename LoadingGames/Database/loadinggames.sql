@@ -412,6 +412,8 @@ CREATE TABLE avaliacao (
         ON DELETE CASCADE
 );
  select * from usuario
+ 
+ 
 
 -- ============================================================
 -- FIM DO BANCO

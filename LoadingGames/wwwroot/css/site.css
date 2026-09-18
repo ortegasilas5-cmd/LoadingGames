@@ -1,48 +1,47 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
+/* ============================= /
+/ BOTÕES /
+/ ============================= */
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.btn,
+.btn:active,
+.btn-link.nav-link,
+.form-control,
+.form-check-input {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #6f2dbd;
 }
-
-/* Cores da LoadingGames */
 
 .btn-primary {
     background-color: #6f2dbd;
     border-color: #6f2dbd;
 }
 
-    .btn-primary:hover {
-        background-color: #5a239b;
-        border-color: #5a239b;
-    }
+.btn-primary {
+    background-color: #5a239b;
+    border-color: #5a239b;
+}
 
-/* Barra de navegação */
+/* ============================= /
+/ BARRA DE NAVEGAÇÃO /
+/ ============================= */
 
 .navbar {
     background-color: #6f2dbd !important;
@@ -53,6 +52,294 @@ body {
         color: white !important;
     }
 
-        .navbar .nav-link:hover {
-            color: #e0c3ff !important;
+    .navbar .nav-link {
+        color: #e0c3ff !important;
+    }
+
+/* ============================= /
+/ ESTRUTURA DO CATÁLOGO /
+/ ============================= */
+
+.catalogo-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    width: 100%;
+    padding: 30px 0 50px;
+}
+
+/* ============================= /
+/ MENU LATERAL /
+/ ============================= */
+
+.catalogo-sidebar {
+    flex: 0 0 220px;
+    background-color: #21152d;
+    border-radius: 12px;
+    padding: 20px;
+    height: fit-content;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+    .catalogo-sidebar h3 {
+        color: white;
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+
+    .catalogo-sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .catalogo-sidebar li {
+        margin-bottom: 8px;
+    }
+
+    .catalogo-sidebar a {
+        display: block;
+        color: #eeeeee;
+        text-decoration: none;
+        padding: 10px 12px;
+        border-radius: 8px;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .catalogo-sidebar a {
+        background-color: #6f2dbd;
+        color: white;
+    }
+
+/* ============================= /
+/ ÁREA PRINCIPAL /
+/ ============================= */
+
+.catalogo-conteudo {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ============================= /
+/ CABEÇALHO DO CATÁLOGO /
+/ ============================= */
+
+.catalogo-header {
+    margin-bottom: 25px;
+}
+
+    .catalogo-header h1 {
+        font-weight: 700;
+        color: #6f2dbd;
+        margin-bottom: 8px;
+    }
+
+    .catalogo-header p {
+        color: #666;
+        font-size: 17px;
+    }
+
+/* ============================= /
+/ BANNER DE DESTAQUE /
+/ ============================= */
+
+.banner-destaque {
+    margin-bottom: 30px;
+    min-height: 260px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: linear-gradient( 90deg, rgba(20, 10, 35, 0.95), rgba(60, 20, 90, 0.75) ), url('/images/capagtav.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+}
+
+.banner-conteudo {
+    padding: 35px;
+    max-width: 600px;
+}
+
+.banner-tag {
+    display: inline-block;
+    background-color: #8a2be2;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.banner-conteudo h2 {
+    color: white;
+    font-size: 34px;
+    margin: 5px 0 10px;
+}
+
+.banner-conteudo p {
+    color: #e5dcef;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.banner-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+    .banner-info strong {
+        color: white;
+        font-size: 22px;
+    }
+
+.banner-botao {
+    background-color: #8a2be2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.banner-botao {
+    background-color: #6f20b8;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ============================= /
+/ GRID DOS JOGOS /
+/ ============================= */
+
+.jogos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* ============================= /
+/ CARD DO JOGO /
+/ ============================= */
+
+.jogo-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #e5d5f5;
+}
+
+.jogo-card {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(111, 45, 189, 0.25);
+}
+
+    /* ============================= /
+/ IMAGEM DO JOGO /
+/ ============================= */
+
+    .jogo-card-imagem {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+    .jogo-card-imagem img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+/* ============================= /
+/ CONTEÚDO DO CARD /
+/ ============================= */
+
+.jogo-card-body {
+    padding: 20px;
+}
+
+    .jogo-card-body h2 {
+        font-size: 22px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .jogo-card-body p {
+        color: #666;
+        min-height: 48px;
+        margin-bottom: 20px;
+    }
+
+/* ============================= /
+/ RODAPÉ DO CARD /
+/ ============================= */
+
+.jogo-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+    .jogo-card-footer strong {
+        color: #6f2dbd;
+        font-size: 18px;
+    }
+
+    .jogo-card-footer .btn-primary {
+        background-color: #6f2dbd;
+        border-color: #6f2dbd;
+    }
+
+    .jogo-card-footer .btn-primary {
+        background-color: #5a239b;
+        border-color: #5a239b;
+    }
+
+/* ============================= /
+/ RESPONSIVIDADE /
+/ ============================= */
+
+@media (max-width: 900px) {
+
+    .catalogo-layout {
+        flex-direction: column;
+    }
+
+    .catalogo-sidebar {
+        width: 100%;
+    }
+
+    .jogos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .jogos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .banner-conteudo {
+        padding: 25px;
+    }
+
+        .banner-conteudo h2 {
+            font-size: 28px;
         }
+
+    .banner-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}

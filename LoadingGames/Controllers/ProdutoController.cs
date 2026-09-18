@@ -12,16 +12,28 @@ namespace LoadingGames.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? categoria)
         {
             var produtos = _context.Produtos.ToList();
+
+            var categorias = _context.Categorias.ToList();
+
+            ViewBag.Categorias = categorias;
+
+            if (categoria.HasValue)
+            {
+                produtos = produtos
+                    .Where(p => p.IdCategoria == categoria.Value)
+                    .ToList();
+            }
 
             return View(produtos);
         }
 
         public IActionResult Details(int id)
         {
-            var produto = _context.Produtos.FirstOrDefault(p => p.IdProduto == id);
+            var produto = _context.Produtos
+                .FirstOrDefault(p => p.IdProduto == id);
 
             if (produto == null)
             {
@@ -31,4 +43,5 @@ namespace LoadingGames.Controllers
             return View(produto);
         }
     }
+
 }

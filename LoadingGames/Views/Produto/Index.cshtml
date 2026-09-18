@@ -1,46 +1,123 @@
 ﻿@model List<LoadingGames.Models.Produto>
 
 @{
-    ViewData["Title"] = "Jogos";
+    ViewData["Title"] = "Catálogo de Jogos";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Jogos</h1>
+<div class="catalogo-layout">
 
-    <p>Bem-vindo à área de jogos da LoadingGames!</p>
-</div>
+    <!-- MENU LATERAL -->
+    <aside class="catalogo-sidebar">
 
-<div class="row">
+        <h3>Categorias</h3>
 
-    @foreach (var produto in Model)
-    {
-        <div class="card" style="width: 18rem; margin: 20px auto;">
+        <ul>
+            <li>
+                <a asp-controller="Produto"
+                   asp-action="Index">
+                    🎮 Todos os jogos
+                </a>
+            </li>
 
-            <img src="~/images/@produto.ImagemUrl"
-                 class="card-img-top"
-                 alt="Capa do @produto.Nome">
+            @foreach (var categoria in ViewBag.Categorias)
+            {
+                <li>
+                    <a asp-controller="Produto"
+                       asp-action="Index"
+                       asp-route-categoria="@categoria.IdCategoria">
+                        @categoria.Nome
+                    </a>
+                </li>
+            }
+        </ul>
 
-            <div class="card-body">
+    </aside>
 
-                <h5 class="card-title">@produto.Nome</h5>
 
-                <p class="card-text">
-                    @produto.Descricao
-                </p>
+    <!-- ÁREA PRINCIPAL -->
+    <main class="catalogo-conteudo">
+
+        <!-- CABEÇALHO -->
+        <div class="catalogo-header">
+            <h1>Catálogo de Jogos</h1>
+            <p>Encontre seus próximos jogos favoritos.</p>
+        </div>
+
+
+        <!-- BANNER DE DESTAQUE -->
+        <section class="banner-destaque">
+
+            <div class="banner-conteudo">
+
+                <span class="banner-tag">DESTAQUE</span>
+
+                <h2>Grand Theft Auto V</h2>
 
                 <p>
-                    <strong>R$ @produto.Preco.ToString("0.00")</strong>
+                    Explore Los Santos em uma experiência de mundo aberto
+                    cheia de ação, aventuras e possibilidades.
                 </p>
 
-                <a asp-controller="Produto"
-                   asp-action="Details"
-                   asp-route-id="@produto.IdProduto"
-                   class="btn btn-primary">
-                    Ver detalhes
-                </a>
+                <div class="banner-info">
+
+                    <strong>R$ 99,90</strong>
+
+                    <a asp-controller="Produto"
+                       asp-action="Details"
+                       asp-route-id="1"
+                       class="banner-botao">
+                        Ver jogo
+                    </a>
+
+                </div>
 
             </div>
 
+        </section>
+
+
+        <!-- JOGOS -->
+        <div class="jogos-grid">
+
+            @foreach (var produto in Model)
+            {
+                <div class="jogo-card">
+
+                    <!-- CAPA -->
+                    <div class="jogo-card-imagem">
+                        <img src="~/images/@produto.ImagemUrl"
+                             alt="Capa do @produto.Nome">
+                    </div>
+
+                    <!-- INFORMAÇÕES -->
+                    <div class="jogo-card-body">
+
+                        <h2>@produto.Nome</h2>
+
+                        <p>@produto.Descricao</p>
+
+                        <div class="jogo-card-footer">
+
+                            <strong>
+                                R$ @produto.Preco.ToString("0.00")
+                            </strong>
+
+                            <a asp-controller="Produto"
+                               asp-action="Details"
+                               asp-route-id="@produto.IdProduto"
+                               class="btn btn-primary">
+                                Ver detalhes
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
         </div>
-    }
+
+    </main>
+
 </div>
