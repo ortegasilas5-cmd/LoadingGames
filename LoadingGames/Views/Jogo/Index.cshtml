@@ -1,4 +1,4 @@
-﻿@model List<LoadingGames.Models.Produto>
+﻿@model List<LoadingGames.Models.Jogo>
 
 @{
     ViewData["Title"] = "Catálogo de Jogos";
@@ -9,23 +9,23 @@
     <!-- MENU LATERAL -->
     <aside class="catalogo-sidebar">
 
-        <h3>Categorias</h3>
+        <h3>Gêneros</h3>
 
         <ul>
             <li>
-                <a asp-controller="Produto"
+                <a asp-controller="Jogo"
                    asp-action="Index">
                     🎮 Todos os jogos
                 </a>
             </li>
 
-            @foreach (var categoria in ViewBag.Categorias)
+            @foreach (var genero in ViewBag.Generos)
             {
                 <li>
-                    <a asp-controller="Produto"
+                    <a asp-controller="Jogo"
                        asp-action="Index"
-                       asp-route-categoria="@categoria.IdCategoria">
-                        @categoria.Nome
+                       asp-route-genero="@genero.IdGenero">
+                        @genero.Nome
                     </a>
                 </li>
             }
@@ -42,6 +42,23 @@
             <h1>Catálogo de Jogos</h1>
             <p>Encontre seus próximos jogos favoritos.</p>
         </div>
+
+
+        <!-- PESQUISA -->
+        <form asp-controller="Jogo"
+              asp-action="Index"
+              method="get">
+
+            <input type="text"
+                   name="pesquisa"
+                   value="@ViewBag.Pesquisa"
+                   placeholder="Pesquisar jogos..." />
+
+            <button type="submit">
+                Pesquisar
+            </button>
+
+        </form>
 
 
         <!-- BANNER DE DESTAQUE -->
@@ -62,7 +79,7 @@
 
                     <strong>R$ 99,90</strong>
 
-                    <a asp-controller="Produto"
+                    <a asp-controller="Jogo"
                        asp-action="Details"
                        asp-route-id="1"
                        class="banner-botao">
@@ -79,32 +96,37 @@
         <!-- JOGOS -->
         <div class="jogos-grid">
 
-            @foreach (var produto in Model)
+            @foreach (var jogo in Model)
             {
                 <div class="jogo-card">
 
                     <!-- CAPA -->
                     <div class="jogo-card-imagem">
-                        <img src="~/images/@produto.ImagemUrl"
-                             alt="Capa do @produto.Nome">
+
+                        <img src="@jogo.ImagemPrincipalUrl"
+                             alt="Capa do @jogo.Nome">
+
                     </div>
 
                     <!-- INFORMAÇÕES -->
                     <div class="jogo-card-body">
 
-                        <h2>@produto.Nome</h2>
+                        <h2>@jogo.Nome</h2>
 
-                        <p>@produto.Descricao</p>
+                        <p>@jogo.Descricao</p>
 
                         <div class="jogo-card-footer">
 
                             <strong>
-                                R$ @produto.Preco.ToString("0.00")
+                                @jogo.Preco.ToString(
+                                    "C",
+                                    new System.Globalization.CultureInfo("pt-BR")
+                                )
                             </strong>
 
-                            <a asp-controller="Produto"
+                            <a asp-controller="Jogo"
                                asp-action="Details"
-                               asp-route-id="@produto.IdProduto"
+                               asp-route-id="@jogo.IdJogo"
                                class="btn btn-primary">
                                 Ver detalhes
                             </a>
