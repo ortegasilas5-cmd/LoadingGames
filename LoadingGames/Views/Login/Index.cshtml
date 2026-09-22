@@ -1,0 +1,376 @@
+﻿@{
+    ViewData["Title"] = "Entrar";
+    ViewData["HideNavbar"] = true;
+}
+
+<div class="login-page">
+
+    <!-- =========================================
+         ÁREA VISUAL
+         ========================================= -->
+
+    <section class="login-visual" aria-label="Loading Games">
+
+        <div class="login-visual-overlay"></div>
+
+        <div class="login-visual-content">
+
+            <!-- LOGO -->
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="login-brand"
+               aria-label="Loading Games - Página inicial">
+
+                <svg class="brand-icon"
+                     viewBox="0 0 64 64"
+                     aria-hidden="true">
+
+                    <path d="M18 20h28c7 0 12 5 14 12l3 13c1 6-4 11-10 9l-10-4H21L11 54c-6 2-11-3-10-9l3-13c2-7 7-12 14-12Z"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="4"
+                          stroke-linejoin="round" />
+
+                    <path d="M20 32v10M15 37h10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                          stroke-linecap="round" />
+
+                    <circle cx="45" cy="34" r="3" fill="currentColor" />
+                    <circle cx="52" cy="40" r="3" fill="currentColor" />
+
+                </svg>
+
+                <span class="brand-text">
+
+                    <strong>
+                        Loading <span>Games</span>
+                    </strong>
+
+                    <small>
+                        SEU MUNDO GAMER
+                    </small>
+
+                </span>
+
+            </a>
+
+
+            <!-- TEXTO PRINCIPAL -->
+
+            <div class="login-hero">
+
+                <span class="hero-label">
+                    SEU MUNDO DE GAMES
+                </span>
+
+                <h1>
+                    SEU MUNDO<br />
+                    DE GAMES<br />
+                    <span>COMEÇA AQUI.</span>
+                </h1>
+
+                <p>
+                    Faça login para continuar<br />
+                    sua jornada.
+                </p>
+
+                <div class="hero-line"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         ÁREA DO LOGIN
+         ========================================= -->
+
+    <section class="login-panel">
+
+        <div class="login-card">
+
+            <!-- CABEÇALHO -->
+
+            <header class="login-header">
+
+                <span class="login-kicker">
+                    BEM-VINDO DE VOLTA
+                </span>
+
+                <h2>
+                    Entrar na sua conta
+                </h2>
+
+                <p>
+                    Acesse sua conta para acompanhar
+                    pedidos, favoritos e muito mais.
+                </p>
+
+            </header>
+
+
+            <!-- FORMULÁRIO -->
+
+            <form asp-controller="Login"
+                  asp-action="Index"
+                  method="post"
+                  class="login-form">
+
+                @Html.AntiForgeryToken()
+
+
+                <!-- E-MAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        E-mail
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <svg class="input-icon"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <path d="M4 6h16v12H4z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linejoin="round" />
+
+                            <path d="m4 7 8 6 8-6"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linejoin="round" />
+
+                        </svg>
+
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               placeholder="seu@email.com"
+                               autocomplete="email"
+                               spellcheck="false"
+                               required />
+
+                    </div>
+
+                </div>
+
+
+                <!-- SENHA -->
+
+                <div class="form-group">
+
+                    <div class="field-header">
+
+                        <label for="senha">
+                            Senha
+                        </label>
+
+                        <a asp-controller="EsqueciSenha"
+                           asp-action="Index">
+                            Esqueceu sua senha?
+                        </a>
+
+                    </div>
+
+
+                    <div class="input-wrapper">
+
+                        <svg class="input-icon"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <rect x="5"
+                                  y="10"
+                                  width="14"
+                                  height="10"
+                                  rx="2"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7" />
+
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linecap="round" />
+
+                        </svg>
+
+                        <input type="password"
+                               id="senha"
+                               name="senha"
+                               placeholder="Digite sua senha"
+                               autocomplete="current-password"
+                               required />
+
+                    </div>
+
+                </div>
+
+
+                <!-- MENSAGEM DE ERRO -->
+                @if (ViewBag.Erro != null)
+                {
+                    <div class="login-error"
+                         role="alert">
+
+                        <span class="error-icon">!</span>
+
+                        <span>
+                            @ViewBag.Erro
+                        </span>
+
+                    </div>
+                }
+
+
+                <!-- LEMBRAR -->
+
+                <label class="remember-option">
+
+                    <input type="checkbox"
+                           name="lembrar"
+                           value="true" />
+
+                    <span class="custom-checkbox"></span>
+
+                    <span>
+                        Lembrar de mim
+                    </span>
+
+                </label>
+
+
+                <!-- BOTÃO -->
+
+                <button type="submit"
+                        class="login-submit">
+
+                    <span>
+                        Entrar
+                    </span>
+
+                    <svg viewBox="0 0 24 24"
+                         aria-hidden="true">
+
+                        <path d="M5 12h13M13 6l6 6-6 6"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+
+                    </svg>
+
+                </button>
+
+            </form>
+
+
+            <!-- DIVISOR -->
+
+            <div class="login-divider">
+
+                <span>ou entre com</span>
+
+            </div>
+
+
+            <!-- REDES SOCIAIS
+                 Apenas visuais por enquanto -->
+
+            <div class="social-login"
+                 aria-label="Outras opções de login">
+
+                <button type="button"
+                        class="social-button">
+
+                    <strong>G</strong>
+
+                    <span>Google</span>
+
+                </button>
+
+
+                <button type="button"
+                        class="social-button">
+
+                    <strong>f</strong>
+
+                    <span>Facebook</span>
+
+                </button>
+
+
+                <button type="button"
+                        class="social-button">
+
+                    <strong>PS</strong>
+
+                    <span>PlayStation</span>
+
+                </button>
+
+            </div>
+
+
+            <!-- CADASTRO -->
+
+            <div class="register-area">
+
+                <span>
+                    Ainda não tem uma conta?
+                </span>
+
+                <a asp-controller="Usuario"
+                   asp-action="Cadastro">
+
+                    Criar conta
+
+                </a>
+
+            </div>
+
+
+            <!-- SEGURANÇA -->
+
+            <div class="security-note">
+
+                <svg viewBox="0 0 24 24"
+                     aria-hidden="true">
+
+                    <path d="M12 3 5 6v5c0 4.5 2.9 8.3 7 10 4.1-1.7 7-5.5 7-10V6l-7-3Z"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.6"
+                          stroke-linejoin="round" />
+
+                    <path d="m9 12 2 2 4-4"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.6"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+
+                </svg>
+
+                <span>
+                    Seus dados estão protegidos
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
