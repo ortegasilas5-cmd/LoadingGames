@@ -1,5 +1,4 @@
-﻿
-@model LoadingGames.Models.Produto
+﻿@model LoadingGames.Models.Jogo
 
 @{
     ViewData["Title"] = "Excluir Jogo";
@@ -18,6 +17,13 @@
 
             <h4>@Model.Nome</h4>
 
+            @if (!string.IsNullOrEmpty(Model.ImagemPrincipalUrl))
+            {
+                <img src="@Model.ImagemPrincipalUrl"
+                     alt="Capa do @Model.Nome"
+                     style="width: 150px; margin-bottom: 15px;" />
+            }
+
             <p>
                 <strong>Preço:</strong>
                 R$ @Model.Preco.ToString("N2")
@@ -29,7 +35,7 @@
 
             <form asp-action="Delete" method="post">
 
-                <input type="hidden" asp-for="IdProduto" />
+                <input type="hidden" asp-for="IdJogo" />
 
                 <button type="submit" class="btn btn-danger">
                     Confirmar exclusão
@@ -45,4 +51,3 @@
     </div>
 
 </div>
-

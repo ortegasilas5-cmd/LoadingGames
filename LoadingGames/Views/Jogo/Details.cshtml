@@ -1,0 +1,83 @@
+﻿@model LoadingGames.Models.Jogo
+
+@{
+    ViewData["Title"] = "Detalhes do jogo";
+}
+
+<div class="text-center">
+
+    <!-- CAPA -->
+    <img src="@Model.ImagemPrincipalUrl"
+         alt="Capa do @Model.Nome"
+         style="width: 250px;">
+
+    <!-- NOME -->
+    <h1>@Model.Nome</h1>
+
+    <!-- DESCRIÇÃO -->
+    <p>
+        @Model.Descricao
+    </p>
+
+    <!-- PREÇO -->
+    <p>
+        <strong>Preço:</strong>
+        @Model.Preco.ToString(
+            "C",
+            new System.Globalization.CultureInfo("pt-BR")
+        )
+    </p>
+
+    <!-- DESENVOLVEDOR -->
+    <p>
+        <strong>Desenvolvedor:</strong>
+        @Model.Desenvolvedor.Nome
+    </p>
+
+    <!-- PUBLICADORA -->
+    <p>
+        <strong>Publicadora:</strong>
+        @Model.Publicadora.Nome
+    </p>
+
+    <!-- DATA DE LANÇAMENTO -->
+    @if (Model.DataLancamento.HasValue)
+    {
+        <p>
+            <strong>Data de lançamento:</strong>
+            @Model.DataLancamento.Value.ToString("dd/MM/yyyy")
+        </p>
+    }
+
+    <!-- CLASSIFICAÇÃO -->
+    <p>
+        <strong>Classificação indicativa:</strong>
+        @Model.ClassificacaoIndicativa anos
+    </p>
+
+    <!-- GÊNEROS -->
+    <p>
+        <strong>Gêneros:</strong>
+
+        @if (Model.Generos.Any())
+        {
+            @string.Join(", ", Model.Generos.Select(g => g.Nome))
+        }
+        else
+        {
+            <span>Não informado</span>
+        }
+    </p>
+
+    <!-- PLATAFORMA -->
+    <p>
+        <strong>Plataforma:</strong> PC
+    </p>
+
+    <a asp-controller="Jogo"
+       asp-action="Index"
+       class="btn btn-secondary">
+        Voltar ao catálogo
+    </a>
+
+</div>

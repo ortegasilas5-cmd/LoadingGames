@@ -1,18 +1,7 @@
 using LoadingGames.Data;
-using LoadingGames.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Adiciona o banco de dados MySQL
-builder.Services.AddDbContext<LoadingGamesContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(
-            builder.Configuration.GetConnectionString("DefaultConnection")
-        )
-    )
-);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

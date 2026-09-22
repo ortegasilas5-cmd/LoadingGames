@@ -1,5 +1,4 @@
-﻿
-@model List<LoadingGames.Models.Produto>
+﻿@model List<LoadingGames.Models.Jogo>
 
 @{
     ViewData["Title"] = "Gerenciar Jogos";
@@ -31,28 +30,28 @@
 
             <tbody>
 
-                @foreach (var produto in Model)
+                @foreach (var jogo in Model)
                 {
                     <tr>
-                        <td>@produto.IdProduto</td>
+                        <td>@jogo.IdJogo</td>
 
                         <td>
-                            @if (!string.IsNullOrEmpty(produto.ImagemUrl))
+                            @if (!string.IsNullOrEmpty(jogo.ImagemPrincipalUrl))
                             {
-                                <img src="~/images/@produto.ImagemUrl"
-                                     alt="@produto.Nome"
+                                <img src="@jogo.ImagemPrincipalUrl"
+                                     alt="@jogo.Nome"
                                      style="width: 80px; height: 50px; object-fit: cover;" />
                             }
                         </td>
 
-                        <td>@produto.Nome</td>
+                        <td>@jogo.Nome</td>
 
                         <td>
-                            R$ @produto.Preco.ToString("N2")
+                            R$ @jogo.Preco.ToString("N2")
                         </td>
 
                         <td>
-                            @if (produto.Ativo)
+                            @if (jogo.Ativo)
                             {
                                 <span class="badge bg-success">Ativo</span>
                             }
@@ -64,13 +63,13 @@
 
                         <td>
                             <a asp-action="Edit"
-                               asp-route-id="@produto.IdProduto"
+                               asp-route-id="@jogo.IdJogo"
                                class="btn btn-sm btn-warning">
                                 Editar
                             </a>
 
                             <a asp-action="Delete"
-                               asp-route-id="@produto.IdProduto"
+                               asp-route-id="@jogo.IdJogo"
                                class="btn btn-sm btn-danger">
                                 Excluir
                             </a>
@@ -84,4 +83,3 @@
     </div>
 
 </div>
-
