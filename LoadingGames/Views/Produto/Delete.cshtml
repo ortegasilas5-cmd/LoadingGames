@@ -1,0 +1,48 @@
+﻿
+@model LoadingGames.Models.Produto
+
+@{
+    ViewData["Title"] = "Excluir Jogo";
+}
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">Excluir Jogo</h1>
+
+    <div class="alert alert-warning">
+        <strong>Atenção!</strong> Você está prestes a excluir este jogo.
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <h4>@Model.Nome</h4>
+
+            <p>
+                <strong>Preço:</strong>
+                R$ @Model.Preco.ToString("N2")
+            </p>
+
+            <p>
+                Tem certeza que deseja excluir este jogo?
+            </p>
+
+            <form asp-action="Delete" method="post">
+
+                <input type="hidden" asp-for="IdProduto" />
+
+                <button type="submit" class="btn btn-danger">
+                    Confirmar exclusão
+                </button>
+
+                <a asp-action="Crud" class="btn btn-secondary">
+                    Cancelar
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
