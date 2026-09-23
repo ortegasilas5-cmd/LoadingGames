@@ -5,8 +5,7 @@
 
     <meta charset="utf-8" />
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>
         @ViewData["Title"] - Loading Games
@@ -34,33 +33,20 @@
             ViewData["HideNavbar"] is bool value && value;
     }
 
-
-    @* =====================================================
-       NAVBAR
-       Não aparece na tela de Login
-       ===================================================== *@
-
     @if (!hideNavbar)
     {
         <header>
 
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
 
                 <div class="container-fluid">
-
-                    <!-- LOGO -->
 
                     <a class="navbar-brand"
                        asp-area=""
                        asp-controller="Home"
                        asp-action="Index">
-
                         Loading Games
-
                     </a>
-
-
-                    <!-- MENU MOBILE -->
 
                     <button class="navbar-toggler"
                             type="button"
@@ -74,44 +60,33 @@
 
                     </button>
 
-
-                    <!-- MENU -->
-
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
                         <ul class="navbar-nav flex-grow-1">
 
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
+                                <a class="nav-link"
                                    asp-area=""
                                    asp-controller="Home"
                                    asp-action="Index">
-
                                     Início
-
                                 </a>
 
                             </li>
 
-
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
+                                <a class="nav-link"
                                    asp-area=""
-                                   asp-controller="Produto"
+                                   asp-controller="Jogo"
                                    asp-action="Index">
-
                                     Jogos
-
                                 </a>
 
                             </li>
 
                         </ul>
-
-
-                        <!-- USUÁRIO -->
 
                         <div class="usuario-area">
 
@@ -142,9 +117,7 @@
                                 <a asp-controller="Login"
                                    asp-action="Index"
                                    class="btn-login">
-
                                     Entrar
-
                                 </a>
                             }
 
@@ -159,13 +132,6 @@
         </header>
     }
 
-
-    @* =====================================================
-       CONTEÚDO
-       Login ocupa a tela inteira.
-       As demais páginas continuam dentro do container.
-       ===================================================== *@
-
     @if (hideNavbar)
     {
         @RenderBody()
@@ -174,8 +140,7 @@
     {
         <div class="container">
 
-            <main role="main"
-                  class="pb-3">
+            <main role="main" class="pb-3">
 
                 @RenderBody()
 
@@ -183,12 +148,6 @@
 
         </div>
     }
-
-
-    @* =====================================================
-       RODAPÉ
-       Não aparece na tela de Login.
-       ===================================================== *@
 
     @if (!hideNavbar)
     {
@@ -201,20 +160,13 @@
                 <a asp-area=""
                    asp-controller="Home"
                    asp-action="Privacy">
-
                     Privacy
-
                 </a>
 
             </div>
 
         </footer>
     }
-
-
-    @* =====================================================
-       SCRIPTS
-       ===================================================== *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 

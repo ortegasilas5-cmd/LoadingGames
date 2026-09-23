@@ -4,12 +4,15 @@
 
 DROP DATABASE IF EXISTS LoadingGames;
 
+
+
 CREATE DATABASE LoadingGames
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
 
 USE LoadingGames;
-
+select * from jogo;
+SHOW TABLES;
 
 -- ============================================================
 -- 1. USUÁRIO
@@ -411,10 +414,145 @@ CREATE TABLE avaliacao (
         REFERENCES jogo(id_jogo)
         ON DELETE CASCADE
 );
- select * from usuario
+ select * from usuario;
  
- 
+ -- =====================================================
+-- DADOS INICIAIS PARA TESTE DO CATÁLOGO
+-- =====================================================
 
+-- =====================================================
+-- DESENVOLVEDORES
+-- =====================================================
+
+INSERT INTO desenvolvedor (nome, descricao) VALUES
+('Rockstar North', 'Estúdio responsável por Grand Theft Auto V.'),
+('CD Projekt Red', 'Estúdio responsável por Cyberpunk 2077 e The Witcher 3.'),
+('Rockstar Studios', 'Estúdios responsáveis por Red Dead Redemption 2.');
+
+
+-- =====================================================
+-- PUBLICADORAS
+-- =====================================================
+
+INSERT INTO publicadora (nome, descricao) VALUES
+('Rockstar Games', 'Publicadora da série Grand Theft Auto e Red Dead Redemption.'),
+('CD Projekt', 'Publicadora de jogos da CD Projekt Red.');
+
+
+-- =====================================================
+-- GÊNEROS
+-- =====================================================
+
+INSERT INTO genero (nome, descricao) VALUES
+('Ação', 'Jogos focados em ação e combate.'),
+('Aventura', 'Jogos focados em exploração e aventura.'),
+('RPG', 'Jogos de interpretação e progressão de personagem.'),
+('Mundo Aberto', 'Jogos com grandes ambientes abertos para exploração.');
+
+
+-- =====================================================
+-- JOGOS
+-- =====================================================
+
+INSERT INTO jogo
+(
+    id_desenvolvedor,
+    id_publicadora,
+    nome,
+    descricao,
+    preco,
+    imagem_principal_url,
+    data_lancamento,
+    classificacao_indicativa,
+    ativo
+)
+VALUES
+(
+    1,
+    1,
+    'Grand Theft Auto V',
+    'Explore Los Santos em uma experiência de mundo aberto cheia de ação, aventuras e possibilidades.',
+    99.90,
+    '/images/capagtav.jpg',
+    '2013-09-17',
+    18,
+    1
+),
+(
+    2,
+    2,
+    'Cyberpunk 2077',
+    'Explore Night City em um RPG de ação ambientado em um futuro tecnológico e perigoso.',
+    199.90,
+    '/images/capacyberpunk.jpg',
+    '2020-12-10',
+    18,
+    1
+),
+(
+    3,
+    1,
+    'Red Dead Redemption 2',
+    'Viva a história de Arthur Morgan e da gangue Van der Linde no fim da era do Velho Oeste.',
+    249.90,
+    '/images/capareddead.jpg',
+    '2018-10-26',
+    18,
+    1
+),
+(
+    2,
+    2,
+    'The Witcher 3: Wild Hunt',
+    'Assuma o papel de Geralt de Rívia em uma aventura de RPG por um vasto mundo de fantasia.',
+    129.90,
+    '/images/capawitcher3.jpg',
+    '2015-05-19',
+    16,
+    1
+);
+
+
+-- =====================================================
+-- RELAÇÃO JOGO ↔ GÊNERO
+-- =====================================================
+
+-- GTA V
+INSERT INTO jogo_genero (id_jogo, id_genero) VALUES
+(1, 1),
+(1, 2),
+(1, 4);
+
+-- Cyberpunk 2077
+INSERT INTO jogo_genero (id_jogo, id_genero) VALUES
+(2, 1),
+(2, 3),
+(2, 4);
+
+-- Red Dead Redemption 2
+INSERT INTO jogo_genero (id_jogo, id_genero) VALUES
+(3, 1),
+(3, 2),
+(3, 4);
+
+-- The Witcher 3
+INSERT INTO jogo_genero (id_jogo, id_genero) VALUES
+(4, 1),
+(4, 2),
+(4, 3),
+(4, 4);
+
+SELECT * FROM jogo;
+
+SELECT
+    j.nome AS jogo,
+    g.nome AS genero
+FROM jogo j
+INNER JOIN jogo_genero jg
+    ON j.id_jogo = jg.id_jogo
+INNER JOIN genero g
+    ON g.id_genero = jg.id_genero
+ORDER BY j.id_jogo, g.nome;
 -- ============================================================
 -- FIM DO BANCO
 -- ============================================================

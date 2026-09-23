@@ -1,0 +1,157 @@
+﻿@model List<LoadingGames.Models.Jogo>
+
+@{
+    ViewData["Title"] = "Catálogo de Jogos";
+}
+
+<div class="catalogo-layout">
+
+    <!-- MENU LATERAL -->
+    <aside class="catalogo-sidebar">
+
+        <h3>Gêneros</h3>
+
+        <ul>
+            <li>
+                <a asp-controller="Jogo"
+                   asp-action="Index">
+                    🎮 Todos os jogos
+                </a>
+            </li>
+
+            @foreach (var genero in ViewBag.Generos)
+            {
+                <li>
+                    <a asp-controller="Jogo"
+                       asp-action="Index"
+                       asp-route-genero="@genero.IdGenero">
+                        @genero.Nome
+                    </a>
+                </li>
+            }
+        </ul>
+
+    </aside>
+
+
+    <!-- ÁREA PRINCIPAL -->
+    <main class="catalogo-conteudo">
+
+        <!-- CABEÇALHO -->
+        <div class="catalogo-header">
+            <h1>Catálogo de Jogos</h1>
+            <p>Encontre seus próximos jogos favoritos.</p>
+        </div>
+
+
+        <!-- PESQUISA -->
+        <form asp-controller="Jogo"
+              asp-action="Index"
+              method="get">
+
+            <input type="text"
+                   name="pesquisa"
+                   value="@ViewBag.Pesquisa"
+                   placeholder="Pesquisar jogos..." />
+
+            <button type="submit">
+                Pesquisar
+            </button>
+
+        </form>
+
+
+        <!-- BANNER DE DESTAQUE -->
+        <section class="banner-destaque">
+
+            <div class="banner-conteudo">
+
+                <span class="banner-tag">DESTAQUE</span>
+
+                <h2>Grand Theft Auto V</h2>
+
+                <p>
+                    Explore Los Santos em uma experiência de mundo aberto
+                    cheia de ação, aventuras e possibilidades.
+                </p>
+
+                <div class="banner-info">
+
+                    <strong>R$ 99,90</strong>
+
+                    <a asp-controller="Jogo"
+                       asp-action="Details"
+                       asp-route-id="1"
+                       class="banner-botao">
+                        Ver jogo
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- JOGOS -->
+        <div class="jogos-grid">
+
+            @if (Model.Any())
+            {
+                @foreach (var jogo in Model)
+                {
+                    <div class="jogo-card">
+
+                        <!-- CAPA -->
+                        <div class="jogo-card-imagem">
+
+                            <img src="@jogo.ImagemPrincipalUrl"
+                                 alt="Capa do @jogo.Nome">
+
+                        </div>
+
+                        <!-- INFORMAÇÕES -->
+                        <div class="jogo-card-body">
+
+                            <h2>@jogo.Nome</h2>
+
+                            <p>@jogo.Descricao</p>
+
+                            <div class="jogo-card-footer">
+
+                                <strong>
+                                    @jogo.Preco.ToString(
+                                        "C",
+                                        new System.Globalization.CultureInfo("pt-BR")
+                                    )
+                                </strong>
+
+                                <a asp-controller="Jogo"
+                                   asp-action="Details"
+                                   asp-route-id="@jogo.IdJogo"
+                                   class="btn btn-primary">
+                                    Ver detalhes
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="nenhum-jogo">
+                    <h2>Nenhum jogo encontrado.</h2>
+                    <p>
+                        Tente pesquisar por outro nome ou selecionar outro gênero.
+                    </p>
+                </div>
+            }
+
+        </div>
+
+    </main>
+
+</div>
