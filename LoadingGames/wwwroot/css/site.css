@@ -140,6 +140,48 @@ body {
         font-size: 17px;
     }
 
+
+/* ============================= */
+/* PESQUISA */
+/* ============================= */
+
+.catalogo-conteudo form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+    .catalogo-conteudo form input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 2px solid #e5d5f5;
+        border-radius: 8px;
+        font-size: 16px;
+        outline: none;
+        transition: 0.2s;
+    }
+
+        .catalogo-conteudo form input:focus {
+            border-color: #6f2dbd;
+            box-shadow: 0 0 0 3px rgba(111, 45, 189, 0.15);
+        }
+
+    .catalogo-conteudo form button {
+        padding: 12px 20px;
+        background-color: #6f2dbd;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .catalogo-conteudo form button:hover {
+            background-color: #5a239b;
+            transform: translateY(-2px);
+        }
+
 /* ============================= /
 / BANNER DE DESTAQUE /
 / ============================= */
@@ -207,11 +249,11 @@ body {
     transition: 0.2s;
 }
 
-.banner-botao {
-    background-color: #6f20b8;
-    color: white;
-    transform: translateY(-2px);
-}
+    .banner-botao:hover {
+        background-color: #6f20b8;
+        color: white;
+        transform: translateY(-2px);
+    }
 
 /* ============================= /
 / GRID DOS JOGOS /
@@ -223,9 +265,9 @@ body {
     gap: 25px;
 }
 
-/* ============================= /
-/ CARD DO JOGO /
-/ ============================= */
+/* ============================= */
+/* CARD DO JOGO */
+/* ============================= */
 
 .jogo-card {
     background-color: white;
@@ -236,16 +278,16 @@ body {
     border: 1px solid #e5d5f5;
 }
 
-.jogo-card {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(111, 45, 189, 0.25);
-}
+    .jogo-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(111, 45, 189, 0.25);
+    }
 
-    /* ============================= /
-/ IMAGEM DO JOGO /
-/ ============================= */
+/* ============================= */
+/* IMAGEM DO JOGO */
+/* ============================= */
 
-    .jogo-card-imagem {
+.jogo-card-imagem {
     width: 100%;
     height: 300px;
     overflow: hidden;
@@ -256,11 +298,16 @@ body {
         height: 100%;
         object-fit: cover;
         display: block;
+        transition: transform 0.3s;
     }
 
-/* ============================= /
-/ CONTEÚDO DO CARD /
-/ ============================= */
+.jogo-card:hover .jogo-card-imagem img {
+    transform: scale(1.05);
+}
+
+/* ============================= */
+/* CONTEÚDO DO CARD */
+/* ============================= */
 
 .jogo-card-body {
     padding: 20px;
@@ -278,9 +325,9 @@ body {
         margin-bottom: 20px;
     }
 
-/* ============================= /
-/ RODAPÉ DO CARD /
-/ ============================= */
+/* ============================= */
+/* RODAPÉ DO CARD */
+/* ============================= */
 
 .jogo-card-footer {
     display: flex;
@@ -297,12 +344,14 @@ body {
     .jogo-card-footer .btn-primary {
         background-color: #6f2dbd;
         border-color: #6f2dbd;
+        transition: 0.2s;
     }
 
-    .jogo-card-footer .btn-primary {
-        background-color: #5a239b;
-        border-color: #5a239b;
-    }
+        .jogo-card-footer .btn-primary:hover {
+            background-color: #5a239b;
+            border-color: #5a239b;
+            transform: translateY(-2px);
+        }
 
 /* ============================= /
 / RESPONSIVIDADE /

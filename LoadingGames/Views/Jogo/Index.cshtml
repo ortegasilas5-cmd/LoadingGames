@@ -96,45 +96,57 @@
         <!-- JOGOS -->
         <div class="jogos-grid">
 
-            @foreach (var jogo in Model)
+            @if (Model.Any())
             {
-                <div class="jogo-card">
+                @foreach (var jogo in Model)
+                {
+                    <div class="jogo-card">
 
-                    <!-- CAPA -->
-                    <div class="jogo-card-imagem">
+                        <!-- CAPA -->
+                        <div class="jogo-card-imagem">
 
-                        <img src="@jogo.ImagemPrincipalUrl"
-                             alt="Capa do @jogo.Nome">
+                            <img src="@jogo.ImagemPrincipalUrl"
+                                 alt="Capa do @jogo.Nome">
 
-                    </div>
+                        </div>
 
-                    <!-- INFORMAÇÕES -->
-                    <div class="jogo-card-body">
+                        <!-- INFORMAÇÕES -->
+                        <div class="jogo-card-body">
 
-                        <h2>@jogo.Nome</h2>
+                            <h2>@jogo.Nome</h2>
 
-                        <p>@jogo.Descricao</p>
+                            <p>@jogo.Descricao</p>
 
-                        <div class="jogo-card-footer">
+                            <div class="jogo-card-footer">
 
-                            <strong>
-                                @jogo.Preco.ToString(
-                                    "C",
-                                    new System.Globalization.CultureInfo("pt-BR")
-                                )
-                            </strong>
+                                <strong>
+                                    @jogo.Preco.ToString(
+                                        "C",
+                                        new System.Globalization.CultureInfo("pt-BR")
+                                    )
+                                </strong>
 
-                            <a asp-controller="Jogo"
-                               asp-action="Details"
-                               asp-route-id="@jogo.IdJogo"
-                               class="btn btn-primary">
-                                Ver detalhes
-                            </a>
+                                <a asp-controller="Jogo"
+                                   asp-action="Details"
+                                   asp-route-id="@jogo.IdJogo"
+                                   class="btn btn-primary">
+                                    Ver detalhes
+                                </a>
+
+                            </div>
 
                         </div>
 
                     </div>
-
+                }
+            }
+            else
+            {
+                <div class="nenhum-jogo">
+                    <h2>Nenhum jogo encontrado.</h2>
+                    <p>
+                        Tente pesquisar por outro nome ou selecionar outro gênero.
+                    </p>
                 </div>
             }
 

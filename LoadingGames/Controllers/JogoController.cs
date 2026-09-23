@@ -32,8 +32,15 @@ namespace LoadingGames.Controllers
             // Pesquisa pelo nome
             if (!string.IsNullOrWhiteSpace(pesquisa))
             {
+                pesquisa = pesquisa.Trim();
+
+                var termos = pesquisa
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
                 jogos = jogos.Where(j =>
-                    j.Nome.Contains(pesquisa));
+                    j.Nome.Contains(pesquisa) ||
+                    termos.All(termo =>
+                        j.Nome.Contains(termo)));
             }
 
             // Filtro por gênero
