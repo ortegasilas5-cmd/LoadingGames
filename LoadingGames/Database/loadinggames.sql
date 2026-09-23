@@ -4,12 +4,15 @@
 
 DROP DATABASE IF EXISTS LoadingGames;
 
+
+
 CREATE DATABASE LoadingGames
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
 
 USE LoadingGames;
-
+select * from jogo;
+SHOW TABLES;
 
 -- ============================================================
 -- 1. USUÁRIO
