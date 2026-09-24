@@ -14,12 +14,12 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    background-color: #f7f5fa;
 }
 
-/* ============================= /
-/ BOTÕES /
-/ ============================= */
+/* ============================= */
+/* BOTÕES */
+/* ============================= */
 
 .btn,
 .btn:active,
@@ -34,14 +34,9 @@ body {
     border-color: #6f2dbd;
 }
 
-.btn-primary {
-    background-color: #5a239b;
-    border-color: #5a239b;
-}
-
-/* ============================= /
-/ BARRA DE NAVEGAÇÃO /
-/ ============================= */
+/* ============================= */
+/* BARRA DE NAVEGAÇÃO */
+/* ============================= */
 
 .navbar {
     background-color: #6f2dbd !important;
@@ -56,9 +51,9 @@ body {
         color: #e0c3ff !important;
     }
 
-/* ============================= /
-/ ESTRUTURA DO CATÁLOGO /
-/ ============================= */
+/* ============================= */
+/* ESTRUTURA DO CATÁLOGO */
+/* ============================= */
 
 .catalogo-layout {
     display: flex;
@@ -68,24 +63,26 @@ body {
     padding: 30px 0 50px;
 }
 
-/* ============================= /
-/ MENU LATERAL /
-/ ============================= */
+/* ============================= */
+/* MENU LATERAL */
+/* ============================= */
 
 .catalogo-sidebar {
-    flex: 0 0 220px;
-    background-color: #21152d;
-    border-radius: 12px;
-    padding: 20px;
+    flex: 0 0 230px;
+    background: linear-gradient(180deg, #21152d, #17101f);
+    border-radius: 16px;
+    padding: 22px;
     height: fit-content;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(33, 21, 45, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
     .catalogo-sidebar h3 {
         color: white;
-        font-size: 20px;
+        font-size: 18px;
         margin-bottom: 20px;
         text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .catalogo-sidebar ul {
@@ -102,44 +99,46 @@ body {
         display: block;
         color: #eeeeee;
         text-decoration: none;
-        padding: 10px 12px;
+        padding: 11px 12px;
         border-radius: 8px;
-        transition: background-color 0.2s, color 0.2s;
+        transition: 0.2s;
     }
 
-    .catalogo-sidebar a {
-        background-color: #6f2dbd;
-        color: white;
-    }
+        .catalogo-sidebar a:hover {
+            background-color: #6f2dbd;
+            color: white;
+            transform: translateX(3px);
+        }
 
-/* ============================= /
-/ ÁREA PRINCIPAL /
-/ ============================= */
+/* ============================= */
+/* ÁREA PRINCIPAL */
+/* ============================= */
 
 .catalogo-conteudo {
     flex: 1;
     min-width: 0;
 }
 
-/* ============================= /
-/ CABEÇALHO DO CATÁLOGO /
-/ ============================= */
+/* ============================= */
+/* CABEÇALHO DO CATÁLOGO */
+/* ============================= */
 
 .catalogo-header {
     margin-bottom: 25px;
 }
 
     .catalogo-header h1 {
-        font-weight: 700;
-        color: #6f2dbd;
+        font-weight: 800;
+        color: #21152d;
         margin-bottom: 8px;
+        font-size: 34px;
     }
 
     .catalogo-header p {
-        color: #666;
-        font-size: 17px;
+        color: #777;
+        font-size: 16px;
+        margin: 0;
     }
-
 
 /* ============================= */
 /* PESQUISA */
@@ -149,6 +148,11 @@ body {
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
+    background-color: white;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    border: 1px solid #eee;
 }
 
     .catalogo-conteudo form input {
@@ -167,7 +171,7 @@ body {
         }
 
     .catalogo-conteudo form button {
-        padding: 12px 20px;
+        padding: 12px 24px;
         background-color: #6f2dbd;
         color: white;
         border: none;
@@ -182,82 +186,120 @@ body {
             transform: translateY(-2px);
         }
 
-/* ============================= /
-/ BANNER DE DESTAQUE /
-/ ============================= */
+/* ============================= */
+/* BANNER DE DESTAQUE */
+/* ============================= */
 
 .banner-destaque {
-    margin-bottom: 30px;
-    min-height: 260px;
-    border-radius: 15px;
+    position: relative;
+    min-height: 380px;
+    margin-bottom: 35px;
+    border-radius: 20px;
     overflow: hidden;
-    background: linear-gradient( 90deg, rgba(20, 10, 35, 0.95), rgba(60, 20, 90, 0.75) ), url('/images/capagtav.jpg');
+    background-image: linear-gradient( 90deg, rgba(15, 8, 25, 0.98) 0%, rgba(25, 10, 40, 0.90) 35%, rgba(40, 15, 65, 0.62) 65%, rgba(40, 15, 65, 0.20) 100% ), url('/images/capagtav.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
+    box-shadow: 0 14px 35px rgba(33, 21, 45, 0.28);
 }
 
+    /* brilho suave no banner */
+
+    .banner-destaque::after {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        right: -80px;
+        top: -100px;
+        background: rgba(138, 43, 226, 0.20);
+        border-radius: 50%;
+        filter: blur(50px);
+    }
+
+/* CONTEÚDO */
+
 .banner-conteudo {
-    padding: 35px;
-    max-width: 600px;
+    position: relative;
+    z-index: 2;
+    padding: 45px;
+    max-width: 650px;
 }
+
+/* TAG */
 
 .banner-tag {
     display: inline-block;
     background-color: #8a2be2;
     color: white;
-    padding: 6px 12px;
+    padding: 7px 14px;
     border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.35);
 }
+
+/* TÍTULO */
 
 .banner-conteudo h2 {
     color: white;
-    font-size: 34px;
-    margin: 5px 0 10px;
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 15px;
 }
 
+/* DESCRIÇÃO */
+
 .banner-conteudo p {
-    color: #e5dcef;
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    color: #e6dff0;
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 28px;
 }
+
+/* PREÇO + BOTÃO */
 
 .banner-info {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
 }
 
     .banner-info strong {
         color: white;
-        font-size: 22px;
+        font-size: 25px;
+        font-weight: 800;
     }
 
+/* BOTÃO DO BANNER */
+
 .banner-botao {
+    display: inline-block;
     background-color: #8a2be2;
     color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 12px 25px;
+    border-radius: 9px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(138, 43, 226, 0.35);
     transition: 0.2s;
 }
 
     .banner-botao:hover {
         background-color: #6f20b8;
         color: white;
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+        box-shadow: 0 9px 22px rgba(138, 43, 226, 0.45);
     }
 
-/* ============================= /
-/ GRID DOS JOGOS /
-/ ============================= */
+/* ============================= */
+/* GRID DOS JOGOS */
+/* ============================= */
 
 .jogos-grid {
     display: grid;
@@ -271,16 +313,16 @@ body {
 
 .jogo-card {
     background-color: white;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid #e5d5f5;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s, box-shadow 0.25s;
+    border: 1px solid #eee5f5;
 }
 
     .jogo-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(111, 45, 189, 0.25);
+        transform: translateY(-7px);
+        box-shadow: 0 12px 30px rgba(111, 45, 189, 0.20);
     }
 
 /* ============================= */
@@ -298,11 +340,11 @@ body {
         height: 100%;
         object-fit: cover;
         display: block;
-        transition: transform 0.3s;
+        transition: transform 0.4s ease;
     }
 
 .jogo-card:hover .jogo-card-imagem img {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
 /* ============================= */
@@ -353,9 +395,9 @@ body {
             transform: translateY(-2px);
         }
 
-/* ============================= /
-/ RESPONSIVIDADE /
-/ ============================= */
+/* ============================= */
+/* RESPONSIVIDADE */
+/* ============================= */
 
 @media (max-width: 900px) {
 
@@ -370,6 +412,10 @@ body {
     .jogos-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .banner-destaque {
+        min-height: 340px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -378,17 +424,267 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .banner-destaque {
+        min-height: 400px;
+        background-position: center;
+    }
+
     .banner-conteudo {
-        padding: 25px;
+        padding: 30px;
     }
 
         .banner-conteudo h2 {
-            font-size: 28px;
+            font-size: 30px;
+        }
+
+        .banner-conteudo p {
+            font-size: 14px;
         }
 
     .banner-info {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
+    }
+
+    .catalogo-conteudo form {
+        flex-direction: column;
+    }
+
+        .catalogo-conteudo form button {
+            width: 100%;
+        }
+}
+
+
+/* ============================= */
+/* PÁGINA DE DETALHES DO JOGO */
+/* ============================= */
+
+.detalhes-jogo {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 45px;
+    max-width: 1100px;
+    margin: 45px auto 70px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 10px 35px rgba(33, 21, 45, 0.10);
+    border: 1px solid #eee5f5;
+}
+
+/* ============================= */
+/* CAPA */
+/* ============================= */
+
+.detalhes-capa {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.20);
+}
+
+    .detalhes-capa img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+
+    .detalhes-capa:hover img {
+        transform: scale(1.03);
+    }
+
+/* ============================= */
+/* CONTEÚDO */
+/* ============================= */
+
+.detalhes-conteudo {
+    padding: 10px 0;
+}
+
+.detalhes-tag {
+    display: inline-block;
+    background-color: #eee1fa;
+    color: #6f2dbd;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.detalhes-conteudo h1 {
+    color: #21152d;
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.detalhes-descricao {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+
+/* ============================= */
+/* GÊNEROS */
+/* ============================= */
+
+.detalhes-generos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 30px;
+}
+
+.genero-tag {
+    background-color: #f1e8f9;
+    color: #6f2dbd;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ============================= */
+/* ÁREA DE COMPRA */
+/* ============================= */
+
+.detalhes-compra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient( 135deg, #21152d, #3b1b55 );
+    border-radius: 14px;
+    margin-bottom: 30px;
+}
+
+.detalhes-preco {
+    color: white;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.detalhes-botao {
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.35);
+    transition: 0.2s;
+}
+
+    .detalhes-botao:hover {
+        background-color: #6f20b8;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(138, 43, 226, 0.45);
+    }
+
+/* ============================= */
+/* INFORMAÇÕES */
+/* ============================= */
+
+.detalhes-informacoes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.informacao-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee5f5;
+}
+
+    .informacao-item span {
+        color: #888;
+        font-size: 13px;
+    }
+
+    .informacao-item strong {
+        color: #333;
+        font-size: 14px;
+    }
+
+/* ============================= */
+/* BOTÃO VOLTAR */
+/* ============================= */
+
+.detalhes-voltar {
+    color: #6f2dbd;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+    .detalhes-voltar:hover {
+        color: #5a239b;
+        text-decoration: underline;
+    }
+
+/* ============================= */
+/* RESPONSIVIDADE */
+/* ============================= */
+
+@media (max-width: 900px) {
+
+    .detalhes-jogo {
+        grid-template-columns: 300px 1fr;
+        gap: 30px;
+        padding: 25px;
+    }
+
+    .detalhes-capa img {
+        height: 430px;
+    }
+
+    .detalhes-conteudo h1 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .detalhes-jogo {
+        grid-template-columns: 1fr;
+        margin: 25px 15px 50px;
+        padding: 20px;
+    }
+
+    .detalhes-capa img {
+        height: auto;
+        max-height: 550px;
+    }
+
+    .detalhes-conteudo h1 {
+        font-size: 30px;
+    }
+
+    .detalhes-compra {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .detalhes-botao {
+        width: 100%;
+    }
+
+    .detalhes-informacoes {
+        grid-template-columns: 1fr;
     }
 }

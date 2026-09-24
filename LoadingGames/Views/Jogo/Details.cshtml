@@ -1,83 +1,114 @@
 ﻿@model LoadingGames.Models.Jogo
 
 @{
-    ViewData["Title"] = "Detalhes do jogo";
+    ViewData["Title"] = Model.Nome;
 }
 
-<div class="text-center">
+<div class="detalhes-jogo">
 
-    <!-- CAPA -->
-    <img src="@Model.ImagemPrincipalUrl"
-         alt="Capa do @Model.Nome"
-         style="width: 250px;">
+    <!-- CAPA DO JOGO -->
+    <div class="detalhes-capa">
 
-    <!-- NOME -->
-    <h1>@Model.Nome</h1>
+        <img src="@Model.ImagemPrincipalUrl"
+             alt="Capa do @Model.Nome">
 
-    <!-- DESCRIÇÃO -->
-    <p>
-        @Model.Descricao
-    </p>
+    </div>
 
-    <!-- PREÇO -->
-    <p>
-        <strong>Preço:</strong>
-        @Model.Preco.ToString(
-            "C",
-            new System.Globalization.CultureInfo("pt-BR")
-        )
-    </p>
+    <!-- INFORMAÇÕES DO JOGO -->
+    <div class="detalhes-conteudo">
 
-    <!-- DESENVOLVEDOR -->
-    <p>
-        <strong>Desenvolvedor:</strong>
-        @Model.Desenvolvedor.Nome
-    </p>
+        <span class="detalhes-tag">
+            JOGO
+        </span>
 
-    <!-- PUBLICADORA -->
-    <p>
-        <strong>Publicadora:</strong>
-        @Model.Publicadora.Nome
-    </p>
+        <h1>@Model.Nome</h1>
 
-    <!-- DATA DE LANÇAMENTO -->
-    @if (Model.DataLancamento.HasValue)
-    {
-        <p>
-            <strong>Data de lançamento:</strong>
-            @Model.DataLancamento.Value.ToString("dd/MM/yyyy")
+        <!-- DESCRIÇÃO -->
+        <p class="detalhes-descricao">
+            @Model.Descricao
         </p>
-    }
 
-    <!-- CLASSIFICAÇÃO -->
-    <p>
-        <strong>Classificação indicativa:</strong>
-        @Model.ClassificacaoIndicativa anos
-    </p>
+        <!-- GÊNEROS -->
+        <div class="detalhes-generos">
 
-    <!-- GÊNEROS -->
-    <p>
-        <strong>Gêneros:</strong>
+            @if (Model.Generos.Any())
+            {
+                foreach (var genero in Model.Generos)
+                {
+                    <span class="genero-tag">
+                        @genero.Nome
+                    </span>
+                }
+            }
+            else
+            {
+                <span class="genero-tag">
+                    Não informado
+                </span>
+            }
 
-        @if (Model.Generos.Any())
-        {
-            @string.Join(", ", Model.Generos.Select(g => g.Nome))
-        }
-        else
-        {
-            <span>Não informado</span>
-        }
-    </p>
+        </div>
 
-    <!-- PLATAFORMA -->
-    <p>
-        <strong>Plataforma:</strong> PC
-    </p>
+        <!-- PREÇO -->
+        <div class="detalhes-compra">
 
-    <a asp-controller="Jogo"
-       asp-action="Index"
-       class="btn btn-secondary">
-        Voltar ao catálogo
-    </a>
+            <div class="detalhes-preco">
+                @Model.Preco.ToString(
+                    "C",
+                    new System.Globalization.CultureInfo("pt-BR")
+                )
+            </div>
+
+            <button class="detalhes-botao">
+                Comprar
+            </button>
+
+        </div>
+
+        <!-- INFORMAÇÕES -->
+        <div class="detalhes-informacoes">
+
+            <div class="informacao-item">
+                <span>Desenvolvedor</span>
+                <strong>@Model.Desenvolvedor.Nome</strong>
+            </div>
+
+            <div class="informacao-item">
+                <span>Publicadora</span>
+                <strong>@Model.Publicadora.Nome</strong>
+            </div>
+
+            @if (Model.DataLancamento.HasValue)
+            {
+                <div class="informacao-item">
+                    <span>Data de lançamento</span>
+                    <strong>
+                        @Model.DataLancamento.Value.ToString("dd/MM/yyyy")
+                    </strong>
+                </div>
+            }
+
+            <div class="informacao-item">
+                <span>Classificação indicativa</span>
+                <strong>
+                    @Model.ClassificacaoIndicativa anos
+                </strong>
+            </div>
+
+            <div class="informacao-item">
+                <span>Plataforma</span>
+                <strong>PC</strong>
+            </div>
+
+        </div>
+
+        <!-- VOLTAR -->
+        <a asp-controller="Jogo"
+           asp-action="Index"
+           class="detalhes-voltar">
+            ← Voltar ao catálogo
+        </a>
+
+    </div>
 
 </div>
