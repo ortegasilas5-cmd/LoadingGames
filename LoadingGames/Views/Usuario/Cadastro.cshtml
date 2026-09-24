@@ -2,53 +2,380 @@
 
 @{
     ViewData["Title"] = "Criar conta";
+    ViewData["HideNavbar"] = true;
 }
 
-<h1>Criar conta</h1>
+<div class="register-page">
 
-<form asp-controller="Usuario" asp-action="Cadastro" method="post">
+    <section class="register-visual">
 
-    <div asp-validation-summary="ModelOnly"></div>
+        <div class="register-visual-overlay"></div>
 
-    <div>
-        <label asp-for="Nome"></label>
-        <input asp-for="Nome" />
-        <span asp-validation-for="Nome"></span>
-    </div>
+        <div class="register-visual-content">
 
-    <div>
-        <label asp-for="NomeUsuario"></label>
-        <input asp-for="NomeUsuario" />
-        <span asp-validation-for="NomeUsuario"></span>
-    </div>
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="register-brand"
+               aria-label="Loading Games - Página inicial">
 
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
+                <svg class="register-brand-icon"
+                     viewBox="0 0 64 64"
+                     aria-hidden="true">
 
-    <div>
-        <label asp-for="Senha"></label>
-        <input asp-for="Senha" />
-        <span asp-validation-for="Senha"></span>
-    </div>
+                    <path d="M18 20h28c7 0 12 5 14 12l3 13c1 6-4 11-10 9l-10-4H21L11 54c-6 2-11-3-10-9l3-13c2-7 7-12 14-12Z"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="4"
+                          stroke-linejoin="round" />
 
-    <div>
-        <label asp-for="ConfirmarSenha"></label>
-        <input asp-for="ConfirmarSenha" />
-        <span asp-validation-for="ConfirmarSenha"></span>
-    </div>
+                    <path d="M20 32v10M15 37h10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                          stroke-linecap="round" />
 
-    <button type="submit">Criar conta</button>
+                    <circle cx="45" cy="34" r="3" fill="currentColor" />
+                    <circle cx="52" cy="40" r="3" fill="currentColor" />
 
-</form>
+                </svg>
 
-<p>
-    Já possui uma conta?
-    <a asp-controller="Usuario" asp-action="Login">Entrar</a>
-</p>
+                <span class="register-brand-text">
+
+                    <strong>
+                        Loading <span>Games</span>
+                    </strong>
+
+                    <small>
+                        SEU MUNDO GAMER
+                    </small>
+
+                </span>
+
+            </a>
+
+            <div class="register-hero">
+
+                <span class="register-hero-label">
+                    ENTRE PARA A COMUNIDADE
+                </span>
+
+                <h1>
+                    SUA JORNADA<br />
+                    <span>COMEÇA AGORA.</span>
+                </h1>
+
+                <p>
+                    Crie sua conta e tenha tudo<br />
+                    sobre seus jogos em um só lugar.
+                </p>
+
+                <div class="register-hero-line"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="register-panel">
+
+        <div class="register-card">
+
+            <header class="register-header">
+
+                <span class="register-kicker">
+                    NOVO JOGADOR
+                </span>
+
+                <h2>
+                    Criar sua conta
+                </h2>
+
+                <p>
+                    Preencha seus dados para começar
+                    sua experiência na Loading Games.
+                </p>
+
+            </header>
+
+            <form asp-controller="Usuario"
+                  asp-action="Cadastro"
+                  method="post"
+                  class="register-form">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="register-validation"
+                     role="alert">
+                </div>
+
+                <div class="register-field">
+
+                    <label asp-for="Nome">
+                        Nome
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <svg class="register-input-icon"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <circle cx="12"
+                                    cy="8"
+                                    r="4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7" />
+
+                            <path d="M4 20c1.5-4 4.2-6 8-6s6.5 2 8 6"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linecap="round" />
+
+                        </svg>
+
+                        <input asp-for="Nome"
+                               placeholder="Digite seu nome"
+                               autocomplete="name" />
+
+                    </div>
+
+                    <span asp-validation-for="Nome"
+                          class="register-field-error">
+                    </span>
+
+                </div>
+
+                <div class="register-field">
+
+                    <label asp-for="NomeUsuario">
+                        Nome de usuário
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <svg class="register-input-icon"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <circle cx="12"
+                                    cy="12"
+                                    r="8"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7" />
+
+                            <circle cx="12"
+                                    cy="9"
+                                    r="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7" />
+
+                            <path d="M7.5 17c1.2-2 2.7-3 4.5-3s3.3 1 4.5 3"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linecap="round" />
+
+                        </svg>
+
+                        <input asp-for="NomeUsuario"
+                               placeholder="Escolha um nome de usuário"
+                               autocomplete="username" />
+
+                    </div>
+
+                    <span asp-validation-for="NomeUsuario"
+                          class="register-field-error">
+                    </span>
+
+                </div>
+
+                <div class="register-field">
+
+                    <label asp-for="Email">
+                        E-mail
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <svg class="register-input-icon"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <path d="M4 6h16v12H4z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linejoin="round" />
+
+                            <path d="m4 7 8 6 8-6"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linejoin="round" />
+
+                        </svg>
+
+                        <input asp-for="Email"
+                               placeholder="seu@email.com"
+                               autocomplete="email" />
+
+                    </div>
+
+                    <span asp-validation-for="Email"
+                          class="register-field-error">
+                    </span>
+
+                </div>
+
+                <div class="register-field">
+
+                    <label asp-for="Senha">
+                        Senha
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <svg class="register-input-icon"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <rect x="5"
+                                  y="10"
+                                  width="14"
+                                  height="10"
+                                  rx="2"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7" />
+
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linecap="round" />
+
+                        </svg>
+
+                        <input asp-for="Senha"
+                               placeholder="Crie uma senha"
+                               autocomplete="new-password" />
+
+                    </div>
+
+                    <span asp-validation-for="Senha"
+                          class="register-field-error">
+                    </span>
+
+                </div>
+
+                <div class="register-field">
+
+                    <label asp-for="ConfirmarSenha">
+                        Confirmar senha
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <svg class="register-input-icon"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <path d="M5 12 9 16 19 6"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+
+                        </svg>
+
+                        <input asp-for="ConfirmarSenha"
+                               placeholder="Digite a senha novamente"
+                               autocomplete="new-password" />
+
+                    </div>
+
+                    <span asp-validation-for="ConfirmarSenha"
+                          class="register-field-error">
+                    </span>
+
+                </div>
+
+                <button type="submit"
+                        class="register-submit">
+
+                    <span>
+                        Criar minha conta
+                    </span>
+
+                    <svg viewBox="0 0 24 24"
+                         aria-hidden="true">
+
+                        <path d="M5 12h13M13 6l6 6-6 6"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+
+                    </svg>
+
+                </button>
+
+            </form>
+
+            <div class="register-login">
+
+                <span>
+                    Já possui uma conta?
+                </span>
+
+                <a asp-controller="Login"
+                   asp-action="Index">
+                    Entrar
+                </a>
+
+            </div>
+
+            <div class="register-security">
+
+                <svg viewBox="0 0 24 24"
+                     aria-hidden="true">
+
+                    <path d="M12 3 5 6v5c0 4.5 2.9 8.3 7 10 4.1-1.7 7-5.5 7-10V6l-7-3Z"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.6"
+                          stroke-linejoin="round" />
+
+                    <path d="m9 12 2 2 4-4"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.6"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+
+                </svg>
+
+                <span>
+                    Seus dados estão protegidos
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
 
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
 }

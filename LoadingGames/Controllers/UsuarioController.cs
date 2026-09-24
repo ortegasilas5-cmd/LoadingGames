@@ -85,8 +85,8 @@ namespace LoadingGames.Controllers
             await _context.SaveChangesAsync();
 
             // Depois do cadastro, envia o usuário para o login
-            return RedirectToAction("Login");
-        }
+            return RedirectToAction("Index", "Login");
+		}
 
         // Temporário: depois criaremos a tela de login de verdade
         [HttpGet]
