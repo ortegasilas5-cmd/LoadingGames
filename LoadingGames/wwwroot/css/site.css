@@ -1,394 +1,1352 @@
-html {
-    font-size: 14px;
+/* =========================================================
+   LOADING GAMES
+   LOGIN • CADASTRO • ESQUECI A SENHA • NOVA SENHA
+   ========================================================= */
+
+
+/* =========================================================
+   VARIÁVEIS
+   ========================================================= */
+
+:root {
+	--auth-bg: #05060d;
+	--auth-bg-secondary: #080b14;
+	--auth-panel: #090c16;
+	--auth-card: #0c101c;
+	--auth-input: #080d19;
+	--purple: #7c3aed;
+	--purple-light: #a855f7;
+	--purple-neon: #9333ea;
+	--purple-bright: #b45cff;
+	--text: #ffffff;
+	--text-secondary: #a1a1aa;
+	--text-muted: #71717a;
+	--border: rgba(255, 255, 255, 0.08);
+	--border-light: rgba(255, 255, 255, 0.12);
+	--error: #f87171;
+	--error-bg: rgba(239, 68, 68, 0.07);
+	--radius-sm: 6px;
+	--radius-md: 10px;
+	--radius-lg: 16px;
+	--transition: 0.25s ease;
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+	box-sizing: border-box;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
+html,
+body {
+	margin: 0;
+	padding: 0;
 }
 
 body {
-    margin-bottom: 60px;
+	font-family: "Inter", "Segoe UI", Arial, sans-serif;
 }
 
-/* ============================= /
-/ BOTÕES /
-/ ============================= */
 
-.btn,
-.btn:active,
-.btn-link.nav-link,
-.form-control,
-.form-check-input {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #6f2dbd;
+/* =========================================================
+   PÁGINAS DE AUTENTICAÇÃO
+   ========================================================= */
+
+.login-page,
+.register-page,
+.forgot-page,
+.new-password-page {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	width: 100%;
+	height: 100dvh;
+	display: grid;
+	grid-template-columns: 55% 45%;
+	overflow: hidden;
+	background: radial-gradient( circle at 75% 20%, rgba(124, 58, 237, 0.10), transparent 28% ), var(--auth-bg);
+	color: var(--text);
 }
 
-.btn-primary {
-    background-color: #6f2dbd;
-    border-color: #6f2dbd;
+
+/* =========================================================
+   LADO VISUAL
+   ========================================================= */
+
+.login-visual,
+.register-visual,
+.forgot-visual,
+.new-password-visual {
+	position: relative;
+	min-width: 0;
+	min-height: 100dvh;
+	overflow: hidden;
+	background: linear-gradient( 90deg, rgba(5, 6, 13, 0.18), rgba(5, 6, 13, 0.55) ), linear-gradient( 0deg, rgba(5, 6, 13, 0.82), rgba(5, 6, 13, 0.15) ), url("/images/capagtav.jpg") center / cover no-repeat;
 }
 
-.btn-primary {
-    background-color: #5a239b;
-    border-color: #5a239b;
+
+	/* Escurecimento e glow roxo */
+
+	.login-visual::before,
+	.register-visual::before,
+	.forgot-visual::before,
+	.new-password-visual::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: radial-gradient( circle at 25% 45%, rgba(147, 51, 234, 0.20), transparent 32% ), radial-gradient( circle at 70% 80%, rgba(59, 130, 246, 0.08), transparent 35% );
+		pointer-events: none;
+	}
+
+
+	/* Gradiente de transição para o painel */
+
+	.login-visual::after,
+	.register-visual::after,
+	.forgot-visual::after,
+	.new-password-visual::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient( 90deg, transparent 40%, rgba(5, 6, 13, 0.45) 68%, var(--auth-bg) 100% );
+		pointer-events: none;
+	}
+
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.login-visual-overlay,
+.register-visual-overlay,
+.forgot-visual-overlay,
+.new-password-visual-overlay {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: linear-gradient( 180deg, rgba(5, 6, 13, 0.05), rgba(5, 6, 13, 0.15), rgba(5, 6, 13, 0.45) );
 }
 
-/* ============================= /
-/ BARRA DE NAVEGAÇÃO /
-/ ============================= */
 
-.navbar {
-    background-color: #6f2dbd !important;
+/* =========================================================
+   CONTEÚDO DO LADO VISUAL
+   ========================================================= */
+
+.login-visual-content,
+.register-visual-content,
+.forgot-visual-content,
+.new-password-visual-content {
+	position: relative;
+	z-index: 3;
+	min-height: 100dvh;
+	padding: 42px 55px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	color: #fff;
 }
 
-    .navbar .navbar-brand,
-    .navbar .nav-link {
-        color: white !important;
-    }
 
-    .navbar .nav-link {
-        color: #e0c3ff !important;
-    }
+/* =========================================================
+   MARCA / LOGO
+   ========================================================= */
 
-/* ============================= /
-/ ESTRUTURA DO CATÁLOGO /
-/ ============================= */
-
-.catalogo-layout {
-    display: flex;
-    align-items: flex-start;
-    gap: 30px;
-    width: 100%;
-    padding: 30px 0 50px;
+.login-brand,
+.register-brand,
+.forgot-brand,
+.new-password-brand {
+	width: fit-content;
+	display: inline-flex;
+	align-items: center;
+	gap: 13px;
+	color: #fff;
+	text-decoration: none;
+	transition: var(--transition);
 }
 
-/* ============================= /
-/ MENU LATERAL /
-/ ============================= */
+	.login-brand:hover,
+	.register-brand:hover,
+	.forgot-brand:hover,
+	.new-password-brand:hover {
+		color: #fff;
+		transform: translateY(-1px);
+	}
 
-.catalogo-sidebar {
-    flex: 0 0 220px;
-    background-color: #21152d;
-    border-radius: 12px;
-    padding: 20px;
-    height: fit-content;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+/* Ícone */
+
+.login-brand-icon,
+.register-brand-icon,
+.forgot-brand-icon,
+.new-password-brand-icon {
+	width: 52px;
+	height: 52px;
+	flex-shrink: 0;
+	color: var(--purple-light);
+	filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.55));
 }
 
-    .catalogo-sidebar h3 {
-        color: white;
-        font-size: 20px;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-    }
 
-    .catalogo-sidebar ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+/* Texto da marca */
 
-    .catalogo-sidebar li {
-        margin-bottom: 8px;
-    }
-
-    .catalogo-sidebar a {
-        display: block;
-        color: #eeeeee;
-        text-decoration: none;
-        padding: 10px 12px;
-        border-radius: 8px;
-        transition: background-color 0.2s, color 0.2s;
-    }
-
-    .catalogo-sidebar a {
-        background-color: #6f2dbd;
-        color: white;
-    }
-
-/* ============================= /
-/ ÁREA PRINCIPAL /
-/ ============================= */
-
-.catalogo-conteudo {
-    flex: 1;
-    min-width: 0;
+.login-brand-text,
+.register-brand-text,
+.forgot-brand-text,
+.new-password-brand-text {
+	display: flex;
+	flex-direction: column;
+	line-height: 1;
 }
 
-/* ============================= /
-/ CABEÇALHO DO CATÁLOGO /
-/ ============================= */
+	.login-brand-text strong,
+	.register-brand-text strong,
+	.forgot-brand-text strong,
+	.new-password-brand-text strong {
+		color: #fff;
+		font-size: 17px;
+		font-weight: 900;
+		letter-spacing: -0.5px;
+	}
 
-.catalogo-header {
-    margin-bottom: 25px;
+		.login-brand-text strong span,
+		.register-brand-text strong span,
+		.forgot-brand-text strong span,
+		.new-password-brand-text strong span {
+			color: var(--purple-light);
+		}
+
+	.login-brand-text small,
+	.register-brand-text small,
+	.forgot-brand-text small,
+	.new-password-brand-text small {
+		max-width: 150px;
+		margin-top: 7px;
+		color: rgba(255, 255, 255, 0.48);
+		font-size: 8px;
+		font-weight: 700;
+		line-height: 1.5;
+		letter-spacing: 2px;
+	}
+
+
+/* =========================================================
+   HERO DO LADO ESQUERDO
+   ========================================================= */
+
+.login-hero,
+.register-hero,
+.forgot-hero,
+.new-password-hero {
+	max-width: 540px;
+	margin-bottom: 8vh;
 }
 
-    .catalogo-header h1 {
-        font-weight: 700;
-        color: #6f2dbd;
-        margin-bottom: 8px;
-    }
 
-    .catalogo-header p {
-        color: #666;
-        font-size: 17px;
-    }
+/* Pequeno título */
 
-
-/* ============================= */
-/* PESQUISA */
-/* ============================= */
-
-.catalogo-conteudo form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
+.hero-label,
+.register-hero-label,
+.forgot-hero-label,
+.new-password-hero-label {
+	display: inline-block;
+	margin-bottom: 15px;
+	color: var(--purple-light);
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 3px;
+	text-transform: uppercase;
 }
 
-    .catalogo-conteudo form input {
-        flex: 1;
-        padding: 12px 15px;
-        border: 2px solid #e5d5f5;
-        border-radius: 8px;
-        font-size: 16px;
-        outline: none;
-        transition: 0.2s;
-    }
 
-        .catalogo-conteudo form input:focus {
-            border-color: #6f2dbd;
-            box-shadow: 0 0 0 3px rgba(111, 45, 189, 0.15);
-        }
+/* Título */
 
-    .catalogo-conteudo form button {
-        padding: 12px 20px;
-        background-color: #6f2dbd;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-        .catalogo-conteudo form button:hover {
-            background-color: #5a239b;
-            transform: translateY(-2px);
-        }
-
-/* ============================= /
-/ BANNER DE DESTAQUE /
-/ ============================= */
-
-.banner-destaque {
-    margin-bottom: 30px;
-    min-height: 260px;
-    border-radius: 15px;
-    overflow: hidden;
-    background: linear-gradient( 90deg, rgba(20, 10, 35, 0.95), rgba(60, 20, 90, 0.75) ), url('/images/capagtav.jpg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
+.login-hero h1,
+.register-hero h1,
+.forgot-hero h1,
+.new-password-hero h1 {
+	margin: 0;
+	color: #fff;
+	font-size: clamp(44px, 5vw, 78px);
+	font-weight: 900;
+	line-height: 0.92;
+	letter-spacing: -4px;
 }
 
-.banner-conteudo {
-    padding: 35px;
-    max-width: 600px;
+	.login-hero h1 span,
+	.register-hero h1 span,
+	.forgot-hero h1 span,
+	.new-password-hero h1 span {
+		color: var(--purple-light);
+		text-shadow: 0 0 30px rgba(168, 85, 247, 0.28);
+	}
+
+
+/* Descrição */
+
+.login-hero p,
+.register-hero p,
+.forgot-hero p,
+.new-password-hero p {
+	max-width: 430px;
+	margin: 22px 0 0;
+	color: rgba(255, 255, 255, 0.58);
+	font-size: 13px;
+	line-height: 1.7;
 }
 
-.banner-tag {
-    display: inline-block;
-    background-color: #8a2be2;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
+
+/* Linha roxa */
+
+.hero-line,
+.register-hero-line,
+.forgot-hero-line,
+.new-password-hero-line {
+	width: 60px;
+	height: 3px;
+	margin-top: 24px;
+	border-radius: 10px;
+	background: linear-gradient( 90deg, var(--purple), var(--purple-light) );
+	box-shadow: 0 0 12px rgba(168, 85, 247, 0.7), 0 0 30px rgba(124, 58, 237, 0.25);
 }
 
-.banner-conteudo h2 {
-    color: white;
-    font-size: 34px;
-    margin: 5px 0 10px;
+
+/* =========================================================
+   PAINEL DIREITO
+   ========================================================= */
+
+.login-panel,
+.register-panel,
+.forgot-panel,
+.new-password-panel {
+	position: relative;
+	min-width: 0;
+	min-height: 100dvh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 40px 55px;
+	overflow-y: auto;
+	background: radial-gradient( circle at 20% 15%, rgba(124, 58, 237, 0.12), transparent 30% ), radial-gradient( circle at 90% 85%, rgba(147, 51, 234, 0.06), transparent 35% ), var(--auth-bg);
+	border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.banner-conteudo p {
-    color: #e5dcef;
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 20px;
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.login-card,
+.register-card,
+.forgot-card,
+.new-password-card {
+	position: relative;
+	z-index: 2;
+	width: min(100%, 430px);
 }
 
-.banner-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+
+/* =========================================================
+   CABEÇALHO DO FORMULÁRIO
+   ========================================================= */
+
+.login-header,
+.register-header,
+.forgot-header,
+.new-password-header {
+	margin-bottom: 28px;
 }
 
-    .banner-info strong {
-        color: white;
-        font-size: 22px;
-    }
-
-.banner-botao {
-    background-color: #8a2be2;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.2s;
+.login-kicker,
+.register-kicker,
+.forgot-kicker,
+.new-password-kicker {
+	display: inline-block;
+	margin-bottom: 10px;
+	color: var(--purple-light);
+	font-size: 9px;
+	font-weight: 800;
+	letter-spacing: 3px;
+	text-transform: uppercase;
 }
 
-    .banner-botao:hover {
-        background-color: #6f20b8;
-        color: white;
-        transform: translateY(-2px);
-    }
-
-/* ============================= /
-/ GRID DOS JOGOS /
-/ ============================= */
-
-.jogos-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+.login-header h2,
+.register-header h2,
+.forgot-header h2,
+.new-password-header h2 {
+	margin: 0;
+	color: #fff;
+	font-size: 30px;
+	font-weight: 800;
+	line-height: 1.15;
+	letter-spacing: -1px;
 }
 
-/* ============================= */
-/* CARD DO JOGO */
-/* ============================= */
-
-.jogo-card {
-    background-color: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid #e5d5f5;
+.login-header p,
+.register-header p,
+.forgot-header p,
+.new-password-header p {
+	max-width: 390px;
+	margin: 10px 0 0;
+	color: rgba(255, 255, 255, 0.45);
+	font-size: 11px;
+	line-height: 1.65;
 }
 
-    .jogo-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(111, 45, 189, 0.25);
-    }
 
-/* ============================= */
-/* IMAGEM DO JOGO */
-/* ============================= */
+/* =========================================================
+   FORMULÁRIO LOGIN
+   ========================================================= */
 
-.jogo-card-imagem {
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
+.login-form,
+.register-form,
+.forgot-form,
+.new-password-form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
-    .jogo-card-imagem img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.3s;
-    }
 
-.jogo-card:hover .jogo-card-imagem img {
-    transform: scale(1.05);
+/* =========================================================
+   CAMPOS GERAIS DO LOGIN
+   ========================================================= */
+
+.form-group {
+	margin-bottom: 17px;
 }
 
-/* ============================= */
-/* CONTEÚDO DO CARD */
-/* ============================= */
+	.form-group label {
+		display: block;
+		margin-bottom: 8px;
+		color: rgba(255, 255, 255, 0.72);
+		font-size: 10px;
+		font-weight: 700;
+	}
 
-.jogo-card-body {
-    padding: 20px;
+
+/* Cabeçalho do campo */
+
+.field-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 15px;
+	margin-bottom: 8px;
 }
 
-    .jogo-card-body h2 {
-        font-size: 22px;
-        color: #333;
-        margin-bottom: 10px;
-    }
+	.field-header label {
+		margin: 0;
+	}
 
-    .jogo-card-body p {
-        color: #666;
-        min-height: 48px;
-        margin-bottom: 20px;
-    }
+	.field-header a {
+		color: var(--purple-light);
+		font-size: 9px;
+		font-weight: 600;
+		text-decoration: none;
+		transition: var(--transition);
+	}
 
-/* ============================= */
-/* RODAPÉ DO CARD */
-/* ============================= */
+		.field-header a:hover {
+			color: #d8b4fe;
+			text-decoration: underline;
+		}
 
-.jogo-card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+
+/* =========================================================
+   INPUT LOGIN
+   ========================================================= */
+
+.input-wrapper {
+	position: relative;
+	width: 100%;
 }
 
-    .jogo-card-footer strong {
-        color: #6f2dbd;
-        font-size: 18px;
-    }
+	.input-wrapper input {
+		width: 100%;
+		height: 48px;
+		padding: 0 15px 0 44px;
+		border: 1px solid var(--border-light);
+		border-radius: var(--radius-sm);
+		outline: none;
+		background: linear-gradient( 135deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01) ), var(--auth-input);
+		color: #fff;
+		font-family: inherit;
+		font-size: 11px;
+		transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+	}
 
-    .jogo-card-footer .btn-primary {
-        background-color: #6f2dbd;
-        border-color: #6f2dbd;
-        transition: 0.2s;
-    }
+		.input-wrapper input::placeholder {
+			color: rgba(255, 255, 255, 0.25);
+		}
 
-        .jogo-card-footer .btn-primary:hover {
-            background-color: #5a239b;
-            border-color: #5a239b;
-            transform: translateY(-2px);
-        }
+		.input-wrapper input:hover {
+			border-color: rgba(168, 85, 247, 0.30);
+		}
 
-/* ============================= /
-/ RESPONSIVIDADE /
-/ ============================= */
+		.input-wrapper input:focus {
+			border-color: var(--purple-light);
+			background: #0a1020;
+			box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.09), 0 0 25px rgba(124, 58, 237, 0.10);
+		}
 
-@media (max-width: 900px) {
 
-    .catalogo-layout {
-        flex-direction: column;
-    }
+/* Ícone */
 
-    .catalogo-sidebar {
-        width: 100%;
-    }
-
-    .jogos-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.input-icon {
+	position: absolute;
+	top: 50%;
+	left: 15px;
+	z-index: 2;
+	width: 16px;
+	height: 16px;
+	color: rgba(168, 85, 247, 0.65);
+	transform: translateY(-50%);
+	pointer-events: none;
+	transition: var(--transition);
 }
+
+.input-wrapper:focus-within .input-icon {
+	color: var(--purple-light);
+	filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.45));
+}
+
+
+/* =========================================================
+   ERRO LOGIN
+   ========================================================= */
+
+.login-error,
+.register-validation,
+.forgot-validation,
+.forgot-error,
+.new-password-error {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 15px;
+	padding: 10px 12px;
+	border: 1px solid rgba(239, 68, 68, 0.24);
+	border-radius: var(--radius-sm);
+	background: var(--error-bg);
+	color: #fca5a5;
+	font-size: 10px;
+	line-height: 1.5;
+}
+
+
+/* =========================================================
+   ÍCONE DO ERRO
+   ========================================================= */
+
+.error-icon {
+	width: 17px;
+	height: 17px;
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: rgba(239, 68, 68, 0.16);
+	color: #fca5a5;
+	font-size: 10px;
+	font-weight: 800;
+}
+
+
+/* =========================================================
+   CHECKBOX LEMBRAR
+   ========================================================= */
+
+.remember-option {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	gap: 9px;
+	margin: 0 0 18px;
+	color: rgba(255, 255, 255, 0.50);
+	font-size: 10px;
+	cursor: pointer;
+	user-select: none;
+}
+
+	.remember-option:hover {
+		color: rgba(255, 255, 255, 0.72);
+	}
+
+	.remember-option input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+
+/* Checkbox */
+
+.custom-checkbox {
+	width: 15px;
+	height: 15px;
+	flex-shrink: 0;
+	border: 1px solid rgba(255, 255, 255, 0.20);
+	border-radius: 4px;
+	background: #080d19;
+	transition: var(--transition);
+}
+
+.remember-option:hover .custom-checkbox {
+	border-color: rgba(168, 85, 247, 0.55);
+}
+
+.remember-option input:checked + .custom-checkbox {
+	border-color: var(--purple-light);
+	background: linear-gradient( 135deg, var(--purple), var(--purple-neon) );
+	box-shadow: 0 0 12px rgba(139, 0, 255, 0.35);
+}
+
+	.remember-option input:checked + .custom-checkbox::after {
+		content: "";
+		display: block;
+		width: 4px;
+		height: 8px;
+		margin: 1px 0 0 4px;
+		border-right: 2px solid #fff;
+		border-bottom: 2px solid #fff;
+		transform: rotate(45deg);
+	}
+
+
+/* =========================================================
+   BOTÕES PRINCIPAIS
+   ========================================================= */
+
+.login-submit,
+.register-submit,
+.forgot-submit,
+.new-password-submit {
+	width: 100%;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 9px;
+	margin: 0;
+	padding: 0 18px;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: linear-gradient( 100deg, #6d28d9, #9333ea, #a855f7 );
+	color: #fff;
+	font-family: inherit;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.2px;
+	cursor: pointer;
+	box-shadow: 0 10px 25px rgba(124, 58, 237, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+	transition: transform var(--transition), filter var(--transition), box-shadow var(--transition);
+}
+
+	.login-submit svg,
+	.register-submit svg,
+	.forgot-submit svg,
+	.new-password-submit svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	.login-submit:hover,
+	.register-submit:hover,
+	.forgot-submit:hover,
+	.new-password-submit:hover {
+		transform: translateY(-2px);
+		filter: brightness(1.10);
+		box-shadow: 0 14px 32px rgba(124, 58, 237, 0.35), 0 0 20px rgba(168, 85, 247, 0.14);
+	}
+
+	.login-submit:active,
+	.register-submit:active,
+	.forgot-submit:active,
+	.new-password-submit:active {
+		transform: translateY(0);
+	}
+
+
+/* =========================================================
+   DIVISOR
+   ========================================================= */
+
+.login-divider {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 23px 0 15px;
+}
+
+	.login-divider::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: rgba(255, 255, 255, 0.07);
+	}
+
+	.login-divider span {
+		position: relative;
+		z-index: 1;
+		padding: 0 13px;
+		background: var(--auth-bg);
+		color: rgba(255, 255, 255, 0.30);
+		font-size: 9px;
+	}
+
+
+/* =========================================================
+   LOGIN SOCIAL
+   ========================================================= */
+
+.social-login {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+}
+
+.social-button {
+	height: 41px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 0 8px;
+	border: 1px solid var(--border-light);
+	border-radius: var(--radius-sm);
+	background: var(--auth-input);
+	color: rgba(255, 255, 255, 0.70);
+	font-family: inherit;
+	font-size: 9px;
+	cursor: pointer;
+	transition: var(--transition);
+}
+
+	.social-button strong {
+		color: #fff;
+		font-size: 11px;
+	}
+
+	.social-button:hover {
+		border-color: rgba(168, 85, 247, 0.40);
+		background: #0c1221;
+		color: #fff;
+		transform: translateY(-2px);
+		box-shadow: 0 7px 18px rgba(0, 0, 0, 0.20);
+	}
+
+
+/* =========================================================
+   ÁREA CRIAR CONTA
+   ========================================================= */
+
+.register-area {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	margin-top: 21px;
+	color: rgba(255, 255, 255, 0.34);
+	font-size: 9px;
+}
+
+	.register-area a {
+		color: var(--purple-light);
+		font-weight: 700;
+		text-decoration: none;
+		transition: var(--transition);
+	}
+
+		.register-area a:hover {
+			color: #d8b4fe;
+			text-shadow: 0 0 10px rgba(168, 85, 247, 0.30);
+		}
+
+
+/* =========================================================
+   NOTA DE SEGURANÇA
+   ========================================================= */
+
+.security-note,
+.register-security,
+.forgot-security,
+.new-password-security {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	margin-top: 20px;
+	padding-top: 14px;
+	border-top: 1px solid rgba(255, 255, 255, 0.05);
+	color: rgba(255, 255, 255, 0.23);
+	font-size: 8px;
+	text-align: center;
+}
+
+	.security-note svg,
+	.register-security svg,
+	.forgot-security svg,
+	.new-password-security svg {
+		width: 14px;
+		height: 14px;
+		color: #8b5cf6;
+	}
+
+
+/* =========================================================
+   CADASTRO
+   ========================================================= */
+
+.register-field {
+	margin-bottom: 14px;
+}
+
+	.register-field label {
+		display: block;
+		margin-bottom: 7px;
+		color: rgba(255, 255, 255, 0.70);
+		font-size: 10px;
+		font-weight: 700;
+	}
+
+
+/* Input cadastro */
+
+.register-input-wrapper {
+	position: relative;
+	width: 100%;
+}
+
+	.register-input-wrapper input {
+		width: 100%;
+		height: 46px;
+		padding: 0 14px 0 44px;
+		border: 1px solid var(--border-light);
+		border-radius: var(--radius-sm);
+		outline: none;
+		background: var(--auth-input);
+		color: #fff;
+		font-family: inherit;
+		font-size: 11px;
+		transition: var(--transition);
+	}
+
+		.register-input-wrapper input::placeholder {
+			color: rgba(255, 255, 255, 0.25);
+		}
+
+		.register-input-wrapper input:hover {
+			border-color: rgba(168, 85, 247, 0.30);
+		}
+
+		.register-input-wrapper input:focus {
+			border-color: var(--purple-light);
+			background: #0a1020;
+			box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.08), 0 0 20px rgba(124, 58, 237, 0.08);
+		}
+
+
+	/* Ícone cadastro */
+
+	.register-input-wrapper svg {
+		position: absolute;
+		top: 50%;
+		left: 14px;
+		width: 16px;
+		height: 16px;
+		color: rgba(168, 85, 247, 0.62);
+		transform: translateY(-50%);
+		pointer-events: none;
+		transition: var(--transition);
+	}
+
+	.register-input-wrapper:focus-within svg {
+		color: var(--purple-light);
+		filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.35));
+	}
+
+.register-submit {
+	margin-top: 7px;
+}
+
+
+/* Voltar */
+
+.register-back {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+	.register-back a,
+	.forgot-back a,
+	.new-password-back a {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		color: #717b8e;
+		font-size: 10px;
+		font-weight: 600;
+		text-decoration: none;
+		transition: var(--transition);
+	}
+
+		.register-back a:hover,
+		.forgot-back a:hover,
+		.new-password-back a:hover {
+			color: var(--purple-light);
+			transform: translateX(-2px);
+		}
+
+	.register-back svg,
+	.forgot-back svg,
+	.new-password-back svg {
+		width: 15px;
+		height: 15px;
+	}
+
+
+/* =========================================================
+   ESQUECI A SENHA
+   ========================================================= */
+
+.forgot-field {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	margin-bottom: 16px;
+}
+
+	.forgot-field label {
+		color: rgba(255, 255, 255, 0.70);
+		font-size: 10px;
+		font-weight: 700;
+	}
+
+
+/* Input */
+
+.forgot-input-wrapper {
+	position: relative;
+	width: 100%;
+}
+
+	.forgot-input-wrapper input {
+		width: 100%;
+		height: 48px;
+		padding: 0 14px 0 44px;
+		border: 1px solid var(--border-light);
+		border-radius: var(--radius-sm);
+		outline: none;
+		background: var(--auth-input);
+		color: #fff;
+		font-family: inherit;
+		font-size: 11px;
+		transition: var(--transition);
+	}
+
+		.forgot-input-wrapper input::placeholder {
+			color: rgba(255, 255, 255, 0.25);
+		}
+
+		.forgot-input-wrapper input:hover {
+			border-color: rgba(168, 85, 247, 0.30);
+		}
+
+		.forgot-input-wrapper input:focus {
+			border-color: var(--purple-light);
+			background: #0a1020;
+			box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.08), 0 0 20px rgba(124, 58, 237, 0.08);
+		}
+
+
+/* Ícone */
+
+.forgot-input-icon {
+	position: absolute;
+	top: 50%;
+	left: 14px;
+	width: 16px;
+	height: 16px;
+	color: rgba(168, 85, 247, 0.65);
+	transform: translateY(-50%);
+	pointer-events: none;
+	transition: var(--transition);
+}
+
+.forgot-input-wrapper:focus-within .forgot-input-icon {
+	color: var(--purple-light);
+}
+
+.forgot-submit {
+	height: 48px;
+}
+
+.forgot-back {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+
+/* =========================================================
+   NOVA SENHA
+   ========================================================= */
+
+.new-password-field {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	margin-bottom: 16px;
+}
+
+	.new-password-field label {
+		color: rgba(255, 255, 255, 0.70);
+		font-size: 10px;
+		font-weight: 700;
+	}
+
+
+/* Input */
+
+.new-password-input-wrapper {
+	position: relative;
+	width: 100%;
+}
+
+	.new-password-input-wrapper input {
+		width: 100%;
+		height: 48px;
+		padding: 0 14px 0 44px;
+		border: 1px solid var(--border-light);
+		border-radius: var(--radius-sm);
+		outline: none;
+		background: var(--auth-input);
+		color: #fff;
+		font-family: inherit;
+		font-size: 11px;
+		transition: var(--transition);
+	}
+
+		.new-password-input-wrapper input::placeholder {
+			color: rgba(255, 255, 255, 0.25);
+		}
+
+		.new-password-input-wrapper input:hover {
+			border-color: rgba(168, 85, 247, 0.30);
+		}
+
+		.new-password-input-wrapper input:focus {
+			border-color: var(--purple-light);
+			background: #0a1020;
+			box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.08), 0 0 20px rgba(124, 58, 237, 0.08);
+		}
+
+
+	/* Ícone */
+
+	.new-password-input-wrapper svg {
+		position: absolute;
+		top: 50%;
+		left: 14px;
+		width: 16px;
+		height: 16px;
+		color: rgba(168, 85, 247, 0.65);
+		transform: translateY(-50%);
+		pointer-events: none;
+		transition: var(--transition);
+	}
+
+	.new-password-input-wrapper:focus-within svg {
+		color: var(--purple-light);
+	}
+
+.new-password-submit {
+	height: 48px;
+}
+
+.new-password-back {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+
+/* =========================================================
+   VALIDAÇÕES DO ASP.NET
+   ========================================================= */
+
+.text-danger {
+	display: block;
+	margin-top: 5px;
+	color: #fca5a5 !important;
+	font-size: 9px;
+	line-height: 1.4;
+}
+
+.field-validation-error {
+	display: block;
+	margin-top: 5px;
+	color: #fca5a5;
+	font-size: 9px;
+}
+
+.validation-summary-errors {
+	margin-bottom: 15px;
+	padding: 10px 12px;
+	border: 1px solid rgba(239, 68, 68, 0.22);
+	border-radius: 6px;
+	background: rgba(239, 68, 68, 0.07);
+	color: #fca5a5;
+	font-size: 10px;
+	line-height: 1.5;
+}
+
+	.validation-summary-errors ul {
+		margin: 0;
+		padding-left: 17px;
+	}
+
+.validation-summary-valid {
+	display: none;
+}
+
+
+/* =========================================================
+   ESTADOS DOS BOTÕES
+   ========================================================= */
+
+.login-submit:disabled,
+.register-submit:disabled,
+.forgot-submit:disabled,
+.new-password-submit:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+
+
+/* =========================================================
+   SELEÇÃO DE TEXTO
+   ========================================================= */
+
+.login-page ::selection,
+.register-page ::selection,
+.forgot-page ::selection,
+.new-password-page ::selection {
+	background: rgba(168, 85, 247, 0.35);
+	color: #fff;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.login-panel::-webkit-scrollbar,
+.register-panel::-webkit-scrollbar,
+.forgot-panel::-webkit-scrollbar,
+.new-password-panel::-webkit-scrollbar {
+	width: 6px;
+}
+
+.login-panel::-webkit-scrollbar-track,
+.register-panel::-webkit-scrollbar-track,
+.forgot-panel::-webkit-scrollbar-track,
+.new-password-panel::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.login-panel::-webkit-scrollbar-thumb,
+.register-panel::-webkit-scrollbar-thumb,
+.forgot-panel::-webkit-scrollbar-thumb,
+.new-password-panel::-webkit-scrollbar-thumb {
+	background: rgba(168, 85, 247, 0.35);
+	border-radius: 10px;
+}
+
+	.login-panel::-webkit-scrollbar-thumb:hover,
+	.register-panel::-webkit-scrollbar-thumb:hover,
+	.forgot-panel::-webkit-scrollbar-thumb:hover,
+	.new-password-panel::-webkit-scrollbar-thumb:hover {
+		background: rgba(168, 85, 247, 0.55);
+	}
+
+
+/* =========================================================
+   RESPONSIVO — TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+	.login-page,
+	.register-page,
+	.forgot-page,
+	.new-password-page {
+		grid-template-columns: 48% 52%;
+	}
+
+	.login-visual-content,
+	.register-visual-content,
+	.forgot-visual-content,
+	.new-password-visual-content {
+		padding: 38px 38px;
+	}
+
+	.login-panel,
+	.register-panel,
+	.forgot-panel,
+	.new-password-panel {
+		padding: 35px 38px;
+	}
+
+	.login-hero h1,
+	.register-hero h1,
+	.forgot-hero h1,
+	.new-password-hero h1 {
+		font-size: clamp(42px, 5vw, 62px);
+	}
+}
+
+
+/* =========================================================
+   RESPONSIVO — CELULAR
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+	.login-page,
+	.register-page,
+	.forgot-page,
+	.new-password-page {
+		grid-template-columns: 1fr;
+	}
+
+	.login-visual,
+	.register-visual,
+	.forgot-visual,
+	.new-password-visual {
+		display: none;
+	}
+
+	.login-panel,
+	.register-panel,
+	.forgot-panel,
+	.new-password-panel {
+		min-height: 100dvh;
+		padding: 35px 25px;
+		border-left: 0;
+		background: radial-gradient( circle at 50% 0%, rgba(124, 58, 237, 0.16), transparent 35% ), var(--auth-bg);
+	}
+
+	.login-card,
+	.register-card,
+	.forgot-card,
+	.new-password-card {
+		width: min(100%, 430px);
+	}
+}
+
+
+/* =========================================================
+   RESPONSIVO — CELULAR MENOR
+   ========================================================= */
 
 @media (max-width: 600px) {
 
-    .jogos-grid {
-        grid-template-columns: 1fr;
-    }
+	.login-panel,
+	.register-panel,
+	.forgot-panel,
+	.new-password-panel {
+		padding: 30px 20px;
+	}
 
-    .banner-conteudo {
-        padding: 25px;
-    }
+	.login-header,
+	.register-header,
+	.forgot-header,
+	.new-password-header {
+		margin-bottom: 24px;
+	}
 
-        .banner-conteudo h2 {
-            font-size: 28px;
-        }
+		.login-header h2,
+		.register-header h2,
+		.forgot-header h2,
+		.new-password-header h2 {
+			font-size: 26px;
+		}
 
-    .banner-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
+		.login-header p,
+		.register-header p,
+		.forgot-header p,
+		.new-password-header p {
+			font-size: 10px;
+		}
+
+	.social-login {
+		grid-template-columns: 1fr;
+	}
+
+	.social-button {
+		height: 42px;
+	}
+
+	.register-field,
+	.form-group,
+	.forgot-field,
+	.new-password-field {
+		margin-bottom: 14px;
+	}
+
+	.login-submit,
+	.register-submit,
+	.forgot-submit,
+	.new-password-submit {
+		height: 48px;
+	}
+}
+
+
+/* =========================================================
+   RESPONSIVO — CELULAR PEQUENO
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+	.login-panel,
+	.register-panel,
+	.forgot-panel,
+	.new-password-panel {
+		padding: 25px 16px;
+	}
+
+	.login-header h2,
+	.register-header h2,
+	.forgot-header h2,
+	.new-password-header h2 {
+		font-size: 23px;
+	}
+
+	.login-header p,
+	.register-header p,
+	.forgot-header p,
+	.new-password-header p {
+		font-size: 10px;
+	}
+
+	.input-wrapper input,
+	.register-input-wrapper input,
+	.forgot-input-wrapper input,
+	.new-password-input-wrapper input {
+		height: 46px;
+	}
 }

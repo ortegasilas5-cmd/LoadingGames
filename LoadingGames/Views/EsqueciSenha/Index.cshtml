@@ -1,0 +1,223 @@
+﻿@{
+    ViewData["Title"] = "Esqueci a senha";
+    ViewData["HideNavbar"] = true;
+}
+
+<div class="forgot-page">
+
+    <section class="forgot-visual">
+
+        <div class="forgot-visual-overlay"></div>
+
+        <div class="forgot-visual-content">
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="forgot-brand"
+               aria-label="Loading Games - Página inicial">
+
+                <svg class="forgot-brand-icon"
+                     viewBox="0 0 64 64"
+                     aria-hidden="true">
+
+                    <path d="M18 20h28c7 0 12 5 14 12l3 13c1 6-4 11-10 9l-10-4H21L11 54c-6 2-11-3-10-9l3-13c2-7 7-12 14-12Z"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="4"
+                          stroke-linejoin="round" />
+
+                    <path d="M20 32v10M15 37h10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                          stroke-linecap="round" />
+
+                    <circle cx="45" cy="34" r="3" fill="currentColor" />
+                    <circle cx="52" cy="40" r="3" fill="currentColor" />
+
+                </svg>
+
+                <span class="forgot-brand-text">
+
+                    <strong>
+                        Loading <span>Games</span>
+                    </strong>
+
+                    <small>
+                        SEU MUNDO GAMER
+                    </small>
+
+                </span>
+
+            </a>
+
+            <div class="forgot-hero">
+
+                <span class="forgot-hero-label">
+                    RECUPERE SUA CONTA
+                </span>
+
+                <h1>
+                    VOLTE PARA<br />
+                    <span>SUA JORNADA.</span>
+                </h1>
+
+                <p>
+                    Não se preocupe.<br />
+                    Vamos ajudar você a recuperar o acesso.
+                </p>
+
+                <div class="forgot-hero-line"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="forgot-panel">
+
+        <div class="forgot-card">
+
+            <header class="forgot-header">
+
+                <span class="forgot-kicker">
+                    RECUPERAÇÃO
+                </span>
+
+                <h2>
+                    Esqueceu sua senha?
+                </h2>
+
+                <p>
+                    Informe seu e-mail e enviaremos as
+                    instruções para recuperar sua conta.
+                </p>
+
+            </header>
+
+            <form asp-controller="EsqueciSenha"
+                  asp-action="Index"
+                  method="post"
+                  class="forgot-form">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="forgot-validation"
+                     role="alert">
+                </div>
+
+                <div class="forgot-field">
+
+                    <label for="email">
+                        E-mail
+                    </label>
+
+                    <div class="forgot-input-wrapper">
+
+                        <svg class="forgot-input-icon"
+                             viewBox="0 0 24 24"
+                             aria-hidden="true">
+
+                            <path d="M4 6h16v12H4z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linejoin="round" />
+
+                            <path d="m4 7 8 6 8-6"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linejoin="round" />
+
+                        </svg>
+
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               placeholder="seu@email.com"
+                               autocomplete="email"
+                               required />
+
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        class="forgot-submit">
+
+                    <span>
+                        Recuperar senha
+                    </span>
+
+                    <svg viewBox="0 0 24 24"
+                         aria-hidden="true">
+
+                        <path d="M5 12h13M13 6l6 6-6 6"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+
+                    </svg>
+
+                </button>
+
+            </form>
+
+            <div class="forgot-back">
+
+                <a asp-controller="Login"
+                   asp-action="Index">
+
+                    <svg viewBox="0 0 24 24"
+                         aria-hidden="true">
+
+                        <path d="M19 12H5M11 18l-6-6 6-6"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+
+                    </svg>
+
+                    Voltar para o login
+
+                </a>
+
+            </div>
+
+            <div class="forgot-security">
+
+                <svg viewBox="0 0 24 24"
+                     aria-hidden="true">
+
+                    <path d="M12 3 5 6v5c0 4.5 2.9 8.3 7 10 4.1-1.7 7-5.5 7-10V6l-7-3Z"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.6"
+                          stroke-linejoin="round" />
+
+                    <path d="m9 12 2 2 4-4"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.6"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+
+                </svg>
+
+                <span>
+                    Seus dados estão protegidos
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
