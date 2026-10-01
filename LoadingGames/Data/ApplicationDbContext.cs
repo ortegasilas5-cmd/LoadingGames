@@ -23,6 +23,10 @@ namespace LoadingGames.Data
 
         public DbSet<Publicadora> Publicadoras { get; set; }
 
+        public DbSet<Carrinho> Carrinhos { get; set; }
+
+        public DbSet<ItemCarrinho> ItensCarrinho { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

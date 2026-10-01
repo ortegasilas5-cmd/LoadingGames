@@ -1,0 +1,118 @@
+﻿@model LoadingGames.Models.Carrinho
+
+@{
+    ViewData["Title"] = "Meu Carrinho";
+
+    decimal total = 0;
+
+    if (Model != null)
+    {
+        total = Model.Itens.Sum(i => i.Jogo.Preco);
+    }
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Meu Carrinho</h2>
+
+    @if (Model == null || !Model.Itens.Any())
+    {
+        <div class="alert alert-info">
+            Seu carrinho está vazio.
+        </div>
+
+        <a asp-controller="Jogo"
+           asp-action="Index"
+           class="btn btn-primary">
+            Ver jogos
+        </a>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8">
+
+                @foreach (var item in Model.Itens)
+                {
+                    <div class="card mb-3">
+                        <div class="row g-0">
+
+                            <div class="col-md-3">
+                                <img src="@item.Jogo.ImagemPrincipalUrl"
+                                     class="img-fluid rounded-start"
+                                     alt="@item.Jogo.Nome"
+                                     style="height: 160px; width: 100%; object-fit: cover;" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        @item.Jogo.Nome
+                                    </h5>
+
+                                    <p class="card-text">
+                                        @item.Jogo.Preco.ToString(
+                                            "C",
+                                            new System.Globalization.CultureInfo("pt-BR")
+                                        )
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                <form asp-controller="Carrinho"
+                                      asp-action="Remover"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           name="idItemCarrinho"
+                                           value="@item.IdItemCarrinho" />
+
+                                    <button type="submit"
+                                            class="btn btn-danger">
+                                        Remover
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4>Resumo</h4>
+
+                        <hr />
+
+                        <p>
+                            Jogos:
+                            <strong>@Model.Itens.Count</strong>
+                        </p>
+
+                        <h5>
+                            Total:
+                            @total.ToString(
+                                "C",
+                                new System.Globalization.CultureInfo("pt-BR")
+                            )
+                        </h5>
+
+                        <button class="btn btn-success w-100 mt-3"
+                                disabled>
+                            Finalizar compra
+                        </button>
+
+                        <small class="text-muted d-block mt-2">
+                            A compra será implementada na próxima etapa.
+                        </small>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
