@@ -81,18 +81,26 @@ namespace LoadingGames.Controllers
                     i.IdCarrinho == carrinho.IdCarrinho &&
                     i.IdJogo == idJogo);
 
-            if (!jogoJaAdicionado)
+            if (jogoJaAdicionado)
             {
-                var item = new ItemCarrinho
-                {
-                    IdCarrinho = carrinho.IdCarrinho,
-                    IdJogo = idJogo,
-                    DataAdicao = DateTime.Now
-                };
+                TempData["Aviso"] =
+                    $"{jogo.Nome} já está no seu carrinho.";
 
-                _context.ItensCarrinho.Add(item);
-                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+
+            var item = new ItemCarrinho
+            {
+                IdCarrinho = carrinho.IdCarrinho,
+                IdJogo = idJogo,
+                DataAdicao = DateTime.Now
+            };
+
+            _context.ItensCarrinho.Add(item);
+            await _context.SaveChangesAsync();
+
+            TempData["Sucesso"] =
+                $"{jogo.Nome} foi adicionado ao carrinho.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -113,6 +121,7 @@ namespace LoadingGames.Controllers
             // ao carrinho do usuário logado
             var item = await _context.ItensCarrinho
                 .Include(i => i.Carrinho)
+                .Include(i => i.Jogo)
                 .FirstOrDefaultAsync(i =>
                     i.IdItemCarrinho == idItemCarrinho &&
                     i.Carrinho.IdUsuario == usuarioId.Value);
@@ -122,8 +131,13 @@ namespace LoadingGames.Controllers
                 return NotFound();
             }
 
+            string nomeJogo = item.Jogo.Nome;
+
             _context.ItensCarrinho.Remove(item);
             await _context.SaveChangesAsync();
+
+            TempData["Sucesso"] =
+                $"{nomeJogo} foi removido do carrinho.";
 
             return RedirectToAction(nameof(Index));
         }

@@ -15,14 +15,12 @@ namespace LoadingGames.Controllers
             _context = context;
         }
 
-        // Abre a tela de login
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        // Processa o login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(string email, string senha)
@@ -54,7 +52,6 @@ namespace LoadingGames.Controllers
             if (resultado == PasswordVerificationResult.Success ||
                 resultado == PasswordVerificationResult.SuccessRehashNeeded)
             {
-                // Salva os dados do usuário na sessão
                 HttpContext.Session.SetInt32(
                     "UsuarioId",
                     usuario.IdUsuario
@@ -80,6 +77,15 @@ namespace LoadingGames.Controllers
 
             ViewBag.Erro = "E-mail ou senha incorretos.";
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Sair()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
