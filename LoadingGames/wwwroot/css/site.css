@@ -1419,67 +1419,85 @@ body {
 /* ============================= */
 
 .catalogo-header {
-    margin-bottom: 25px;
+	margin-bottom: 25px;
+	padding: 8px 0 4px 4px;
+	border-left: 5px solid #6f2dbd;
 }
 
-    .catalogo-header h1 {
-        font-weight: 800;
-        color: #21152d;
-        margin-bottom: 8px;
-        font-size: 34px;
-    }
+	.catalogo-header h1 {
+		margin: 0 0 8px;
+		color: #21152d;
+		font-size: 40px;
+		font-weight: 800;
+		line-height: 1.1;
+		letter-spacing: -1px;
+	}
 
-    .catalogo-header p {
-        color: #777;
-        font-size: 16px;
-        margin: 0;
-    }
+	.catalogo-header p {
+		margin: 0;
+		color: #777;
+		font-size: 16px;
+		line-height: 1.5;
+	}
 
 /* ============================= */
 /* PESQUISA */
 /* ============================= */
 
 .catalogo-conteudo form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-    background-color: white;
-    padding: 8px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-    border: 1px solid #eee;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 30px;
+	padding: 6px;
+	background-color: white;
+	border: 1px solid #e5d5f5;
+	border-radius: 12px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
 }
 
-    .catalogo-conteudo form input {
-        flex: 1;
-        padding: 12px 15px;
-        border: 2px solid #e5d5f5;
-        border-radius: 8px;
-        font-size: 16px;
-        outline: none;
-        transition: 0.2s;
-    }
+	.catalogo-conteudo form input {
+		flex: 1;
+		min-width: 0;
+		height: 46px;
+		padding: 0 15px;
+		border: none;
+		border-radius: 8px;
+		outline: none;
+		background-color: transparent;
+		color: #333;
+		font-size: 16px;
+	}
 
-        .catalogo-conteudo form input:focus {
-            border-color: #6f2dbd;
-            box-shadow: 0 0 0 3px rgba(111, 45, 189, 0.15);
-        }
+		.catalogo-conteudo form input::placeholder {
+			color: #999;
+		}
 
-    .catalogo-conteudo form button {
-        padding: 12px 24px;
-        background-color: #6f2dbd;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+		.catalogo-conteudo form input:focus {
+			box-shadow: none;
+		}
 
-        .catalogo-conteudo form button:hover {
-            background-color: #5a239b;
-            transform: translateY(-2px);
-        }
+	.catalogo-conteudo form:focus-within {
+		border-color: #6f2dbd;
+		box-shadow: 0 0 0 3px rgba(111, 45, 189, 0.12);
+	}
+
+	.catalogo-conteudo form button {
+		height: 46px;
+		padding: 0 24px;
+		background-color: #6f2dbd;
+		color: white;
+		border: none;
+		border-radius: 8px;
+		font-weight: bold;
+		cursor: pointer;
+		transition: 0.2s;
+	}
+
+		.catalogo-conteudo form button:hover {
+			background-color: #5a239b;
+			transform: translateY(-2px);
+		}
 
 /* ============================= */
 /* BANNER DE DESTAQUE */
