@@ -74,6 +74,23 @@
         <strong>Plataforma:</strong> PC
     </p>
 
+    <!-- ADICIONAR AO CARRINHO -->
+    <form asp-controller="Carrinho"
+          asp-action="Adicionar"
+          method="post"
+          class="mb-3">
+
+        <input type="hidden"
+               name="idJogo"
+               value="@Model.IdJogo" />
+
+        <button type="submit"
+                class="btn btn-success">
+            Adicionar ao carrinho
+        </button>
+    </form>
+
+    <!-- VOLTAR -->
     <a asp-controller="Jogo"
        asp-action="Index"
        class="btn btn-secondary">

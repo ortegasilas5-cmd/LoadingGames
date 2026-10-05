@@ -2,9 +2,7 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="utf-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>
@@ -23,7 +21,6 @@
     <link rel="stylesheet"
           href="~/LoadingGames.styles.css"
           asp-append-version="true" />
-
 </head>
 
 <body>
@@ -65,25 +62,30 @@
                         <ul class="navbar-nav flex-grow-1">
 
                             <li class="nav-item">
-
                                 <a class="nav-link"
                                    asp-area=""
                                    asp-controller="Home"
                                    asp-action="Index">
                                     Início
                                 </a>
-
                             </li>
 
                             <li class="nav-item">
-
                                 <a class="nav-link"
                                    asp-area=""
                                    asp-controller="Jogo"
                                    asp-action="Index">
                                     Jogos
                                 </a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-area=""
+                                   asp-controller="Carrinho"
+                                   asp-action="Index">
+                                    Carrinho
+                                </a>
                             </li>
 
                         </ul>
@@ -109,6 +111,18 @@
                                         </span>
 
                                     </div>
+
+                                    <form asp-controller="Login"
+                                          asp-action="Sair"
+                                          method="post"
+                                          class="ms-3">
+
+                                        <button type="submit"
+                                                class="btn btn-outline-light btn-sm">
+                                            Sair
+                                        </button>
+
+                                    </form>
 
                                 </div>
                             }
@@ -141,9 +155,7 @@
         <div class="container">
 
             <main role="main" class="pb-3">
-
                 @RenderBody()
-
             </main>
 
         </div>
