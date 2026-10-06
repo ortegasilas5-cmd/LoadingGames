@@ -14,11 +14,6 @@ namespace LoadingGames.Controllers
             _context = context;
         }
 
-
-        // =========================================================
-        // CATÁLOGO
-        // =========================================================
-
         [HttpGet]
         public async Task<IActionResult> Index(string? pesquisa, int? genero)
         {
@@ -29,7 +24,6 @@ namespace LoadingGames.Controllers
                 .Where(j => j.Ativo)
                 .AsQueryable();
 
-            // Pesquisa pelo nome
             if (!string.IsNullOrWhiteSpace(pesquisa))
             {
                 pesquisa = pesquisa.Trim();
@@ -43,7 +37,6 @@ namespace LoadingGames.Controllers
                         j.Nome.Contains(termo)));
             }
 
-            // Filtro por gênero
             if (genero.HasValue)
             {
                 jogos = jogos.Where(j =>
@@ -63,11 +56,6 @@ namespace LoadingGames.Controllers
                 .ToListAsync());
         }
 
-
-        // =========================================================
-        // DETALHES
-        // =========================================================
-
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -83,13 +71,38 @@ namespace LoadingGames.Controllers
                 return NotFound();
             }
 
+            var avaliacoes = await _context.Avaliacoes
+                .Include(a => a.Usuario)
+                .Where(a => a.IdJogo == id)
+                .OrderByDescending(a => a.DataAvaliacao)
+                .ToListAsync();
+
+            ViewBag.Avaliacoes = avaliacoes;
+
+            int? usuarioId =
+                HttpContext.Session.GetInt32("UsuarioId");
+
+            bool possuiJogo = false;
+            Avaliacao? avaliacaoUsuario = null;
+
+            if (usuarioId != null)
+            {
+                possuiJogo = await _context.PossesJogos
+                    .AnyAsync(p =>
+                        p.IdUsuario == usuarioId.Value &&
+                        p.IdJogo == id);
+
+                avaliacaoUsuario = await _context.Avaliacoes
+                    .FirstOrDefaultAsync(a =>
+                        a.IdUsuario == usuarioId.Value &&
+                        a.IdJogo == id);
+            }
+
+            ViewBag.PossuiJogo = possuiJogo;
+            ViewBag.AvaliacaoUsuario = avaliacaoUsuario;
+
             return View(jogo);
         }
-
-
-        // =========================================================
-        // CRUD - LISTAGEM ADMINISTRATIVA
-        // =========================================================
 
         [HttpGet]
         public async Task<IActionResult> Crud()
@@ -103,29 +116,17 @@ namespace LoadingGames.Controllers
             return View(jogos);
         }
 
-
-        // =========================================================
-        // CREATE - GET
-        // =========================================================
-
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             await CarregarListas();
-
             return View();
         }
-
-
-        // =========================================================
-        // CREATE - POST
-        // =========================================================
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Jogo jogo)
         {
-            // As propriedades de navegação não vêm do formulário.
             ModelState.Remove(nameof(Jogo.Desenvolvedor));
             ModelState.Remove(nameof(Jogo.Publicadora));
             ModelState.Remove(nameof(Jogo.Generos));
@@ -133,21 +134,14 @@ namespace LoadingGames.Controllers
             if (!ModelState.IsValid)
             {
                 await CarregarListas();
-
                 return View(jogo);
             }
 
             _context.Jogos.Add(jogo);
-
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Crud));
         }
-
-
-        // =========================================================
-        // EDIT - GET
-        // =========================================================
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -165,11 +159,6 @@ namespace LoadingGames.Controllers
             return View(jogo);
         }
 
-
-        // =========================================================
-        // EDIT - POST
-        // =========================================================
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Jogo jogo)
@@ -186,7 +175,6 @@ namespace LoadingGames.Controllers
             if (!ModelState.IsValid)
             {
                 await CarregarListas();
-
                 return View(jogo);
             }
 
@@ -203,8 +191,7 @@ namespace LoadingGames.Controllers
             jogoBanco.Preco = jogo.Preco;
             jogoBanco.ImagemPrincipalUrl = jogo.ImagemPrincipalUrl;
             jogoBanco.DataLancamento = jogo.DataLancamento;
-            jogoBanco.ClassificacaoIndicativa =
-                jogo.ClassificacaoIndicativa;
+            jogoBanco.ClassificacaoIndicativa = jogo.ClassificacaoIndicativa;
             jogoBanco.IdDesenvolvedor = jogo.IdDesenvolvedor;
             jogoBanco.IdPublicadora = jogo.IdPublicadora;
             jogoBanco.Ativo = jogo.Ativo;
@@ -213,11 +200,6 @@ namespace LoadingGames.Controllers
 
             return RedirectToAction(nameof(Crud));
         }
-
-
-        // =========================================================
-        // DELETE - GET
-        // =========================================================
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
@@ -233,11 +215,6 @@ namespace LoadingGames.Controllers
             return View(jogo);
         }
 
-
-        // =========================================================
-        // DELETE - POST
-        // =========================================================
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Jogo jogo)
@@ -252,16 +229,10 @@ namespace LoadingGames.Controllers
             }
 
             _context.Jogos.Remove(jogoBanco);
-
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Crud));
         }
-
-
-        // =========================================================
-        // MÉTODO AUXILIAR
-        // =========================================================
 
         private async Task CarregarListas()
         {

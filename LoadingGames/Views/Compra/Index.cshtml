@@ -1,0 +1,147 @@
+﻿@model LoadingGames.Models.Carrinho
+
+@{
+    ViewData["Title"] = "Finalizar Compra";
+
+    decimal total = Model.Itens.Sum(i => i.Jogo.Preco);
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Finalizar Compra</h2>
+
+    <div class="row">
+
+        <!-- JOGOS DA COMPRA -->
+        <div class="col-md-8">
+
+            <h4 class="mb-3">Seus jogos</h4>
+
+            @foreach (var item in Model.Itens)
+            {
+                <div class="card mb-3">
+
+                    <div class="row g-0">
+
+                        <div class="col-md-3">
+
+                            <img src="@item.Jogo.ImagemPrincipalUrl"
+                                 class="img-fluid rounded-start"
+                                 alt="@item.Jogo.Nome"
+                                 style="height: 140px; width: 100%; object-fit: cover;" />
+
+                        </div>
+
+                        <div class="col-md-9">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">
+                                    @item.Jogo.Nome
+                                </h5>
+
+                                <p class="card-text">
+
+                                    @item.Jogo.Preco.ToString(
+                                        "C",
+                                        new System.Globalization.CultureInfo("pt-BR")
+                                    )
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+        <!-- RESUMO DA COMPRA -->
+        <div class="col-md-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h4>Resumo da compra</h4>
+
+                    <hr />
+
+                    <p>
+                        Jogos:
+                        <strong>@Model.Itens.Count</strong>
+                    </p>
+
+                    <h5>
+                        Total:
+
+                        @total.ToString(
+                            "C",
+                            new System.Globalization.CultureInfo("pt-BR")
+                        )
+                    </h5>
+
+                    <hr />
+
+                    <form asp-controller="Compra"
+                          asp-action="Finalizar"
+                          method="post">
+
+                        <div class="mb-3">
+
+                            <label for="formaPagamento"
+                                   class="form-label">
+                                Forma de pagamento
+                            </label>
+
+                            <select id="formaPagamento"
+                                    name="formaPagamento"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="Cartao">
+                                    Cartão
+                                </option>
+
+                                <option value="Pix">
+                                    Pix
+                                </option>
+
+                                <option value="Boleto">
+                                    Boleto
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-success w-100">
+                            Confirmar compra
+                        </button>
+
+                    </form>
+
+                    <a asp-controller="Carrinho"
+                       asp-action="Index"
+                       class="btn btn-secondary w-100 mt-2">
+                        Voltar ao carrinho
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
