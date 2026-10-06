@@ -28,6 +28,9 @@
     @{
         bool hideNavbar =
             ViewData["HideNavbar"] is bool value && value;
+
+        bool usuarioLogado =
+            Context.Session.GetInt32("UsuarioId") != null;
     }
 
     @if (!hideNavbar)
@@ -87,6 +90,18 @@
                                     Carrinho
                                 </a>
                             </li>
+
+                            @if (usuarioLogado)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-area=""
+                                       asp-controller="Biblioteca"
+                                       asp-action="Index">
+                                        Biblioteca
+                                    </a>
+                                </li>
+                            }
 
                         </ul>
 

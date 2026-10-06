@@ -1,0 +1,79 @@
+﻿@model IEnumerable<LoadingGames.Models.PosseJogo>
+
+@{
+    ViewData["Title"] = "Minha Biblioteca";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="mb-1">Minha Biblioteca</h2>
+            <p class="text-muted mb-0">
+                Seus jogos adquiridos ficam disponíveis aqui.
+            </p>
+        </div>
+
+        <a asp-controller="Jogo"
+           asp-action="Index"
+           class="btn btn-primary">
+            Ver loja
+        </a>
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Você ainda não possui nenhum jogo na sua biblioteca.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+
+            @foreach (var posse in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+
+                    <div class="card h-100">
+
+                        <img src="@posse.Jogo.ImagemPrincipalUrl"
+                             class="card-img-top"
+                             alt="@posse.Jogo.Nome"
+                             style="height: 220px; object-fit: cover;" />
+
+                        <div class="card-body d-flex flex-column">
+
+                            <h5 class="card-title">
+                                @posse.Jogo.Nome
+                            </h5>
+
+                            <p class="text-muted mb-3">
+                                Adquirido em
+                                @posse.DataAquisicao.ToString("dd/MM/yyyy")
+                            </p>
+
+                            <div class="mt-auto">
+
+                                <a asp-controller="Jogo"
+                                   asp-action="Details"
+                                   asp-route-id="@posse.Jogo.IdJogo"
+                                   class="btn btn-outline-primary w-100">
+                                    Ver detalhes
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

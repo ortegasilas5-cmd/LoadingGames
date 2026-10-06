@@ -1,127 +1,459 @@
 @model LoadingGames.Models.Jogo
 
+@using LoadingGames.Models
+
 @{
-ViewData["Title"] = Model.Nome;
+    ViewData["Title"] = Model.Nome;
+
+    var avaliacoes =
+        ViewBag.Avaliacoes as List<Avaliacao>
+        ?? new List<Avaliacao>();
+
+    bool possuiJogo =
+        ViewBag.PossuiJogo is bool valor && valor;
+
+    Avaliacao? avaliacaoUsuario =
+        ViewBag.AvaliacaoUsuario as Avaliacao;
+
+    bool usuarioLogado =
+        Context.Session.GetInt32("UsuarioId") != null;
 }
 
 <div class="detalhes-jogo">
 
-```
-<!-- CAPA DO JOGO -->
-<div class="detalhes-capa">
+    <!-- CAPA DO JOGO -->
+    <div class="detalhes-capa">
 
-    <img src="@Model.ImagemPrincipalUrl"
-         alt="Capa do @Model.Nome">
+        <img src="@Model.ImagemPrincipalUrl"
+             alt="Capa do @Model.Nome">
 
-</div>
+    </div>
 
-<!-- INFORMAÇÕES DO JOGO -->
-<div class="detalhes-conteudo">
+    <!-- INFORMAÇÕES DO JOGO -->
+    <div class="detalhes-conteudo">
 
-    <span class="detalhes-tag">
-        JOGO
-    </span>
+        <span class="detalhes-tag">
+            JOGO
+        </span>
 
-    <h1>@Model.Nome</h1>
+        <h1>@Model.Nome</h1>
 
-    <!-- DESCRIÇÃO -->
-    <p class="detalhes-descricao">
-        @Model.Descricao
-    </p>
+        <!-- DESCRIÇÃO -->
+        <p class="detalhes-descricao">
+            @Model.Descricao
+        </p>
 
-    <!-- GÊNEROS -->
-    <div class="detalhes-generos">
+        <!-- GÊNEROS -->
+        <div class="detalhes-generos">
 
-        @if (Model.Generos.Any())
-        {
-            foreach (var genero in Model.Generos)
+            @if (Model.Generos.Any())
+            {
+                foreach (var genero in Model.Generos)
+                {
+                    <span class="genero-tag">
+                        @genero.Nome
+                    </span>
+                }
+            }
+            else
             {
                 <span class="genero-tag">
-                    @genero.Nome
+                    Não informado
                 </span>
             }
-        }
-        else
-        {
-            <span class="genero-tag">
-                Não informado
-            </span>
-        }
 
-    </div>
-
-    <!-- PREÇO -->
-    <div class="detalhes-compra">
-
-        <div class="detalhes-preco">
-            @Model.Preco.ToString(
-                "C",
-                new System.Globalization.CultureInfo("pt-BR")
-            )
         </div>
 
-        <form asp-controller="Carrinho"
-              asp-action="Adicionar"
-              method="post">
+        <!-- PREÇO E COMPRA -->
+        <div class="detalhes-compra">
 
-            <input type="hidden"
-                   name="idJogo"
-                   value="@Model.IdJogo" />
+            <div class="detalhes-preco">
+                @Model.Preco.ToString(
+                    "C",
+                    new System.Globalization.CultureInfo("pt-BR")
+                )
+            </div>
 
-            <button type="submit"
-                    class="detalhes-botao">
-                Comprar
-            </button>
+            <form asp-controller="Carrinho"
+                  asp-action="Adicionar"
+                  method="post">
 
-        </form>
+                <input type="hidden"
+                       name="idJogo"
+                       value="@Model.IdJogo" />
 
-    </div>
+                <button type="submit"
+                        class="detalhes-botao">
+                    Comprar
+                </button>
 
-    <!-- INFORMAÇÕES -->
-    <div class="detalhes-informacoes">
+            </form>
 
-        <div class="informacao-item">
-            <span>Desenvolvedor</span>
-            <strong>@Model.Desenvolvedor.Nome</strong>
         </div>
 
-        <div class="informacao-item">
-            <span>Publicadora</span>
-            <strong>@Model.Publicadora.Nome</strong>
-        </div>
+        <!-- INFORMAÇÕES -->
+        <div class="detalhes-informacoes">
 
-        @if (Model.DataLancamento.HasValue)
-        {
             <div class="informacao-item">
-                <span>Data de lançamento</span>
+                <span>Desenvolvedor</span>
+                <strong>@Model.Desenvolvedor.Nome</strong>
+            </div>
+
+            <div class="informacao-item">
+                <span>Publicadora</span>
+                <strong>@Model.Publicadora.Nome</strong>
+            </div>
+
+            @if (Model.DataLancamento.HasValue)
+            {
+                <div class="informacao-item">
+                    <span>Data de lançamento</span>
+
+                    <strong>
+                        @Model.DataLancamento.Value.ToString("dd/MM/yyyy")
+                    </strong>
+                </div>
+            }
+
+            <div class="informacao-item">
+                <span>Classificação indicativa</span>
+
                 <strong>
-                    @Model.DataLancamento.Value.ToString("dd/MM/yyyy")
+                    @Model.ClassificacaoIndicativa anos
                 </strong>
             </div>
-        }
 
-        <div class="informacao-item">
-            <span>Classificação indicativa</span>
-            <strong>
-                @Model.ClassificacaoIndicativa anos
-            </strong>
+            <div class="informacao-item">
+                <span>Plataforma</span>
+                <strong>PC</strong>
+            </div>
+
         </div>
 
-        <div class="informacao-item">
-            <span>Plataforma</span>
-            <strong>PC</strong>
-        </div>
+        <!-- VOLTAR -->
+        <a asp-controller="Jogo"
+           asp-action="Index"
+           class="detalhes-voltar">
+            ← Voltar ao catálogo
+        </a>
 
     </div>
 
-    <!-- VOLTAR -->
-    <a asp-controller="Jogo"
-       asp-action="Index"
-       class="detalhes-voltar">
-        ← Voltar ao catálogo
-    </a>
-
 </div>
-```
+
+<hr class="my-5" />
+
+<div class="container">
+
+    <h2 class="mb-4">
+        Avaliações
+    </h2>
+
+    <!-- MENSAGENS -->
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Sucesso"]
+        </div>
+    }
+
+    @if (TempData["Aviso"] != null)
+    {
+        <div class="alert alert-warning">
+            @TempData["Aviso"]
+        </div>
+    }
+
+    @if (usuarioLogado && possuiJogo && avaliacaoUsuario == null)
+    {
+        <!-- CRIAR AVALIAÇÃO -->
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <h4 class="card-title">
+                    Avalie este jogo
+                </h4>
+
+                <p class="text-muted">
+                    Você possui este jogo. Conte o que achou dele.
+                </p>
+
+                <form asp-controller="Avaliacao"
+                      asp-action="Criar"
+                      method="post">
+
+                    <input type="hidden"
+                           name="idJogo"
+                           value="@Model.IdJogo" />
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Sua avaliação
+                        </label>
+
+                        <div>
+
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="tipo"
+                                       id="avaliacaoPositiva"
+                                       value="Positiva"
+                                       required />
+
+                                <label class="form-check-label"
+                                       for="avaliacaoPositiva">
+                                    👍 Recomendo
+                                </label>
+
+                            </div>
+
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="tipo"
+                                       id="avaliacaoNegativa"
+                                       value="Negativa"
+                                       required />
+
+                                <label class="form-check-label"
+                                       for="avaliacaoNegativa">
+                                    👎 Não recomendo
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="comentario"
+                               class="form-label">
+                            Comentário
+                        </label>
+
+                        <textarea id="comentario"
+                                  name="comentario"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="Conte o que você achou do jogo..."></textarea>
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Publicar avaliação
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    }
+    else if (usuarioLogado && possuiJogo && avaliacaoUsuario != null)
+    {
+        <!-- EDITAR AVALIAÇÃO -->
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <h4 class="card-title">
+                    Sua avaliação
+                </h4>
+
+                <p class="text-muted">
+                    Você já avaliou este jogo. Você pode alterar ou excluir sua avaliação.
+                </p>
+
+                <form asp-controller="Avaliacao"
+                      asp-action="Editar"
+                      method="post">
+
+                    <input type="hidden"
+                           name="idAvaliacao"
+                           value="@avaliacaoUsuario.IdAvaliacao" />
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Sua avaliação
+                        </label>
+
+                        <div>
+
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="tipo"
+                                       id="editarPositiva"
+                                       value="Positiva"
+                                       checked="@(avaliacaoUsuario.Tipo == "Positiva")"
+                                       required />
+
+                                <label class="form-check-label"
+                                       for="editarPositiva">
+                                    👍 Recomendo
+                                </label>
+
+                            </div>
+
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="tipo"
+                                       id="editarNegativa"
+                                       value="Negativa"
+                                       checked="@(avaliacaoUsuario.Tipo == "Negativa")"
+                                       required />
+
+                                <label class="form-check-label"
+                                       for="editarNegativa">
+                                    👎 Não recomendo
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="editarComentario"
+                               class="form-label">
+                            Comentário
+                        </label>
+
+                        <textarea id="editarComentario"
+                                  name="comentario"
+                                  class="form-control"
+                                  rows="4">@avaliacaoUsuario.Comentario</textarea>
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Salvar alterações
+                    </button>
+
+                </form>
+
+                <!-- EXCLUIR AVALIAÇÃO -->
+                <form asp-controller="Avaliacao"
+                      asp-action="Excluir"
+                      method="post"
+                      class="mt-2"
+                      onsubmit="return confirm('Tem certeza que deseja excluir sua avaliação?');">
+
+                    <input type="hidden"
+                           name="idAvaliacao"
+                           value="@avaliacaoUsuario.IdAvaliacao" />
+
+                    <button type="submit"
+                            class="btn btn-danger">
+                        Excluir avaliação
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    }
+    else if (usuarioLogado && !possuiJogo)
+    {
+        <div class="alert alert-secondary">
+            Você precisa possuir este jogo para avaliá-lo.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-secondary">
+            Entre na sua conta e adquira o jogo para poder avaliá-lo.
+        </div>
+    }
+
+    <!-- LISTA DE AVALIAÇÕES -->
+
+    <h4 class="mt-5 mb-3">
+        Avaliações dos usuários
+    </h4>
+
+    @if (!avaliacoes.Any())
+    {
+        <div class="alert alert-light border">
+            Este jogo ainda não possui avaliações.
+        </div>
+    }
+    else
+    {
+        @foreach (var avaliacao in avaliacoes)
+        {
+            <div class="card mb-3">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                        <strong>
+                            @avaliacao.Usuario.Nome
+                        </strong>
+
+                        <small class="text-muted">
+
+                            @avaliacao.DataAvaliacao.ToString(
+                                "dd/MM/yyyy HH:mm"
+                            )
+
+                            @if (avaliacao.DataAtualizacao.HasValue)
+                            {
+                                <span>
+                                    — editado em
+                                    @avaliacao.DataAtualizacao.Value.ToString(
+                                        "dd/MM/yyyy HH:mm"
+                                    )
+                                </span>
+                            }
+
+                        </small>
+
+                    </div>
+
+                    @if (avaliacao.Tipo == "Positiva")
+                    {
+                        <p class="text-success fw-bold">
+                            👍 Recomenda
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="text-danger fw-bold">
+                            👎 Não recomenda
+                        </p>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(avaliacao.Comentario))
+                    {
+                        <p class="mb-0">
+                            @avaliacao.Comentario
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+        }
+    }
 
 </div>

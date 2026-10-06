@@ -1,0 +1,126 @@
+﻿@model LoadingGames.Models.Compra
+
+@{
+    ViewData["Title"] = "Compra Concluída";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+                <div class="card-body text-center p-5">
+
+                    <h2 class="mb-3">
+                        Compra realizada com sucesso!
+                    </h2>
+
+                    <p class="text-muted">
+                        Sua compra foi concluída e os jogos foram adicionados
+                        à sua biblioteca.
+                    </p>
+
+                    <hr />
+
+                    <div class="text-start mt-4">
+
+                        <p>
+                            <strong>Número da compra:</strong>
+                            #@Model.IdCompra
+                        </p>
+
+                        <p>
+                            <strong>Data:</strong>
+                            @Model.DataCompra.ToString("dd/MM/yyyy HH:mm")
+                        </p>
+
+                        <p>
+                            <strong>Forma de pagamento:</strong>
+
+                            @if (Model.FormaPagamento == "Cartao")
+                            {
+                                <span>Cartão</span>
+                            }
+                            else
+                            {
+                                <span>@Model.FormaPagamento</span>
+                            }
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            @Model.StatusCompra
+                        </p>
+
+                    </div>
+
+                    <hr />
+
+                    <h4 class="text-start mb-3">
+                        Jogos adquiridos
+                    </h4>
+
+                    @foreach (var item in Model.Itens)
+                    {
+                        <div class="d-flex align-items-center
+                            justify-content-between
+                            border rounded p-3 mb-2">
+
+                            <div class="d-flex align-items-center">
+
+                                <img src="@item.Jogo.ImagemPrincipalUrl"
+                                     alt="@item.Jogo.Nome"
+                                     style="width: 90px;
+                                height: 60px;
+                                object-fit: cover;"
+                                     class="rounded me-3" />
+
+                                <strong>
+                                    @item.Jogo.Nome
+                                </strong>
+
+                            </div>
+
+                            <span>
+                                @item.PrecoUnitario.ToString(
+                                    "C",
+                                    new System.Globalization.CultureInfo("pt-BR")
+                                )
+                            </span>
+
+                        </div>
+                    }
+
+                    <hr />
+
+                    <div class="text-end mb-4">
+
+                        <h4>
+                            Total:
+
+                            @Model.ValorTotal.ToString(
+                                "C",
+                                new System.Globalization.CultureInfo("pt-BR")
+                            )
+                        </h4>
+
+                    </div>
+
+                    <a asp-controller="Jogo"
+                       asp-action="Index"
+                       class="btn btn-primary">
+                        Continuar navegando
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
