@@ -1,100 +1,127 @@
-﻿@model LoadingGames.Models.Jogo
+@model LoadingGames.Models.Jogo
 
 @{
-    ViewData["Title"] = "Detalhes do jogo";
+ViewData["Title"] = Model.Nome;
 }
 
-<div class="text-center">
+<div class="detalhes-jogo">
 
-    <!-- CAPA -->
+```
+<!-- CAPA DO JOGO -->
+<div class="detalhes-capa">
+
     <img src="@Model.ImagemPrincipalUrl"
-         alt="Capa do @Model.Nome"
-         style="width: 250px;">
+         alt="Capa do @Model.Nome">
 
-    <!-- NOME -->
+</div>
+
+<!-- INFORMAÇÕES DO JOGO -->
+<div class="detalhes-conteudo">
+
+    <span class="detalhes-tag">
+        JOGO
+    </span>
+
     <h1>@Model.Nome</h1>
 
     <!-- DESCRIÇÃO -->
-    <p>
+    <p class="detalhes-descricao">
         @Model.Descricao
     </p>
 
-    <!-- PREÇO -->
-    <p>
-        <strong>Preço:</strong>
-        @Model.Preco.ToString(
-            "C",
-            new System.Globalization.CultureInfo("pt-BR")
-        )
-    </p>
-
-    <!-- DESENVOLVEDOR -->
-    <p>
-        <strong>Desenvolvedor:</strong>
-        @Model.Desenvolvedor.Nome
-    </p>
-
-    <!-- PUBLICADORA -->
-    <p>
-        <strong>Publicadora:</strong>
-        @Model.Publicadora.Nome
-    </p>
-
-    <!-- DATA DE LANÇAMENTO -->
-    @if (Model.DataLancamento.HasValue)
-    {
-        <p>
-            <strong>Data de lançamento:</strong>
-            @Model.DataLancamento.Value.ToString("dd/MM/yyyy")
-        </p>
-    }
-
-    <!-- CLASSIFICAÇÃO -->
-    <p>
-        <strong>Classificação indicativa:</strong>
-        @Model.ClassificacaoIndicativa anos
-    </p>
-
     <!-- GÊNEROS -->
-    <p>
-        <strong>Gêneros:</strong>
+    <div class="detalhes-generos">
 
         @if (Model.Generos.Any())
         {
-            @string.Join(", ", Model.Generos.Select(g => g.Nome))
+            foreach (var genero in Model.Generos)
+            {
+                <span class="genero-tag">
+                    @genero.Nome
+                </span>
+            }
         }
         else
         {
-            <span>Não informado</span>
+            <span class="genero-tag">
+                Não informado
+            </span>
         }
-    </p>
 
-    <!-- PLATAFORMA -->
-    <p>
-        <strong>Plataforma:</strong> PC
-    </p>
+    </div>
 
-    <!-- ADICIONAR AO CARRINHO -->
-    <form asp-controller="Carrinho"
-          asp-action="Adicionar"
-          method="post"
-          class="mb-3">
+    <!-- PREÇO -->
+    <div class="detalhes-compra">
 
-        <input type="hidden"
-               name="idJogo"
-               value="@Model.IdJogo" />
+        <div class="detalhes-preco">
+            @Model.Preco.ToString(
+                "C",
+                new System.Globalization.CultureInfo("pt-BR")
+            )
+        </div>
 
-        <button type="submit"
-                class="btn btn-success">
-            Adicionar ao carrinho
-        </button>
-    </form>
+        <form asp-controller="Carrinho"
+              asp-action="Adicionar"
+              method="post">
+
+            <input type="hidden"
+                   name="idJogo"
+                   value="@Model.IdJogo" />
+
+            <button type="submit"
+                    class="detalhes-botao">
+                Comprar
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- INFORMAÇÕES -->
+    <div class="detalhes-informacoes">
+
+        <div class="informacao-item">
+            <span>Desenvolvedor</span>
+            <strong>@Model.Desenvolvedor.Nome</strong>
+        </div>
+
+        <div class="informacao-item">
+            <span>Publicadora</span>
+            <strong>@Model.Publicadora.Nome</strong>
+        </div>
+
+        @if (Model.DataLancamento.HasValue)
+        {
+            <div class="informacao-item">
+                <span>Data de lançamento</span>
+                <strong>
+                    @Model.DataLancamento.Value.ToString("dd/MM/yyyy")
+                </strong>
+            </div>
+        }
+
+        <div class="informacao-item">
+            <span>Classificação indicativa</span>
+            <strong>
+                @Model.ClassificacaoIndicativa anos
+            </strong>
+        </div>
+
+        <div class="informacao-item">
+            <span>Plataforma</span>
+            <strong>PC</strong>
+        </div>
+
+    </div>
 
     <!-- VOLTAR -->
     <a asp-controller="Jogo"
        asp-action="Index"
-       class="btn btn-secondary">
-        Voltar ao catálogo
+       class="detalhes-voltar">
+        ← Voltar ao catálogo
     </a>
+
+</div>
+```
 
 </div>
