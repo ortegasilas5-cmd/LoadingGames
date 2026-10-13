@@ -1,11 +1,57 @@
 ﻿@{
-    ViewData["Title"] = "LoadingGames";
+    ViewData["Title"] = "Início";
 }
 
-<div class="text-center">
-    <h1 class="display-4">LoadingGames</h1>
+<section class="home-hero">
+    <div class="home-conteudo">
+        <span class="home-etiqueta">SUA PRÓXIMA AVENTURA COMEÇA AQUI</span>
 
-    <p>@ViewData["Mensagem"]</p>
+        <h1>
+            Bem-vindo à<br />
+            <span>Loading Games</span>
+        </h1>
 
-    <p>Bem-vindo à nossa loja de games!</p>
-</div>
+        <p>
+            Descubra novos mundos, explore grandes aventuras
+            e encontre seus próximos jogos favoritos.
+        </p>
+
+        <div class="home-acoes">
+            <a asp-controller="Jogo"
+               asp-action="Index"
+               class="home-botao">
+                Explorar jogos
+                <span aria-hidden="true">→</span>
+            </a>
+        </div>
+
+        <div class="home-destaques">
+            <div>
+                <strong>Explore</strong>
+                <span>Novos mundos</span>
+            </div>
+
+            <div>
+                <strong>Descubra</strong>
+                <span>Grandes aventuras</span>
+            </div>
+
+            <div>
+                <strong>Jogue</strong>
+                <span>Do seu jeito</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-visual" aria-hidden="true">
+        <div class="home-circulo home-circulo-externo"></div>
+        <div class="home-circulo home-circulo-interno"></div>
+
+        <div class="home-simbolo">
+            <span>LG</span>
+        </div>
+
+        <div class="home-luz"></div>
+    </div>
+</section>
+
