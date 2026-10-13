@@ -2140,3 +2140,32 @@ body {
 
 
 
+		/* Fundo escuro somente na página inicial */
+		body:has(.home-hero) {
+		background-color: #080810;
+		color: #ffffff;
+	}
+
+		/* Rodapé integrado ao visual da página inicial */
+		body:has(.home-hero) footer {
+		background-color: #080810;
+		color: #c4c0d0;
+		border-top: 1px solid rgba(168, 85, 247, 0.25);
+	}
+
+		body:has(.home-hero) footer a {
+		color: #c4a0ff;
+	}
+
+		body:has(.home-hero) footer a:hover {
+			color: #ffffff;
+		}
+
+
+
+
+
+
+
+
+
