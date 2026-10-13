@@ -1,4 +1,4 @@
-﻿
+
 using LoadingGames.Data;
 using LoadingGames.Models;
 using Microsoft.AspNetCore.Identity;
@@ -17,8 +17,12 @@ namespace LoadingGames.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(bool bloqueado = false)
         {
+            if (bloqueado)
+            {
+                ViewBag.Erro = "Sua conta foi bloqueada ou desativada. Entre em contato com a administração.";
+            }
             return View();
         }
 

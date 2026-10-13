@@ -1,19 +1,24 @@
-﻿@model List<LoadingGames.Models.Usuario>
+@model List<LoadingGames.Models.Usuario>
 
 @{
     ViewData["Title"] = "Gerenciar Usuários";
+    int? meuId = Context.Session.GetInt32("UsuarioId");
 }
 
 <div class="container mt-4">
+    <h1 class="mb-4">Gerenciar Usuários</h1>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Gerenciar Usuários</h1>
-    </div>
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">@TempData["Sucesso"]</div>
+    }
+    @if (TempData["Erro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">@TempData["Erro"]</div>
+    }
 
     <div class="table-responsive">
-
         <table class="table table-striped table-bordered align-middle">
-
             <thead>
                 <tr>
                     <th>ID</th>
@@ -23,69 +28,81 @@
                     <th>Tipo</th>
                     <th>Status</th>
                     <th>Cadastro</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
-
             <tbody>
-
                 @foreach (var usuario in Model)
                 {
+                    bool souEu = usuario.IdUsuario == meuId;
                     <tr>
                         <td>@usuario.IdUsuario</td>
-
-                        <td>@usuario.Nome</td>
-
+                        <td>@usuario.Nome @(souEu ? "(você)" : "")</td>
                         <td>@usuario.NomeUsuario</td>
-
                         <td>@usuario.Email</td>
-
                         <td>
                             @if (usuario.TipoUsuario == "Administrador")
                             {
-                                <span class="badge bg-primary">
-                                    Administrador
-                                </span>
+                                <span class="badge bg-primary">Administrador</span>
                             }
                             else
                             {
-                                <span class="badge bg-secondary">
-                                    Comum
-                                </span>
+                                <span class="badge bg-secondary">Comum</span>
                             }
                         </td>
-
                         <td>
                             @if (usuario.StatusConta == "Ativo")
                             {
-                                <span class="badge bg-success">
-                                    Ativo
-                                </span>
+                                <span class="badge bg-success">Ativo</span>
                             }
                             else
                             {
-                                <span class="badge bg-danger">
-                                    Inativo
-                                </span>
+                                <span class="badge bg-danger">Inativo</span>
                             }
                         </td>
-
+                        <td>@usuario.DataCadastro.ToString("dd/MM/yyyy")</td>
                         <td>
-                            @usuario.DataCadastro.ToString("dd/MM/yyyy")
+                            @if (souEu)
+                            {
+                                <span class="text-muted">Conta atual</span>
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-wrap gap-2">
+                                    <form asp-controller="AdminUsuario" asp-action="AlterarStatus" method="post"
+                                          onsubmit="return confirm('Confirma a alteração do status desta conta?');">
+                                        <input type="hidden" name="id" value="@usuario.IdUsuario" />
+                                        @if (usuario.StatusConta == "Ativo")
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-danger">Bloquear</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-success">Desbloquear</button>
+                                        }
+                                    </form>
+                                    <form asp-controller="AdminUsuario" asp-action="AlterarTipo" method="post"
+                                          onsubmit="return confirm('Confirma a alteração de permissão desta conta?');">
+                                        <input type="hidden" name="id" value="@usuario.IdUsuario" />
+                                        @if (usuario.TipoUsuario == "Administrador")
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">Tornar comum</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-outline-primary">Tornar ADM</button>
+                                        }
+                                    </form>
+                                </div>
+                            }
                         </td>
                     </tr>
                 }
-
             </tbody>
-
         </table>
-
     </div>
-
     @if (!Model.Any())
     {
-        <div class="alert alert-info">
-            Nenhum usuário cadastrado.
-        </div>
+        <div class="alert alert-info">Nenhum usuário cadastrado.</div>
     }
-
 </div>
