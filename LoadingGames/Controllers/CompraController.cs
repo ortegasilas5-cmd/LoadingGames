@@ -1,4 +1,5 @@
-﻿using LoadingGames.Data;
+﻿
+using LoadingGames.Data;
 using LoadingGames.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,16 @@ namespace LoadingGames.Controllers
                 return RedirectToAction("Index", "Carrinho");
             }
 
+            // Avisa caso algum jogo tenha sido desativado
+            // depois de ser adicionado ao carrinho.
+            if (carrinho.Itens.Any(i => !i.Jogo.Ativo))
+            {
+                TempData["Aviso"] =
+                    "Um ou mais jogos do carrinho estão indisponíveis. Remova-os antes de continuar.";
+
+                return RedirectToAction("Index", "Carrinho");
+            }
+
             return View(carrinho);
         }
 
@@ -61,49 +72,72 @@ namespace LoadingGames.Controllers
             if (string.IsNullOrWhiteSpace(formaPagamento) ||
                 !formasPermitidas.Contains(formaPagamento))
             {
-                TempData["Aviso"] = "Selecione uma forma de pagamento válida.";
+                TempData["Aviso"] =
+                    "Selecione uma forma de pagamento válida.";
 
                 return RedirectToAction(nameof(Index));
             }
 
-            var carrinho = await _context.Carrinhos
-                .Include(c => c.Itens)
-                    .ThenInclude(i => i.Jogo)
-                .FirstOrDefaultAsync(c =>
-                    c.IdUsuario == usuarioId.Value);
-
-            if (carrinho == null || !carrinho.Itens.Any())
-            {
-                TempData["Aviso"] = "Seu carrinho está vazio.";
-
-                return RedirectToAction("Index", "Carrinho");
-            }
-
-            var idsJogosCarrinho = carrinho.Itens
-                .Select(i => i.IdJogo)
-                .ToList();
-
-            bool possuiJogoDoCarrinho = await _context.PossesJogos
-                .AnyAsync(p =>
-                    p.IdUsuario == usuarioId.Value &&
-                    idsJogosCarrinho.Contains(p.IdJogo));
-
-            if (possuiJogoDoCarrinho)
-            {
-                TempData["Aviso"] =
-                    "Um ou mais jogos do carrinho já pertencem à sua biblioteca.";
-
-                return RedirectToAction("Index", "Carrinho");
-            }
-
-            decimal valorTotal = carrinho.Itens
-                .Sum(i => i.Jogo.Preco);
-
+            // A transação começa antes da leitura do carrinho.
             await using var transacao =
-                await _context.Database.BeginTransactionAsync();
+                await _context.Database.BeginTransactionAsync(
+                    System.Data.IsolationLevel.Serializable);
 
             try
             {
+                var carrinho = await _context.Carrinhos
+                    .Include(c => c.Itens)
+                        .ThenInclude(i => i.Jogo)
+                    .FirstOrDefaultAsync(c =>
+                        c.IdUsuario == usuarioId.Value);
+
+                if (carrinho == null || !carrinho.Itens.Any())
+                {
+                    await transacao.RollbackAsync();
+
+                    TempData["Aviso"] = "Seu carrinho está vazio.";
+
+                    return RedirectToAction("Index", "Carrinho");
+                }
+
+                // Bloqueia a compra de qualquer jogo inativo,
+                // mesmo que já estivesse no carrinho.
+                bool possuiJogoInativo = carrinho.Itens
+                    .Any(i => !i.Jogo.Ativo);
+
+                if (possuiJogoInativo)
+                {
+                    await transacao.RollbackAsync();
+
+                    TempData["Aviso"] =
+                        "Não foi possível finalizar a compra: um ou mais jogos foram desativados. Remova-os do carrinho.";
+
+                    return RedirectToAction("Index", "Carrinho");
+                }
+
+                var idsJogosCarrinho = carrinho.Itens
+                    .Select(i => i.IdJogo)
+                    .ToList();
+
+                bool possuiJogoDoCarrinho =
+                    await _context.PossesJogos
+                        .AnyAsync(p =>
+                            p.IdUsuario == usuarioId.Value &&
+                            idsJogosCarrinho.Contains(p.IdJogo));
+
+                if (possuiJogoDoCarrinho)
+                {
+                    await transacao.RollbackAsync();
+
+                    TempData["Aviso"] =
+                        "Um ou mais jogos do carrinho já pertencem à sua biblioteca.";
+
+                    return RedirectToAction("Index", "Carrinho");
+                }
+
+                decimal valorTotal = carrinho.Itens
+                    .Sum(i => i.Jogo.Preco);
+
                 var compra = new Compra
                 {
                     IdUsuario = usuarioId.Value,
@@ -115,8 +149,7 @@ namespace LoadingGames.Controllers
 
                 _context.Compras.Add(compra);
 
-                // Precisamos do IdCompra gerado pelo MySQL
-                // antes de criar os itens e as posses.
+                // Gera o ID da compra no MySQL.
                 await _context.SaveChangesAsync();
 
                 foreach (var itemCarrinho in carrinho.Itens)
@@ -141,6 +174,7 @@ namespace LoadingGames.Controllers
                     _context.PossesJogos.Add(posse);
                 }
 
+                // Limpa o carrinho após a compra.
                 _context.ItensCarrinho.RemoveRange(carrinho.Itens);
 
                 await _context.SaveChangesAsync();

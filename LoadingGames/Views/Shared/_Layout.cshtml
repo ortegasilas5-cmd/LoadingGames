@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
 
     <title>
         @ViewData["Title"] - Loading Games
@@ -31,6 +33,10 @@
 
         bool usuarioLogado =
             Context.Session.GetInt32("UsuarioId") != null;
+
+        bool ehAdministrador =
+            usuarioLogado &&
+            Context.Session.GetString("UsuarioTipo") == "Administrador";
     }
 
     @if (!hideNavbar)
@@ -57,7 +63,6 @@
                             aria-label="Abrir menu">
 
                         <span class="navbar-toggler-icon"></span>
-
                     </button>
 
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -99,6 +104,18 @@
                                        asp-controller="Biblioteca"
                                        asp-action="Index">
                                         Biblioteca
+                                    </a>
+                                </li>
+                            }
+
+                            @if (ehAdministrador)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-area=""
+                                       asp-controller="Jogo"
+                                       asp-action="Crud">
+                                        Gerenciar Jogos
                                     </a>
                                 </li>
                             }

@@ -1,4 +1,5 @@
-﻿using LoadingGames.Data;
+﻿
+using LoadingGames.Data;
 using LoadingGames.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,18 @@ namespace LoadingGames.Controllers
         public JogoController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        private bool EhAdministrador()
+        {
+            int? usuarioId =
+                HttpContext.Session.GetInt32("UsuarioId");
+
+            string? tipoUsuario =
+                HttpContext.Session.GetString("UsuarioTipo");
+
+            return usuarioId != null &&
+                   tipoUsuario == "Administrador";
         }
 
         [HttpGet]
@@ -59,14 +72,33 @@ namespace LoadingGames.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            int? usuarioId =
+                HttpContext.Session.GetInt32("UsuarioId");
+
             var jogo = await _context.Jogos
                 .Include(j => j.Desenvolvedor)
                 .Include(j => j.Publicadora)
                 .Include(j => j.Generos)
-                .FirstOrDefaultAsync(j =>
-                    j.IdJogo == id && j.Ativo);
+                .FirstOrDefaultAsync(j => j.IdJogo == id);
 
             if (jogo == null)
+            {
+                return NotFound();
+            }
+
+            bool possuiJogo = false;
+
+            if (usuarioId != null)
+            {
+                possuiJogo = await _context.PossesJogos
+                    .AnyAsync(p =>
+                        p.IdUsuario == usuarioId.Value &&
+                        p.IdJogo == id);
+            }
+
+            // Jogos desativados só podem ser visualizados
+            // por usuários que já os adquiriram.
+            if (!jogo.Ativo && !possuiJogo)
             {
                 return NotFound();
             }
@@ -77,27 +109,17 @@ namespace LoadingGames.Controllers
                 .OrderByDescending(a => a.DataAvaliacao)
                 .ToListAsync();
 
-            ViewBag.Avaliacoes = avaliacoes;
-
-            int? usuarioId =
-                HttpContext.Session.GetInt32("UsuarioId");
-
-            bool possuiJogo = false;
             Avaliacao? avaliacaoUsuario = null;
 
             if (usuarioId != null)
             {
-                possuiJogo = await _context.PossesJogos
-                    .AnyAsync(p =>
-                        p.IdUsuario == usuarioId.Value &&
-                        p.IdJogo == id);
-
                 avaliacaoUsuario = await _context.Avaliacoes
                     .FirstOrDefaultAsync(a =>
                         a.IdUsuario == usuarioId.Value &&
                         a.IdJogo == id);
             }
 
+            ViewBag.Avaliacoes = avaliacoes;
             ViewBag.PossuiJogo = possuiJogo;
             ViewBag.AvaliacaoUsuario = avaliacaoUsuario;
 
@@ -107,6 +129,11 @@ namespace LoadingGames.Controllers
         [HttpGet]
         public async Task<IActionResult> Crud()
         {
+            if (!EhAdministrador())
+            {
+                return StatusCode(403);
+            }
+
             var jogos = await _context.Jogos
                 .Include(j => j.Desenvolvedor)
                 .Include(j => j.Publicadora)
@@ -119,6 +146,11 @@ namespace LoadingGames.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            if (!EhAdministrador())
+            {
+                return StatusCode(403);
+            }
+
             await CarregarListas();
             return View();
         }
@@ -127,6 +159,11 @@ namespace LoadingGames.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Jogo jogo)
         {
+            if (!EhAdministrador())
+            {
+                return StatusCode(403);
+            }
+
             ModelState.Remove(nameof(Jogo.Desenvolvedor));
             ModelState.Remove(nameof(Jogo.Publicadora));
             ModelState.Remove(nameof(Jogo.Generos));
@@ -146,6 +183,11 @@ namespace LoadingGames.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            if (!EhAdministrador())
+            {
+                return StatusCode(403);
+            }
+
             var jogo = await _context.Jogos
                 .FirstOrDefaultAsync(j => j.IdJogo == id);
 
@@ -163,6 +205,11 @@ namespace LoadingGames.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Jogo jogo)
         {
+            if (!EhAdministrador())
+            {
+                return StatusCode(403);
+            }
+
             if (id != jogo.IdJogo)
             {
                 return NotFound();
@@ -201,9 +248,15 @@ namespace LoadingGames.Controllers
             return RedirectToAction(nameof(Crud));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AlterarStatus(int id)
         {
+            if (!EhAdministrador())
+            {
+                return StatusCode(403);
+            }
+
             var jogo = await _context.Jogos
                 .FirstOrDefaultAsync(j => j.IdJogo == id);
 
@@ -212,24 +265,13 @@ namespace LoadingGames.Controllers
                 return NotFound();
             }
 
-            return View(jogo);
-        }
+            jogo.Ativo = !jogo.Ativo;
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(Jogo jogo)
-        {
-            var jogoBanco = await _context.Jogos
-                .FirstOrDefaultAsync(j =>
-                    j.IdJogo == jogo.IdJogo);
-
-            if (jogoBanco == null)
-            {
-                return NotFound();
-            }
-
-            _context.Jogos.Remove(jogoBanco);
             await _context.SaveChangesAsync();
+
+            TempData["Sucesso"] = jogo.Ativo
+                ? $"O jogo '{jogo.Nome}' foi reativado com sucesso!"
+                : $"O jogo '{jogo.Nome}' foi desativado com sucesso!";
 
             return RedirectToAction(nameof(Crud));
         }
