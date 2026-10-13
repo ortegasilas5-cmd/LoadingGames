@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LoadingGames.Models
@@ -50,5 +50,8 @@ namespace LoadingGames.Models
         public Publicadora Publicadora { get; set; } = null!;
 
         public ICollection<Genero> Generos { get; set; } = new List<Genero>();
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+        public ICollection<Plataforma> Plataformas { get; set; } = new List<Plataforma>();
+        public ICollection<ImagemJogo> Imagens { get; set; } = new List<ImagemJogo>();
     }
 }

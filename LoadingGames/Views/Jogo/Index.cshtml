@@ -1,4 +1,4 @@
-﻿@model List<LoadingGames.Models.Jogo>
+@model List<LoadingGames.Models.Jogo>
 
 @{
     ViewData["Title"] = "Catálogo de Jogos";
@@ -44,22 +44,27 @@
         </div>
 
 
-        <!-- PESQUISA -->
-        <form asp-controller="Jogo"
-              asp-action="Index"
-              method="get">
-
-            <input type="text"
-                   name="pesquisa"
-                   value="@ViewBag.Pesquisa"
-                   placeholder="Pesquisar jogos..." />
-
-            <button type="submit">
-                Pesquisar
-            </button>
-
+        <!-- FILTROS COMBINADOS -->
+        <form asp-controller="Jogo" asp-action="Index" method="get" class="row g-2 mb-4">
+            <div class="col-md-4"><input type="text" name="pesquisa" value="@ViewBag.Pesquisa"
+                class="form-control" placeholder="Nome do jogo" /></div>
+            <div class="col-md-2"><select name="genero" class="form-select">
+                <option value="">Todos os gêneros</option>
+                @foreach (var g in ViewBag.Generos)
+                { <option value="@g.IdGenero" selected="@(ViewBag.GeneroSelecionado == g.IdGenero)">@g.Nome</option> }
+            </select></div>
+            <div class="col-md-2"><select name="plataforma" class="form-select">
+                <option value="">Todas as plataformas</option>
+                @foreach (var p in ViewBag.Plataformas)
+                { <option value="@p.IdPlataforma" selected="@(ViewBag.PlataformaSelecionada == p.IdPlataforma)">@p.Nome</option> }
+            </select></div>
+            <div class="col-md-2"><select name="tag" class="form-select">
+                <option value="">Todas as tags</option>
+                @foreach (var t in ViewBag.Tags)
+                { <option value="@t.IdTag" selected="@(ViewBag.TagSelecionada == t.IdTag)">@t.Nome</option> }
+            </select></div>
+            <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Filtrar</button></div>
         </form>
-
 
         <!-- BANNER DE DESTAQUE -->
         <section class="banner-destaque">
