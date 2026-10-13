@@ -1,138 +1,68 @@
-﻿@model LoadingGames.Models.Jogo
+@model LoadingGames.Models.JogoFormularioViewModel
+@using LoadingGames.Models
 @using Microsoft.AspNetCore.Mvc.Rendering
-
 @{
-    ViewData["Title"] = "Novo Jogo";
+    bool editando = Model.IdJogo > 0;
+    ViewData["Title"] = editando ? "Editar Jogo" : "Novo Jogo";
+    var generos = ViewBag.Generos as List<Genero> ?? new();
+    var tags = ViewBag.Tags as List<Tag> ?? new();
+    var plataformas = ViewBag.Plataformas as List<Plataforma> ?? new();
 }
-
 <div class="container mt-4">
-
-    <h1 class="mb-4">Novo Jogo</h1>
-
-    <form asp-action="Create" method="post">
-
-        <div class="mb-3">
-            <label asp-for="Nome" class="form-label">Nome do jogo</label>
-            <input asp-for="Nome" class="form-control" />
-            <span asp-validation-for="Nome" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Descricao" class="form-label">Descrição</label>
-            <textarea asp-for="Descricao"
-                      class="form-control"
-                      rows="4"></textarea>
-            <span asp-validation-for="Descricao" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Preco" class="form-label">Preço</label>
-            <input asp-for="Preco"
-                   class="form-control"
-                   type="number"
-                   step="0.01"
-                   min="0" />
-            <span asp-validation-for="Preco" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="ImagemPrincipalUrl" class="form-label">
-                URL da imagem principal
-            </label>
-            <input asp-for="ImagemPrincipalUrl"
-                   class="form-control" />
-            <span asp-validation-for="ImagemPrincipalUrl"
-                  class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="DataLancamento" class="form-label">
-                Data de lançamento
-            </label>
-            <input asp-for="DataLancamento"
-                   class="form-control"
-                   type="date" />
-            <span asp-validation-for="DataLancamento"
-                  class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="ClassificacaoIndicativa" class="form-label">
-                Classificação indicativa
-            </label>
-            <input asp-for="ClassificacaoIndicativa"
-                   class="form-control"
-                   type="number"
-                   min="0"
-                   max="18" />
-            <span asp-validation-for="ClassificacaoIndicativa"
-                  class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="IdDesenvolvedor" class="form-label">
-                Desenvolvedor
-            </label>
-
-            <select asp-for="IdDesenvolvedor"
-                    class="form-select"
-                    asp-items="@(new SelectList(
-                                            ViewBag.Desenvolvedores,
-                                            "IdDesenvolvedor",
-                                            "Nome"))">
-
-                <option value="">Selecione um desenvolvedor</option>
-
-            </select>
-
-            <span asp-validation-for="IdDesenvolvedor"
-                  class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="IdPublicadora" class="form-label">
-                Publicadora
-            </label>
-
-            <select asp-for="IdPublicadora"
-                    class="form-select"
-                    asp-items="@(new SelectList(
-                                            ViewBag.Publicadoras,
-                                            "IdPublicadora",
-                                            "Nome"))">
-
-                <option value="">Selecione uma publicadora</option>
-
-            </select>
-
-            <span asp-validation-for="IdPublicadora"
-                  class="text-danger"></span>
-        </div>
-
-        <div class="form-check mb-4">
-            <input asp-for="Ativo"
-                   class="form-check-input" />
-
-            <label asp-for="Ativo"
-                   class="form-check-label">
-                Jogo ativo no catálogo
-            </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-            Cadastrar jogo
-        </button>
-
-        <a asp-action="Crud" class="btn btn-secondary">
-            Voltar
-        </a>
-
+    <h1 class="mb-4">@(editando ? "Editar Jogo" : "Novo Jogo")</h1>
+    <form asp-controller="Jogo" asp-action="@(editando ? "Edit" : "Create")"
+          asp-route-id="@(editando ? Model.IdJogo : (int?)null)" method="post">
+        @Html.AntiForgeryToken()
+        <input asp-for="IdJogo" type="hidden" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3"><label asp-for="Nome" class="form-label">Nome do jogo</label>
+            <input asp-for="Nome" class="form-control"/><span asp-validation-for="Nome" class="text-danger"></span></div>
+        <div class="mb-3"><label asp-for="Descricao" class="form-label">Descrição</label>
+            <textarea asp-for="Descricao" rows="4" class="form-control"></textarea></div>
+        <div class="mb-3"><label asp-for="Preco" class="form-label">Preço (R$)</label>
+            <input asp-for="Preco" type="number" step="0.01" min="0" class="form-control"/>
+            <span asp-validation-for="Preco" class="text-danger"></span></div>
+        <div class="mb-3"><label asp-for="ImagemPrincipalUrl" class="form-label">URL da capa principal</label>
+            <input asp-for="ImagemPrincipalUrl" class="form-control"/>
+            <span asp-validation-for="ImagemPrincipalUrl" class="text-danger"></span></div>
+        <div class="row"><div class="col-md-6 mb-3"><label asp-for="DataLancamento" class="form-label">Data de lançamento</label>
+            <input asp-for="DataLancamento" type="date" class="form-control"/></div>
+        <div class="col-md-6 mb-3"><label asp-for="ClassificacaoIndicativa" class="form-label">Classificação indicativa</label>
+            <select asp-for="ClassificacaoIndicativa" class="form-select">
+                <option value="0">Livre</option><option value="10">10 anos</option><option value="12">12 anos</option>
+                <option value="14">14 anos</option><option value="16">16 anos</option><option value="18">18 anos</option>
+            </select><span asp-validation-for="ClassificacaoIndicativa" class="text-danger"></span></div></div>
+        <div class="row"><div class="col-md-6 mb-3"><label asp-for="IdDesenvolvedor" class="form-label">Desenvolvedor</label>
+            <select asp-for="IdDesenvolvedor" class="form-select" asp-items="@(new SelectList(ViewBag.Desenvolvedores, "IdDesenvolvedor", "Nome"))">
+                <option value="0">Selecione</option></select><span asp-validation-for="IdDesenvolvedor" class="text-danger"></span></div>
+        <div class="col-md-6 mb-3"><label asp-for="IdPublicadora" class="form-label">Publicadora</label>
+            <select asp-for="IdPublicadora" class="form-select" asp-items="@(new SelectList(ViewBag.Publicadoras, "IdPublicadora", "Nome"))">
+                <option value="0">Selecione</option></select><span asp-validation-for="IdPublicadora" class="text-danger"></span></div></div>
+        <div class="row"><div class="col-md-4 mb-3"><label class="form-label fw-bold">Gêneros</label>
+            @foreach (var g in generos) { <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="GenerosIds" value="@g.IdGenero"
+                    checked="@Model.GenerosIds.Contains(g.IdGenero)" id="genero-@g.IdGenero"/>
+                <label class="form-check-label" for="genero-@g.IdGenero">@g.Nome</label></div> }
+            <span asp-validation-for="GenerosIds" class="text-danger"></span></div>
+        <div class="col-md-4 mb-3"><label class="form-label fw-bold">Plataformas</label>
+            @foreach (var p in plataformas) { <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="PlataformasIds" value="@p.IdPlataforma"
+                    checked="@Model.PlataformasIds.Contains(p.IdPlataforma)" id="plataforma-@p.IdPlataforma"/>
+                <label class="form-check-label" for="plataforma-@p.IdPlataforma">@p.Nome</label></div> }
+            <span asp-validation-for="PlataformasIds" class="text-danger"></span></div>
+        <div class="col-md-4 mb-3"><label class="form-label fw-bold">Tags</label>
+            @foreach (var t in tags) { <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="TagsIds" value="@t.IdTag"
+                    checked="@Model.TagsIds.Contains(t.IdTag)" id="tag-@t.IdTag"/>
+                <label class="form-check-label" for="tag-@t.IdTag">@t.Nome</label></div> }
+            <span asp-validation-for="TagsIds" class="text-danger"></span></div></div>
+        <div class="mb-3"><label asp-for="ImagensUrls" class="form-label">Capturas de tela (uma URL por linha)</label>
+            <textarea asp-for="ImagensUrls" class="form-control" rows="5" placeholder="https://exemplo.com/imagem1.jpg"></textarea>
+            <span asp-validation-for="ImagensUrls" class="text-danger"></span></div>
+        <div class="form-check mb-4"><input asp-for="Ativo" class="form-check-input"/>
+            <label asp-for="Ativo" class="form-check-label">Jogo ativo no catálogo</label></div>
+        <button type="submit" class="btn btn-primary">@(editando ? "Salvar alterações" : "Cadastrar jogo")</button>
+        <a asp-action="Crud" class="btn btn-secondary">Voltar</a>
     </form>
-
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+@section Scripts { @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } }
