@@ -1,4 +1,5 @@
 using LoadingGames.Data;
+using LoadingGames.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,9 @@ app.UseRouting();
 // ATIVA A SESSION
 // ==========================================
 app.UseSession();
+
+// Revalida o status e o tipo do usuario em cada requisicao.
+app.UseMiddleware<ValidacaoSessaoMiddleware>();
 
 app.UseAuthorization();
 

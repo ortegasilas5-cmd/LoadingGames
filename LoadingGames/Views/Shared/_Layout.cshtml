@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -116,6 +116,18 @@
                                        asp-controller="Jogo"
                                        asp-action="Crud">
                                         Gerenciar Jogos
+                                    </a>
+                                </li>
+                            }
+
+                            @if (ehAdministrador)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-area=""
+                                       asp-controller="AdminUsuario"
+                                       asp-action="Index">
+                                        Gerenciar Usuários
                                     </a>
                                 </li>
                             }

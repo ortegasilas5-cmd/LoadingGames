@@ -1,4 +1,5 @@
-﻿using LoadingGames.Data;
+
+using LoadingGames.Data;
 using LoadingGames.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,12 @@ namespace LoadingGames.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(bool bloqueado = false)
         {
+            if (bloqueado)
+            {
+                ViewBag.Erro = "Sua conta foi bloqueada ou desativada. Entre em contato com a administração.";
+            }
             return View();
         }
 
@@ -49,34 +54,45 @@ namespace LoadingGames.Controllers
                 senha
             );
 
-            if (resultado == PasswordVerificationResult.Success ||
-                resultado == PasswordVerificationResult.SuccessRehashNeeded)
+            if (resultado != PasswordVerificationResult.Success &&
+                resultado != PasswordVerificationResult.SuccessRehashNeeded)
             {
-                HttpContext.Session.SetInt32(
-                    "UsuarioId",
-                    usuario.IdUsuario
-                );
-
-                HttpContext.Session.SetString(
-                    "UsuarioNome",
-                    usuario.Nome
-                );
-
-                HttpContext.Session.SetString(
-                    "UsuarioEmail",
-                    usuario.Email
-                );
-
-                HttpContext.Session.SetString(
-                    "UsuarioTipo",
-                    usuario.TipoUsuario
-                );
-
-                return RedirectToAction("Index", "Home");
+                ViewBag.Erro = "E-mail ou senha incorretos.";
+                return View();
             }
 
-            ViewBag.Erro = "E-mail ou senha incorretos.";
-            return View();
+            // Impede o login de contas bloqueadas.
+            if (usuario.StatusConta != "Ativo")
+            {
+                HttpContext.Session.Clear();
+
+                ViewBag.Erro =
+                    "Sua conta está inativa. Entre em contato com a administração.";
+
+                return View();
+            }
+
+            HttpContext.Session.SetInt32(
+                "UsuarioId",
+                usuario.IdUsuario
+            );
+
+            HttpContext.Session.SetString(
+                "UsuarioNome",
+                usuario.Nome
+            );
+
+            HttpContext.Session.SetString(
+                "UsuarioEmail",
+                usuario.Email
+            );
+
+            HttpContext.Session.SetString(
+                "UsuarioTipo",
+                usuario.TipoUsuario
+            );
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
