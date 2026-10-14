@@ -14,11 +14,13 @@ public class AdminCatalogoController : Controller
         HttpContext.Session.GetInt32("UsuarioId") != null &&
         HttpContext.Session.GetString("UsuarioTipo") == "Administrador";
 
-    private static bool TipoValido(string? tipo) => tipo is "generos" or "plataformas" or "tags";
+    private static bool TipoValido(string? tipo) => tipo is "generos" or "plataformas" or "tags" or "desenvolvedoras" or "publicadoras";
     private static string Titulo(string tipo) => tipo switch
     {
         "generos" => "Gêneros",
         "plataformas" => "Plataformas",
+        "desenvolvedoras" => "Desenvolvedoras",
+        "publicadoras" => "Publicadoras",
         _ => "Tags"
     };
 
@@ -44,6 +46,22 @@ public class AdminCatalogoController : Controller
                     .Select(p => new AdminCatalogoItemViewModel
                     {
                         Id = p.IdPlataforma, Nome = p.Nome, EmUso = p.Jogos.Any()
+                    }).ToListAsync();
+                break;
+            case "desenvolvedoras":
+                model.Itens = await _db.Desenvolvedores.AsNoTracking().OrderBy(d => d.Nome)
+                    .Select(d => new AdminCatalogoItemViewModel
+                    {
+                        Id = d.IdDesenvolvedor, Nome = d.Nome, Descricao = d.Descricao,
+                        EmUso = d.Jogos.Any()
+                    }).ToListAsync();
+                break;
+            case "publicadoras":
+                model.Itens = await _db.Publicadoras.AsNoTracking().OrderBy(p => p.Nome)
+                    .Select(p => new AdminCatalogoItemViewModel
+                    {
+                        Id = p.IdPublicadora, Nome = p.Nome, Descricao = p.Descricao,
+                        EmUso = p.Jogos.Any()
                     }).ToListAsync();
                 break;
             case "tags":
@@ -77,6 +95,16 @@ public class AdminCatalogoController : Controller
                     if (p == null) return NotFound();
                     model.Id = p.IdPlataforma; model.Nome = p.Nome;
                     break;
+                case "desenvolvedoras":
+                    var d = await _db.Desenvolvedores.AsNoTracking().FirstOrDefaultAsync(x => x.IdDesenvolvedor == id);
+                    if (d == null) return NotFound();
+                    model.Id = d.IdDesenvolvedor; model.Nome = d.Nome; model.Descricao = d.Descricao;
+                    break;
+                case "publicadoras":
+                    var pub = await _db.Publicadoras.AsNoTracking().FirstOrDefaultAsync(x => x.IdPublicadora == id);
+                    if (pub == null) return NotFound();
+                    model.Id = pub.IdPublicadora; model.Nome = pub.Nome; model.Descricao = pub.Descricao;
+                    break;
                 case "tags":
                     var t = await _db.Tags.AsNoTracking().FirstOrDefaultAsync(x => x.IdTag == id);
                     if (t == null) return NotFound();
@@ -96,7 +124,11 @@ public class AdminCatalogoController : Controller
         model.Nome = (model.Nome ?? "").Trim();
         model.Descricao = string.IsNullOrWhiteSpace(model.Descricao) ? null : model.Descricao.Trim();
         if (string.IsNullOrEmpty(model.Nome)) ModelState.AddModelError(nameof(model.Nome), "Informe o nome.");
-        if (model.Tipo != "generos") model.Descricao = null;
+        if (model.Tipo is not ("generos" or "desenvolvedoras" or "publicadoras")) model.Descricao = null;
+        if (model.Tipo is "generos" or "plataformas" or "tags")
+        {
+            if (model.Nome.Length > 100) ModelState.AddModelError(nameof(model.Nome), "O nome pode ter até 100 caracteres.");
+        }
         if (!ModelState.IsValid)
         {
             ViewBag.Titulo = Titulo(model.Tipo);
@@ -112,6 +144,12 @@ public class AdminCatalogoController : Controller
                 break;
             case "plataformas":
                 duplicado = await _db.Plataformas.AnyAsync(p => p.Nome == nome && p.IdPlataforma != model.Id);
+                break;
+            case "desenvolvedoras":
+                duplicado = await _db.Desenvolvedores.AnyAsync(d => d.Nome == nome && d.IdDesenvolvedor != model.Id);
+                break;
+            case "publicadoras":
+                duplicado = await _db.Publicadoras.AnyAsync(p => p.Nome == nome && p.IdPublicadora != model.Id);
                 break;
             default:
                 duplicado = await _db.Tags.AnyAsync(t => t.Nome == nome && t.IdTag != model.Id);
@@ -137,6 +175,18 @@ public class AdminCatalogoController : Controller
                 if (plataforma == null) return NotFound();
                 plataforma.Nome = nome;
                 if (!model.Id.HasValue) _db.Plataformas.Add(plataforma);
+                break;
+            case "desenvolvedoras":
+                Desenvolvedor? desenvolvedor = model.Id.HasValue ? await _db.Desenvolvedores.FindAsync(model.Id.Value) : new Desenvolvedor();
+                if (desenvolvedor == null) return NotFound();
+                desenvolvedor.Nome = nome; desenvolvedor.Descricao = model.Descricao;
+                if (!model.Id.HasValue) _db.Desenvolvedores.Add(desenvolvedor);
+                break;
+            case "publicadoras":
+                Publicadora? publicadora = model.Id.HasValue ? await _db.Publicadoras.FindAsync(model.Id.Value) : new Publicadora();
+                if (publicadora == null) return NotFound();
+                publicadora.Nome = nome; publicadora.Descricao = model.Descricao;
+                if (!model.Id.HasValue) _db.Publicadoras.Add(publicadora);
                 break;
             case "tags":
                 Tag? tag = model.Id.HasValue ? await _db.Tags.FindAsync(model.Id.Value) : new Tag();
@@ -177,6 +227,26 @@ public class AdminCatalogoController : Controller
                 if (p == null) return NotFound();
                 if (p.Jogos.Any()) { TempData["Erro"] = "Plataforma associada a jogos. Remova as associações antes de excluir."; break; }
                 _db.Plataformas.Remove(p);
+                break;
+            case "desenvolvedoras":
+                var d = await _db.Desenvolvedores.FirstOrDefaultAsync(x => x.IdDesenvolvedor == id);
+                if (d == null) return NotFound();
+                if (await _db.Jogos.AnyAsync(j => j.IdDesenvolvedor == id))
+                {
+                    TempData["Erro"] = "Desenvolvedora associada a jogos. Remova as associações antes de excluir.";
+                    break;
+                }
+                _db.Desenvolvedores.Remove(d);
+                break;
+            case "publicadoras":
+                var pub = await _db.Publicadoras.FirstOrDefaultAsync(x => x.IdPublicadora == id);
+                if (pub == null) return NotFound();
+                if (await _db.Jogos.AnyAsync(j => j.IdPublicadora == id))
+                {
+                    TempData["Erro"] = "Publicadora associada a jogos. Remova as associações antes de excluir.";
+                    break;
+                }
+                _db.Publicadoras.Remove(pub);
                 break;
             case "tags":
                 var t = await _db.Tags.Include(x => x.Jogos).FirstOrDefaultAsync(x => x.IdTag == id);

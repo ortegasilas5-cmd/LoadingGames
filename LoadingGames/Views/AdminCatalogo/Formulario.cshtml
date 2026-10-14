@@ -10,10 +10,10 @@
         <input asp-for="Tipo" type="hidden" />
         <div class="mb-3">
             <label asp-for="Nome" class="form-label">Nome</label>
-            <input asp-for="Nome" class="form-control" maxlength="100" />
+            <input asp-for="Nome" class="form-control" maxlength="@(Model.Tipo is "desenvolvedoras" or "publicadoras" ? 150 : 100)" />
             <span asp-validation-for="Nome" class="text-danger"></span>
         </div>
-        @if (Model.Tipo == "generos")
+        @if (Model.Tipo is "generos" or "desenvolvedoras" or "publicadoras")
         {
             <div class="mb-3">
                 <label asp-for="Descricao" class="form-label">Descrição (opcional)</label>
