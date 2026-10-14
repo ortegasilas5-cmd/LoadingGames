@@ -124,6 +124,17 @@
                             {
                                 <li class="nav-item">
                                     <a class="nav-link"
+                                       asp-controller="AdminCatalogo"
+                                       asp-action="Index">
+                                        Gerenciar Categorias
+                                    </a>
+                                </li>
+                            }
+
+                            @if (ehAdministrador)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link"
                                        asp-area=""
                                        asp-controller="AdminUsuario"
                                        asp-action="Index">
