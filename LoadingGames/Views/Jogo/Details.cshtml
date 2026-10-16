@@ -1,182 +1,79 @@
 @model LoadingGames.Models.Jogo
-
 @using LoadingGames.Models
-
+@using System.Globalization
 @{
     ViewData["Title"] = Model.Nome;
-
-    var avaliacoes =
-        ViewBag.Avaliacoes as List<Avaliacao>
-        ?? new List<Avaliacao>();
-
-    bool possuiJogo =
-        ViewBag.PossuiJogo is bool valor && valor;
-
-    Avaliacao? avaliacaoUsuario =
-        ViewBag.AvaliacaoUsuario as Avaliacao;
-
-    bool usuarioLogado =
-        Context.Session.GetInt32("UsuarioId") != null;
+    var avaliacoes = ViewBag.Avaliacoes as List<Avaliacao> ?? new List<Avaliacao>();
+    bool possuiJogo = ViewBag.PossuiJogo is bool valor && valor;
+    Avaliacao? avaliacaoUsuario = ViewBag.AvaliacaoUsuario as Avaliacao;
+    bool usuarioLogado = Context.Session.GetInt32("UsuarioId") != null;
+    var preco = Model.Preco.ToString("C", new CultureInfo("pt-BR"));
 }
 
-<div class="detalhes-jogo">
-
-    <!-- CAPA DO JOGO -->
-    <div class="detalhes-capa">
-
-        <img src="@Model.ImagemPrincipalUrl"
-             alt="Capa do @Model.Nome">
-
+<div class="lg-game-details">
+    <a class="lg-back-link" asp-controller="Jogo" asp-action="Index">← Voltar ao catálogo</a>
+    <div class="lg-game-heading">
+        <div><span class="lg-eyebrow">EXPLORE UM NOVO UNIVERSO</span><h1>@Model.Nome</h1></div>
+        <span class="lg-game-pill">JOGO DIGITAL</span>
     </div>
-
-    <!-- INFORMAÇÕES DO JOGO -->
-    <div class="detalhes-conteudo">
-
-        <span class="detalhes-tag">
-            JOGO
-        </span>
-
-        <h1>@Model.Nome</h1>
-
-        <!-- DESCRIÇÃO -->
-        <p class="detalhes-descricao">
-            @Model.Descricao
-        </p>
-
-        <!-- GÊNEROS -->
-        <div class="detalhes-generos">
-
-            @if (Model.Generos.Any())
+    <div class="lg-game-columns">
+        <div class="lg-game-media">
+            <div class="lg-main-art"><img src="@Model.ImagemPrincipalUrl" alt="Capa de @Model.Nome" /></div>
+            @if (Model.Imagens.Any())
             {
-                foreach (var genero in Model.Generos)
-                {
-                    <span class="genero-tag">
-                        @genero.Nome
-                    </span>
-                }
+                <section class="lg-gallery" aria-label="Capturas de tela">
+                    <h2>Capturas de tela</h2>
+                    <div class="lg-gallery-grid">
+                        @foreach (var imagem in Model.Imagens.OrderBy(i => i.IdImagem))
+                        {
+                            <a href="@imagem.UrlImagem" target="_blank" rel="noopener noreferrer"><img src="@imagem.UrlImagem" loading="lazy" alt="Captura de tela de @Model.Nome" /></a>
+                        }
+                    </div>
+                </section>
             }
-            else
-            {
-                <span class="genero-tag">
-                    Não informado
-                </span>
-            }
-
         </div>
-
-        <!-- PLATAFORMAS E TAGS -->
-        @if (Model.Plataformas.Any())
-        {
-            <div class="mb-3"><strong>Plataformas:</strong>
-                @foreach (var plataforma in Model.Plataformas.OrderBy(p => p.Nome))
-                { <span class="badge bg-primary me-1">@plataforma.Nome</span> }
-            </div>
-        }
-        @if (Model.Tags.Any())
-        {
-            <div class="mb-3"><strong>Tags:</strong>
-                @foreach (var tag in Model.Tags.OrderBy(t => t.Nome))
-                { <span class="badge bg-secondary me-1">@tag.Nome</span> }
-            </div>
-        }
-        @if (Model.Imagens.Any())
-        {
-            <section class="mb-4">
-                <h3>Capturas de tela</h3>
-                <div class="row g-3">
-                    @foreach (var imagem in Model.Imagens.OrderBy(i => i.IdImagem))
+        <div class="lg-game-side">
+            <div class="lg-game-panel">
+                <span class="lg-eyebrow">SOBRE O JOGO</span>
+                <p class="lg-game-description">@Model.Descricao</p>
+                @if (Model.Generos.Any()) { <div class="lg-game-tags">@foreach (var g in Model.Generos.OrderBy(g => g.Nome)) { <span>@g.Nome</span> }</div> }
+                @if (Model.Tags.Any()) { <div class="lg-game-tags lg-tags-secondary">@foreach (var t in Model.Tags.OrderBy(t => t.Nome)) { <span>@t.Nome</span> }</div> }
+                <div class="lg-game-buy">
+                    <span>PREÇO</span>
+                    <strong>@preco</strong>
+                    @if (possuiJogo)
                     {
-                        <div class="col-md-6">
-                            <a href="@imagem.UrlImagem" target="_blank" rel="noopener noreferrer">
-                                <img src="@imagem.UrlImagem" alt="Captura de tela de @Model.Nome"
-                                     class="img-fluid rounded" loading="lazy" style="width:100%;max-height:250px;object-fit:cover" />
-                            </a>
-                        </div>
+                        <a class="lg-buy-button" asp-controller="Biblioteca" asp-action="Index">✓ Na sua biblioteca</a>
+                    }
+                    else if (Model.Ativo)
+                    {
+                        <form asp-controller="Carrinho" asp-action="Adicionar" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="idJogo" value="@Model.IdJogo" />
+                            <button class="lg-buy-button" type="submit">🛒 Adicionar ao carrinho</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="lg-unavailable">Jogo indisponível para compra</div>
                     }
                 </div>
-            </section>
-        }
-
-        <!-- PREÇO E COMPRA -->
-        <div class="detalhes-compra">
-
-            <div class="detalhes-preco">
-                @Model.Preco.ToString(
-                    "C",
-                    new System.Globalization.CultureInfo("pt-BR")
-                )
             </div>
-
-            <form asp-controller="Carrinho"
-                  asp-action="Adicionar"
-                  method="post">
-
-                <input type="hidden"
-                       name="idJogo"
-                       value="@Model.IdJogo" />
-
-                <button type="submit"
-                        class="detalhes-botao">
-                    Comprar
-                </button>
-
-            </form>
-
+            <div class="lg-game-panel lg-game-specs">
+                <h2>Informações do jogo</h2>
+                <div><span>Desenvolvedora</span><strong>@(Model.Desenvolvedor?.Nome ?? "Não informada")</strong></div>
+                <div><span>Publicadora</span><strong>@(Model.Publicadora?.Nome ?? "Não informada")</strong></div>
+                @if (Model.DataLancamento.HasValue) { <div><span>Lançamento</span><strong>@Model.DataLancamento.Value.ToString("dd/MM/yyyy")</strong></div> }
+                <div><span>Classificação</span><strong>@Model.ClassificacaoIndicativa anos</strong></div>
+                <div><span>Plataformas</span><strong>@(Model.Plataformas.Any() ? string.Join(", ", Model.Plataformas.OrderBy(p => p.Nome).Select(p => p.Nome)) : "Não informadas")</strong></div>
+            </div>
         </div>
-
-        <!-- INFORMAÇÕES -->
-        <div class="detalhes-informacoes">
-
-            <div class="informacao-item">
-                <span>Desenvolvedor</span>
-                <strong>@Model.Desenvolvedor.Nome</strong>
-            </div>
-
-            <div class="informacao-item">
-                <span>Publicadora</span>
-                <strong>@Model.Publicadora.Nome</strong>
-            </div>
-
-            @if (Model.DataLancamento.HasValue)
-            {
-                <div class="informacao-item">
-                    <span>Data de lançamento</span>
-
-                    <strong>
-                        @Model.DataLancamento.Value.ToString("dd/MM/yyyy")
-                    </strong>
-                </div>
-            }
-
-            <div class="informacao-item">
-                <span>Classificação indicativa</span>
-
-                <strong>
-                    @Model.ClassificacaoIndicativa anos
-                </strong>
-            </div>
-
-            <div class="informacao-item">
-                <span>Plataforma</span>
-                <strong>PC</strong>
-            </div>
-
-        </div>
-
-        <!-- VOLTAR -->
-        <a asp-controller="Jogo"
-           asp-action="Index"
-           class="detalhes-voltar">
-            ← Voltar ao catálogo
-        </a>
-
     </div>
-
 </div>
 
-<hr class="my-5" />
+<hr class="my-5 lg-section-divider" />
 
-<div class="container">
+<div class="container lg-reviews">
 
     <h2 class="mb-4">
         Avaliações
