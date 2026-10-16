@@ -1,3 +1,4 @@
+<div class="lg-admin-page">
 @model LoadingGames.Models.AdminCatalogoFormularioViewModel
 @{
     ViewData["Title"] = (Model.Id.HasValue ? "Editar " : "Novo cadastro — ") + ViewBag.Titulo;
@@ -26,3 +27,5 @@
     </form>
 </div>
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }
+
+</div>

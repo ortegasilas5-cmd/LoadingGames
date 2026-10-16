@@ -1,57 +1,67 @@
-﻿@{
+@model List<LoadingGames.Models.Jogo>
+@using System.Globalization
+@{
     ViewData["Title"] = "Início";
+    var cultura = new CultureInfo("pt-BR");
+    var destaque = Model.FirstOrDefault(j => !string.IsNullOrWhiteSpace(j.ImagemPrincipalUrl)) ?? Model.FirstOrDefault();
+    var cards = Model.Where(j => destaque == null || j.IdJogo != destaque.IdJogo).Take(8).ToList();
 }
 
-<section class="home-hero">
-    <div class="home-conteudo">
-        <span class="home-etiqueta">SUA PRÓXIMA AVENTURA COMEÇA AQUI</span>
-
-        <h1>
-            Bem-vindo à<br />
-            <span>Loading Games</span>
-        </h1>
-
-        <p>
-            Descubra novos mundos, explore grandes aventuras
-            e encontre seus próximos jogos favoritos.
-        </p>
-
-        <div class="home-acoes">
-            <a asp-controller="Jogo"
-               asp-action="Index"
-               class="home-botao">
-                Explorar jogos
-                <span aria-hidden="true">→</span>
-            </a>
-        </div>
-
-        <div class="home-destaques">
-            <div>
-                <strong>Explore</strong>
-                <span>Novos mundos</span>
+<div class="lg-home">
+    <section class="lg-hero">
+        <div class="lg-hero-copy">
+            <span class="lg-eyebrow">SUA PRÓXIMA AVENTURA COMEÇA AQUI</span>
+            <h1>Seu mundo de jogos <em>começa aqui.</em></h1>
+            <p>Explore novos universos, descubra grandes histórias e encontre o próximo jogo da sua biblioteca.</p>
+            <div class="lg-hero-actions">
+                <a class="lg-button lg-button-primary" asp-controller="Jogo" asp-action="Index">Explorar catálogo <span aria-hidden="true">→</span></a>
+                @if (Context.Session.GetInt32("UsuarioId") == null)
+                {
+                    <a class="lg-button lg-button-outline" asp-controller="Usuario" asp-action="Cadastro">Criar conta</a>
+                }
             </div>
-
-            <div>
-                <strong>Descubra</strong>
-                <span>Grandes aventuras</span>
-            </div>
-
-            <div>
-                <strong>Jogue</strong>
-                <span>Do seu jeito</span>
-            </div>
+            <div class="lg-hero-metrics"><span><strong>Jogos</strong> para descobrir</span><span><strong>Compra</strong> simulada</span><span><strong>Biblioteca</strong> pessoal</span></div>
         </div>
-    </div>
-
-    <div class="home-visual" aria-hidden="true">
-        <div class="home-circulo home-circulo-externo"></div>
-        <div class="home-circulo home-circulo-interno"></div>
-
-        <div class="home-simbolo">
-            <span>LG</span>
+        <div class="lg-hero-feature">
+            @if (destaque != null)
+            {
+                <a class="lg-feature-card" asp-controller="Jogo" asp-action="Details" asp-route-id="@destaque.IdJogo">
+                    @if (!string.IsNullOrWhiteSpace(destaque.ImagemPrincipalUrl))
+                    {
+                        <img src="@destaque.ImagemPrincipalUrl" alt="Capa de @destaque.Nome" />
+                    }
+                    <span class="lg-feature-overlay"><small>EM DESTAQUE</small><strong>@destaque.Nome</strong><span>@destaque.Preco.ToString("C", cultura) <b>Ver detalhes →</b></span></span>
+                </a>
+            }
+            else
+            {
+                <div class="lg-feature-empty"><span>🎮</span><strong>Novas aventuras aguardam você</strong><p>Em breve, jogos disponíveis no catálogo.</p></div>
+            }
         </div>
+    </section>
 
-        <div class="home-luz"></div>
-    </div>
-</section>
-
+    <section class="lg-section">
+        <div class="lg-section-heading"><div><span class="lg-eyebrow">ESCOLHIDOS PARA VOCÊ</span><h2>Descubra seu próximo jogo</h2></div><a asp-controller="Jogo" asp-action="Index">Ver catálogo completo →</a></div>
+        @if (cards.Any())
+        {
+            <div class="lg-game-grid">
+                @foreach (var jogo in cards)
+                {
+                    <a class="lg-game-tile" asp-controller="Jogo" asp-action="Details" asp-route-id="@jogo.IdJogo">
+                        <div class="lg-game-art">
+                            @if (!string.IsNullOrWhiteSpace(jogo.ImagemPrincipalUrl))
+                            { <img src="@jogo.ImagemPrincipalUrl" alt="Capa de @jogo.Nome" loading="lazy" /> }
+                            else { <span class="lg-art-placeholder">🎮</span> }
+                        </div>
+                        <div class="lg-game-meta"><strong>@jogo.Nome</strong><span>@jogo.Preco.ToString("C", cultura)</span></div>
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="lg-empty-list">Ainda não há outros jogos ativos para mostrar. <a asp-controller="Jogo" asp-action="Index">Abrir catálogo</a></div>
+        }
+    </section>
+    <section class="lg-bottom-cta"><div><span class="lg-eyebrow">LOADING GAMES</span><h2>Pronto para jogar?</h2><p>Encontre jogos, monte seu carrinho e acompanhe suas compras na biblioteca.</p></div><a class="lg-button lg-button-primary" asp-controller="Jogo" asp-action="Index">Ver todos os jogos →</a></section>
+</div>

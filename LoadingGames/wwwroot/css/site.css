@@ -2169,3 +2169,207 @@ body {
 
 
 
+
+
+/* ===== LoadingGames: interface visual 2026 (home + navbar) ===== */
+:root { --lg-bg:#070a16; --lg-panel:#10172a; --lg-line:#26324b; --lg-purple:#8c22ff; --lg-purple-light:#b96aff; --lg-text:#f6f3ff; --lg-muted:#a5adc3; }
+body { background:var(--lg-bg); color:var(--lg-text); }
+.lg-header { position:relative; z-index:100; background:#090d1b; border-bottom:1px solid rgba(155,98,255,.23); box-shadow:0 10px 40px rgba(0,0,0,.18); }
+.lg-navbar { padding:14px 0; }
+.lg-nav-container { max-width:1480px; padding-left:24px; padding-right:24px; gap:20px; }
+.lg-brand { display:flex; align-items:center; gap:11px; text-decoration:none; color:white; font-size:1.14rem; font-weight:900; letter-spacing:.03em; line-height:1.05; flex-shrink:0; }
+.lg-brand:hover { color:white; }
+.lg-brand-icon { display:grid; place-items:center; color:var(--lg-purple-light); font-size:1.8rem; }
+.lg-brand-accent { color:var(--lg-purple-light); }
+.lg-brand small { display:block; margin-top:4px; color:#aeb3c8; font-size:.48rem; letter-spacing:.25em; text-align:center; }
+.lg-nav-collapse { gap:22px; }
+.lg-search { display:flex; min-width:180px; max-width:310px; flex:1; margin-left:20px; border:1px solid #263450; border-radius:9px; overflow:hidden; background:#111a30; }
+.lg-search input { min-width:0; flex:1; padding:10px 13px; background:transparent; border:0; outline:none; color:white; font-size:.88rem; }
+.lg-search input::placeholder { color:#8f9ab3; }
+.lg-search button { border:0; padding:0 16px; color:white; background:linear-gradient(140deg,#ae32ff,#6900db); font-size:1.6rem; }
+.lg-nav-links { align-items:center; gap:4px; }
+.lg-header .lg-nav-links .nav-link { color:#c9cee0; font-size:.9rem; font-weight:600; padding:10px 11px; border-radius:7px; white-space:nowrap; }
+.lg-header .lg-nav-links .nav-link:hover,.lg-header .lg-nav-links .nav-link.lg-active { color:#fff; background:rgba(146,50,255,.16); }
+.lg-nav-user { display:flex; align-items:center; gap:12px; margin-left:auto; }
+.lg-user-name { color:#f4ecff; font-size:.85rem; white-space:nowrap; max-width:160px; overflow:hidden; text-overflow:ellipsis; }
+.lg-signin,.lg-signout,.lg-admin-trigger { color:#f2ebff; background:transparent; border:1px solid #39415b; border-radius:8px; padding:8px 12px; font-size:.85rem; text-decoration:none; white-space:nowrap; }
+.lg-signin:hover,.lg-signout:hover,.lg-admin-trigger:hover { color:white; border-color:#a855ff; }
+.lg-signup { color:#fff; text-decoration:none; padding:9px 13px; border-radius:8px; background:linear-gradient(135deg,#a92dff,#6500e6); white-space:nowrap; font-size:.85rem; font-weight:700; }
+.lg-signup:hover { color:#fff; filter:brightness(1.12); }
+.lg-admin-menu { background:#141a2d; border:1px solid #4b326f; }
+.lg-nav-toggle { border:1px solid #5a4c76; }
+.lg-nav-toggle .navbar-toggler-icon { filter:invert(1); }
+.lg-page-container { max-width:1450px; padding-top:20px; }
+.lg-footer { border-top:1px solid #25304a; padding:24px 0; color:#8f9bb8; font-size:.85rem; }
+.lg-footer .container { display:flex; justify-content:space-between; gap:20px; }
+.lg-home { padding:8px 0 54px; }
+.lg-hero { display:grid; grid-template-columns:1fr .9fr; min-height:470px; gap:28px; align-items:center; padding:38px 46px; border-radius:22px; overflow:hidden; border:1px solid #30234b; background:radial-gradient(circle at 78% 28%,rgba(139,31,246,.28),transparent 45%),linear-gradient(125deg,#11182e,#080b19 70%); }
+.lg-eyebrow { display:inline-block; color:#c28aff; font-size:.72rem; font-weight:800; letter-spacing:.18em; }
+.lg-hero-copy h1 { font-size:clamp(2.2rem,4.6vw,4.3rem); line-height:1.08; letter-spacing:-.045em; font-weight:900; max-width:680px; margin:22px 0; color:white; }
+.lg-hero-copy h1 em { font-style:normal; color:#ba69ff; }
+.lg-hero-copy p { color:#b5bed4; max-width:540px; font-size:1.04rem; line-height:1.8; }
+.lg-hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
+.lg-button { display:inline-flex; align-items:center; justify-content:center; gap:14px; border-radius:9px; padding:13px 23px; text-decoration:none; font-weight:800; font-size:.91rem; transition:transform .2s,filter .2s; }
+.lg-button:hover { transform:translateY(-2px); }
+.lg-button-primary { color:white; background:linear-gradient(120deg,#a31cff,#6900ea); box-shadow:0 10px 24px rgba(129,0,245,.22); }
+.lg-button-primary:hover { color:white; filter:brightness(1.15); }
+.lg-button-outline { color:#e5d8ff; border:1px solid #7952ad; }
+.lg-button-outline:hover { color:white; border-color:#b882ff; }
+.lg-hero-metrics { display:flex; flex-wrap:wrap; gap:18px; margin-top:48px; color:#aab4cd; font-size:.78rem; }
+.lg-hero-metrics span { padding-right:18px; border-right:1px solid #38435d; }
+.lg-hero-metrics span:last-child { border-right:0; }
+.lg-hero-metrics strong { display:block; color:white; font-size:.96rem; }
+.lg-hero-feature { min-width:0; }
+.lg-feature-card { display:block; height:390px; border-radius:17px; overflow:hidden; position:relative; border:1px solid #4e3576; background:linear-gradient(140deg,#17112e,#0e1a2b); box-shadow:0 24px 65px rgba(0,0,0,.45); text-decoration:none; }
+.lg-feature-card>img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+.lg-feature-card:hover>img { transform:scale(1.04); }
+.lg-feature-card:after { content:''; position:absolute; inset:0; background:linear-gradient(0deg,rgba(5,5,15,.97),rgba(5,5,15,.02) 70%); }
+.lg-feature-overlay { position:absolute; z-index:1; bottom:0; left:0; right:0; padding:27px; color:white; display:grid; gap:9px; }
+.lg-feature-overlay small { color:#d9a8ff; font-weight:800; letter-spacing:.14em; }
+.lg-feature-overlay strong { font-size:1.65rem; }
+.lg-feature-overlay>span { display:flex; justify-content:space-between; align-items:center; gap:12px; color:#dfc5ff; font-weight:700; }
+.lg-feature-overlay b { font-size:.8rem; color:white; }
+.lg-feature-empty { display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height:390px; border:1px solid #573c84; border-radius:17px; background:radial-gradient(circle,#45137a,#10152b 70%); gap:12px; }
+.lg-feature-empty>span { font-size:4rem; }.lg-feature-empty strong { font-size:1.4rem; }.lg-feature-empty p { color:#aab4ce; }
+.lg-section { margin-top:60px; }.lg-section-heading { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:24px; }.lg-section-heading h2 { color:#fff; font-size:1.75rem; margin:8px 0 0; font-weight:800; }.lg-section-heading>a { color:#d3a6ff; text-decoration:none; white-space:nowrap; }.lg-section-heading>a:hover { color:white; }
+.lg-game-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:19px; }.lg-game-tile { display:block; text-decoration:none; color:white; overflow:hidden; border-radius:13px; border:1px solid #25314b; background:#10182b; transition:transform .2s,border-color .2s; }.lg-game-tile:hover { transform:translateY(-5px); border-color:#8e3ae9; color:white; }.lg-game-art { height:190px; background:#20233d; display:grid; place-items:center; }.lg-game-art img { width:100%; height:100%; object-fit:cover; }.lg-art-placeholder { font-size:3rem; }.lg-game-meta { padding:15px; display:flex; flex-direction:column; gap:8px; }.lg-game-meta strong { font-size:.94rem; }.lg-game-meta span { color:#d5a5ff; font-weight:800; }.lg-empty-list { padding:28px; border:1px dashed #51416e; border-radius:12px; color:#c3c9dc; }.lg-empty-list a { color:#d2a5ff; }
+.lg-bottom-cta { margin-top:65px; border-radius:16px; padding:32px 36px; background:linear-gradient(115deg,#211139,#0d1930); border:1px solid #563076; display:flex; justify-content:space-between; align-items:center; gap:25px; }.lg-bottom-cta h2 { color:white; margin:8px 0; font-weight:800; }.lg-bottom-cta p { color:#b7bfd5; margin:0; }
+@media(max-width:1200px) { .lg-nav-collapse { gap:10px; }.lg-search { margin-left:0; max-width:250px; }.lg-header .lg-nav-links .nav-link { padding:9px 7px; } }
+@media(max-width:991px) { .lg-nav-collapse { padding:18px 0; }.lg-search { max-width:none; width:100%; margin-bottom:12px; }.lg-nav-links { align-items:stretch; }.lg-nav-user { margin:14px 0 0; flex-wrap:wrap; }.lg-hero { grid-template-columns:1fr; padding:32px; }.lg-hero-feature { max-width:680px; width:100%; }.lg-game-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:575px) { .lg-nav-container { padding:0 15px; }.lg-hero { padding:25px 20px; gap:25px; }.lg-hero-copy h1 { font-size:2.25rem; }.lg-feature-card,.lg-feature-empty { height:310px; }.lg-hero-metrics { margin-top:28px; }.lg-game-grid { gap:12px; }.lg-game-art { height:145px; }.lg-section-heading { align-items:start; flex-direction:column; }.lg-bottom-cta { flex-direction:column; align-items:start; padding:26px 22px; }.lg-footer .container { flex-direction:column; } }
+
+
+
+/* LOADINGGAMES - Catalogo e Detalhes | acabamento visual 2026 */
+.lg-catalog-page,.lg-game-details,.lg-reviews{color:#f5f3ff}
+.lg-catalog-page .catalogo-header h1{color:#f8f6ff!important;text-shadow:none!important}
+.lg-catalog-page .catalogo-header p{color:#a9b3cc!important}
+.lg-catalog-page .catalogo-sidebar{background:linear-gradient(160deg,#17132c,#100f20)!important;border:1px solid #35264d!important;border-radius:20px!important;color:#f6f3ff!important}
+.lg-catalog-page .catalogo-sidebar h3{color:#f4edff!important}
+.lg-catalog-page .catalogo-sidebar a{color:#d6d0e8!important;text-decoration:none}
+.lg-catalog-page .catalogo-sidebar a:hover{color:#c084fc!important}
+.lg-catalog-page .lg-catalog-filters{background:#11162a!important;border:1px solid #302849!important;border-radius:18px!important;padding:18px!important;margin-bottom:25px!important;box-shadow:0 12px 30px #0002}
+.lg-catalog-page .lg-catalog-filters .form-control,.lg-catalog-page .lg-catalog-filters .form-select{height:45px;background:#0b1020!important;color:#f5f3ff!important;border:1px solid #37304f!important;border-radius:10px!important;box-shadow:none!important}
+.lg-catalog-page .lg-catalog-filters .form-control::placeholder{color:#9193a9!important}
+.lg-catalog-page .lg-catalog-filters .form-control:focus,.lg-catalog-page .lg-catalog-filters .form-select:focus{border-color:#a855f7!important;box-shadow:0 0 0 3px #a855f722!important}
+.lg-catalog-page .lg-catalog-filters .btn{height:45px;border:0;background:linear-gradient(120deg,#7c3aed,#9900ff);border-radius:10px;font-weight:700}
+.lg-catalog-page .jogo-card{background:#111629!important;color:#f8f6ff!important;border:1px solid #2e2945!important;border-radius:17px!important;box-shadow:0 8px 24px #0003!important}
+.lg-catalog-page .jogo-card:hover{border-color:#8b5cf6!important;box-shadow:0 16px 40px #6d28d922!important}
+.lg-catalog-page .jogo-card h2{color:#f8f6ff!important}
+.lg-catalog-page .jogo-card p{color:#aeb5cd!important}
+.lg-catalog-page .jogo-card strong{color:#e9c8ff!important}
+.lg-catalog-page .jogo-card .btn{background:linear-gradient(120deg,#7c3aed,#9900ff)!important;border:0!important;color:white!important;border-radius:9px!important}
+.lg-catalog-page .nenhum-jogo{background:#12172b;color:#fff;border:1px solid #35264d;border-radius:18px;padding:30px}
+.lg-game-details{padding:36px 0 4px}
+.lg-back-link{display:inline-block;margin-bottom:24px;color:#c084fc;text-decoration:none;font-weight:650}
+.lg-back-link:hover{color:#e9d5ff}
+.lg-game-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:24px}
+.lg-eyebrow{display:block;color:#c084fc;font-size:11px;font-weight:850;letter-spacing:2px;margin-bottom:10px}
+.lg-game-heading h1{color:#fff;font-weight:850;letter-spacing:-1.5px;font-size:clamp(30px,4vw,50px);margin:0}
+.lg-game-pill{background:#291544;border:1px solid #673ab7;color:#e9d5ff;padding:9px 14px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+.lg-game-columns{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(320px,.85fr);gap:26px;align-items:start}
+.lg-main-art{background:#0e1325;border:1px solid #30274b;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:330px;padding:20px}
+.lg-main-art img{width:100%;max-height:530px;object-fit:contain;display:block;border-radius:12px}
+.lg-gallery{margin-top:25px}.lg-gallery h2,.lg-game-specs h2{color:#fff;font-size:20px;font-weight:800;margin:0 0 17px}
+.lg-gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lg-gallery-grid a{display:block;overflow:hidden;border:1px solid #31274b;border-radius:12px;background:#101527}
+.lg-gallery-grid img{display:block;width:100%;height:180px;object-fit:cover;transition:transform .2s}
+.lg-gallery-grid a:hover img{transform:scale(1.04)}
+.lg-game-side{display:grid;gap:18px}.lg-game-panel{background:linear-gradient(145deg,#16162b,#0e1324);border:1px solid #342b4f;border-radius:20px;padding:26px}
+.lg-game-description{font-size:15px;line-height:1.8;color:#c4c8db;margin-bottom:18px;white-space:pre-line}
+.lg-game-tags{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.lg-game-tags span{padding:7px 11px;background:#2a1b43;color:#e6d1ff;border:1px solid #57377c;border-radius:999px;font-size:12px;font-weight:700}
+.lg-tags-secondary span{background:#1b2237;border-color:#34405a;color:#bfc9e1}
+.lg-game-buy{border-top:1px solid #32294a;margin-top:24px;padding-top:22px;display:grid;gap:10px}
+.lg-game-buy>span{font-size:11px;letter-spacing:1.8px;color:#a9abc4;font-weight:800}
+.lg-game-buy>strong{font-size:32px;color:#fff;font-weight:900}
+.lg-game-buy form{margin:0}.lg-buy-button{display:block;width:100%;text-align:center;padding:15px 18px;border:0;border-radius:11px;background:linear-gradient(110deg,#7c3aed,#9900ff);color:white!important;text-decoration:none;font-weight:800;box-shadow:0 12px 28px #6d28d933;cursor:pointer}
+.lg-buy-button:hover{filter:brightness(1.12)}.lg-unavailable{color:#fca5a5;font-weight:700}
+.lg-game-specs>div{display:flex;justify-content:space-between;gap:15px;border-top:1px solid #2b2b42;padding:13px 0;font-size:13px}
+.lg-game-specs>div span{color:#9ca6bf}.lg-game-specs>div strong{color:#f4efff;text-align:right;font-weight:700}
+.lg-section-divider{border-color:#33264c;opacity:1}
+.lg-reviews{max-width:1120px;margin-bottom:40px}.lg-reviews h2,.lg-reviews h4,.lg-reviews .card-title{color:#fff!important}
+.lg-reviews .card{background:#13182c!important;border:1px solid #332a4b!important;border-radius:15px!important;color:#f4f1ff!important}
+.lg-reviews .text-muted{color:#aeb5cd!important}.lg-reviews .alert{background:#1b2135!important;color:#e6e3f3!important;border:1px solid #3d3557!important;border-radius:12px!important}
+.lg-reviews .form-control{background:#0a1020!important;color:#fff!important;border:1px solid #3a3351!important}
+.lg-reviews .form-control:focus{border-color:#a855f7!important;box-shadow:0 0 0 3px #a855f722!important}
+.lg-reviews .btn-primary{background:linear-gradient(120deg,#7c3aed,#9900ff)!important;border:0!important}
+.lg-reviews .form-check-label,.lg-reviews .form-label{color:#e9e5f7}
+@media(max-width:1000px){.lg-game-columns{grid-template-columns:1fr}.lg-main-art img{max-height:470px}}
+@media(max-width:650px){.lg-game-heading{align-items:start;flex-direction:column}.lg-game-panel{padding:18px}.lg-gallery-grid img{height:130px}.lg-game-details{padding-top:20px}.lg-main-art{min-height:240px;padding:12px}}
+
+
+/* =========================================================
+   BIBLIOTECA E ADMINISTRAÇÃO — identidade visual LoadingGames
+   Escopo: lg-library-page e lg-admin-page
+   ========================================================= */
+.lg-library-page,.lg-admin-page{color:#f5f2ff;padding:30px 0 60px}
+.lg-library-page h1,.lg-admin-page h1{color:#fff;font-size:clamp(28px,3vw,38px);font-weight:850;letter-spacing:-.7px}
+.lg-library-page h2,.lg-admin-page h2,.lg-admin-page h3{color:#fff}
+.lg-management-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.lg-management-heading h1{margin:4px 0 8px}
+.lg-management-heading p{color:#aab2cc;margin:0}
+.lg-eyebrow{font-size:11px;letter-spacing:2px;font-weight:850;color:#c084fc}
+.lg-action-primary,.lg-library-detail{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:800;border-radius:10px;transition:.2s}
+.lg-action-primary{padding:13px 20px;background:linear-gradient(110deg,#7c3aed,#a000f5);color:#fff!important;border:1px solid #9b4ef0}
+.lg-action-primary:hover,.lg-library-detail:hover{filter:brightness(1.13);transform:translateY(-1px)}
+.lg-library-count{display:inline-flex;align-items:center;gap:9px;color:#b9bdd4;background:#15152b;border:1px solid #373052;border-radius:12px;padding:11px 16px;margin-bottom:25px}
+.lg-library-count strong{color:#fff;font-size:18px}
+.lg-library-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.lg-library-card{background:linear-gradient(160deg,#16162a,#0e1425);border:1px solid #373052;border-radius:16px;overflow:hidden;transition:transform .2s,border-color .2s}
+.lg-library-card:hover{transform:translateY(-4px);border-color:#8b5cf6}
+.lg-library-art{display:block;position:relative;height:230px;overflow:hidden;background:#10172b}
+.lg-library-art img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.lg-library-card:hover .lg-library-art img{transform:scale(1.04)}
+.lg-library-owned{position:absolute;bottom:12px;left:12px;background:#231440e8;color:#d9b7ff;border:1px solid #7e42d1;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:800}
+.lg-library-no-art{display:grid;place-items:center;height:100%;font-size:54px}
+.lg-library-content{padding:20px}
+.lg-library-content h2{font-size:19px;font-weight:800;line-height:1.3;margin:0 0 9px}
+.lg-library-content p{color:#a8aec8;font-size:13px;margin-bottom:18px}
+.lg-library-detail{width:100%;padding:11px 14px;color:#eee3ff!important;background:#281b44;border:1px solid #67439d}
+.lg-empty-state{padding:55px 25px;text-align:center;background:#111628;border:1px solid #332c4d;border-radius:18px}
+.lg-empty-state p{color:#a8aec8}.lg-empty-icon{font-size:48px;margin-bottom:12px}
+.lg-admin-page>.container{max-width:1240px}
+.lg-admin-page .text-muted{color:#aeb4c9!important}
+.lg-admin-page .table-responsive{border:1px solid #36304e;border-radius:14px;overflow-x:auto;background:#111628;margin:20px 0}
+.lg-admin-page .table{--bs-table-bg:transparent;--bs-table-color:#e8e6f3;--bs-table-border-color:#33314c;--bs-table-striped-bg:#181a30;--bs-table-striped-color:#f5f2ff;--bs-table-hover-bg:#211b38;--bs-table-hover-color:#fff;margin:0;color:#e8e6f3}
+.lg-admin-page .table th{background:#221735!important;color:#e6cfff!important;white-space:nowrap;font-size:12px;text-transform:uppercase;letter-spacing:.7px;padding:16px 14px}
+.lg-admin-page .table td{vertical-align:middle;padding:14px;color:#e8e6f3;border-color:#33314c}
+.lg-admin-page .table td img{border-radius:8px}
+.lg-admin-page .table td form{margin:0}
+.lg-admin-page .form-control,.lg-admin-page .form-select{background:#10172a!important;border:1px solid #413654!important;color:#f6f3ff!important;border-radius:10px;min-height:43px}
+.lg-admin-page .form-control::placeholder{color:#8f95ad}
+.lg-admin-page .form-control:focus,.lg-admin-page .form-select:focus{border-color:#a855f7!important;box-shadow:0 0 0 3px #a855f722!important}
+.lg-admin-page .form-select option{background:#10172a;color:#fff}
+.lg-admin-page .form-label,.lg-admin-page label{color:#dcd8ee;font-weight:650}
+.lg-admin-page input[type=checkbox]{accent-color:#9333ea}
+.lg-admin-page .btn{border-radius:9px;font-weight:750}
+.lg-admin-page .btn-primary,.lg-admin-page .btn-success{background:linear-gradient(110deg,#7034d5,#9300e8);border:1px solid #8947e0;color:#fff}
+.lg-admin-page .btn-primary:hover,.lg-admin-page .btn-success:hover{filter:brightness(1.15)}
+.lg-admin-page .btn-outline-primary{border-color:#6c479a;color:#dfc4ff}
+.lg-admin-page .btn-outline-primary:hover{background:#412365;color:#fff}
+.lg-admin-page .btn-secondary,.lg-admin-page .btn-outline-secondary{background:#23263b;border-color:#45445f;color:#e5e5f4}
+.lg-admin-page .btn-warning{background:#382850;border-color:#69459a;color:#f3dfff}
+.lg-admin-page .btn-danger{background:#652139;border-color:#a34461;color:#ffe3eb}
+.lg-admin-page .btn-outline-danger{color:#ff9eae;border-color:#a34461}
+.lg-admin-page .badge.bg-primary{background:#6d28d9!important}
+.lg-admin-page .badge.bg-success{background:#165d50!important;color:#d1fae5}
+.lg-admin-page .badge.bg-secondary{background:#36354b!important}
+.lg-admin-page .alert-info{background:#18233a;color:#d7e7ff;border:1px solid #345176}
+.lg-admin-page .alert-success{background:#12352e;color:#d4ffec;border:1px solid #26715c}
+.lg-admin-page .alert-danger{background:#401e2c;color:#ffd6de;border:1px solid #904057}
+.lg-admin-page form:not(.d-inline){color:#eee9ff}
+.lg-admin-page form:has(.form-control):not(.table form){background:#121629;border:1px solid #37304e;border-radius:16px;padding:25px}
+.lg-admin-page .table form{background:transparent!important;border:0!important;padding:0!important}
+.lg-admin-page .btn-close{filter:invert(1)}
+@media(max-width:1000px){.lg-library-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.lg-library-grid{grid-template-columns:1fr}.lg-library-art{height:250px}.lg-library-page,.lg-admin-page{padding-top:18px}.lg-admin-page .table th,.lg-admin-page .table td{padding:10px;font-size:12px}.lg-admin-page form:has(.form-control):not(.table form){padding:16px}}
+
+
+/* LoadingGames: carrinho, checkout e confirmação — escopo isolado */
+.lg-shop-page{color:#f4f0ff;padding-top:40px;padding-bottom:75px;min-height:65vh}
+.lg-shop-heading{margin-bottom:32px}.lg-shop-kicker{color:#c084fc;font-weight:800;font-size:11px;letter-spacing:2px}.lg-shop-heading h1,.lg-shop-success h1{font-weight:850;font-size:clamp(29px,4vw,43px);color:#fff;letter-spacing:-1px;margin:8px 0}.lg-shop-heading p,.lg-shop-success>p{color:#aab2cb;margin:0}
+.lg-shop-layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(290px,1fr);align-items:start;gap:26px}.lg-shop-products>h2,.lg-shop-summary h2,.lg-shop-success-items h2{color:#fff;font-size:19px;font-weight:800;margin-bottom:18px}.lg-shop-products>h2 span{color:#a9a4bf;font-size:14px;font-weight:500}
+.lg-shop-product{display:flex;align-items:center;gap:20px;background:linear-gradient(140deg,#18172e,#111629);border:1px solid #39304e;border-radius:15px;overflow:hidden;margin-bottom:15px;min-height:146px;padding:12px}.lg-shop-product-image{width:175px;height:120px;flex:0 0 175px;border-radius:10px;background:#111327;display:grid;place-items:center;text-decoration:none;font-size:36px;overflow:hidden}.lg-shop-product-image img{width:100%;height:100%;object-fit:cover}.lg-shop-product-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}.lg-shop-product-info h3{font-size:18px;font-weight:800;margin:0;color:#fff}.lg-shop-product-info h3 a{color:inherit;text-decoration:none}.lg-shop-product-info h3 a:hover{color:#c084fc}.lg-shop-product-label{color:#a9acc4;font-size:12px}.lg-shop-product-info strong{color:#d9b7ff;font-size:19px}.lg-shop-remove-form{align-self:flex-end}.lg-shop-remove{border:1px solid #7e415f;border-radius:8px;background:#452034;color:#ffd4e3;padding:8px 12px;font-weight:700;font-size:12px}.lg-shop-remove:hover{background:#702d4a}.lg-shop-summary{background:linear-gradient(155deg,#1b1731,#11172a);border:1px solid #463458;border-radius:16px;padding:25px;position:sticky;top:100px}.lg-shop-summary-row{display:flex;justify-content:space-between;color:#bdc1d7;margin-bottom:16px}.lg-shop-summary-total{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #413650;padding:21px 0;color:#d8d4e7;font-weight:750}.lg-shop-summary-total strong{color:#fff;font-size:24px}.lg-shop-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none!important;background:linear-gradient(110deg,#7033d6,#9b16ee);border:1px solid #a35cf4;color:#fff!important;border-radius:10px;padding:14px 18px;font-weight:800;cursor:pointer}.lg-shop-primary:hover{filter:brightness(1.14)}.lg-shop-full{width:100%}.lg-shop-note{font-size:12px;color:#a5a9bf;text-align:center;margin:14px 0 0}.lg-shop-back{display:inline-block;color:#d5baff!important;text-decoration:none;font-weight:750;margin:15px 0}.lg-shop-back:hover{text-decoration:underline}.lg-shop-checkout-form label{display:block;font-size:13px;font-weight:700;margin:6px 0 10px;color:#eee8ff}.lg-shop-checkout-form select{display:block;width:100%;padding:12px;border-radius:9px;background:#0f172a;color:#fff;border:1px solid #5c4872;margin-bottom:20px}.lg-shop-checkout-form select:focus{outline:2px solid #a855f7}.lg-shop-empty{text-align:center;padding:70px 20px;background:#141729;border:1px solid #39304e;border-radius:18px}.lg-shop-empty h2{color:#fff}.lg-shop-empty p{color:#aeb4cb}.lg-shop-empty-icon{font-size:50px;margin-bottom:15px}.lg-shop-success{max-width:820px;margin:auto;text-align:center;background:linear-gradient(150deg,#1a1832,#111629);border:1px solid #463458;border-radius:20px;padding:38px}.lg-shop-success-icon{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:#2d2150;border:1px solid #9362d5;color:#e5d0ff;font-size:38px;font-weight:900;margin:0 auto 18px}.lg-shop-success-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:30px 0;text-align:left}.lg-shop-success-details>div{padding:15px;background:#11172b;border:1px solid #37314e;border-radius:10px;display:flex;flex-direction:column;gap:5px}.lg-shop-success-details span{font-size:12px;color:#aab1c8}.lg-shop-success-details strong{color:#f8f5ff;overflow-wrap:anywhere}.lg-shop-success-items{text-align:left;margin-top:26px}.lg-shop-success-item{display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid #38324a;padding:13px 0;color:#f3f0ff}.lg-shop-success-item-name{display:flex;align-items:center;gap:12px}.lg-shop-success-item-name img{width:75px;height:53px;object-fit:cover;border-radius:7px}.lg-shop-success-actions{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;margin-top:24px}.lg-shop-success-actions .lg-shop-back{margin:0}
+@media(max-width:850px){.lg-shop-layout{grid-template-columns:1fr}.lg-shop-summary{position:static}}
+@media(max-width:560px){.lg-shop-page{padding-top:24px}.lg-shop-product{flex-wrap:wrap;gap:12px}.lg-shop-product-image{width:112px;flex-basis:112px;height:104px}.lg-shop-product-info h3{font-size:16px}.lg-shop-remove-form{margin-left:auto}.lg-shop-success{padding:22px 15px}.lg-shop-success-details{grid-template-columns:1fr}.lg-shop-success-item{align-items:flex-start}.lg-shop-success-item-name img{width:55px;height:50px}}

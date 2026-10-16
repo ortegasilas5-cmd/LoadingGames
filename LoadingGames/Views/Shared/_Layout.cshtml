@@ -1,249 +1,67 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0" />
-
-    <title>
-        @ViewData["Title"] - Loading Games
-    </title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Loading Games</title>
     <script type="importmap"></script>
-
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <link rel="stylesheet"
-          href="~/css/site.css"
-          asp-append-version="true" />
-
-    <link rel="stylesheet"
-          href="~/LoadingGames.styles.css"
-          asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LoadingGames.styles.css" asp-append-version="true" />
 </head>
-
 <body>
-
-    @{
-        bool hideNavbar =
-            ViewData["HideNavbar"] is bool value && value;
-
-        bool usuarioLogado =
-            Context.Session.GetInt32("UsuarioId") != null;
-
-        bool ehAdministrador =
-            usuarioLogado &&
-            Context.Session.GetString("UsuarioTipo") == "Administrador";
-    }
-
-    @if (!hideNavbar)
-    {
-        <header>
-
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-
-                <div class="container-fluid">
-
-                    <a class="navbar-brand"
-                       asp-area=""
-                       asp-controller="Home"
-                       asp-action="Index">
-                        Loading Games
-                    </a>
-
-                    <button class="navbar-toggler"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target=".navbar-collapse"
-                            aria-controls="navbarSupportedContent"
-                            aria-expanded="false"
-                            aria-label="Abrir menu">
-
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-
-                        <ul class="navbar-nav flex-grow-1">
-
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   asp-area=""
-                                   asp-controller="Home"
-                                   asp-action="Index">
-                                    Início
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   asp-area=""
-                                   asp-controller="Jogo"
-                                   asp-action="Index">
-                                    Jogos
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   asp-area=""
-                                   asp-controller="Carrinho"
-                                   asp-action="Index">
-                                    Carrinho
-                                </a>
-                            </li>
-
-                            @if (usuarioLogado)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       asp-area=""
-                                       asp-controller="Biblioteca"
-                                       asp-action="Index">
-                                        Biblioteca
-                                    </a>
-                                </li>
-                            }
-
+@{
+    bool hideNavbar = ViewData["HideNavbar"] is bool value && value;
+    bool usuarioLogado = Context.Session.GetInt32("UsuarioId") != null;
+    bool ehAdministrador = usuarioLogado && Context.Session.GetString("UsuarioTipo") == "Administrador";
+    string? nomeUsuario = Context.Session.GetString("UsuarioNome");
+    string controllerAtual = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+}
+@if (!hideNavbar)
+{
+    <header class="lg-header">
+        <nav class="navbar navbar-expand-lg lg-navbar" aria-label="Navegação principal">
+            <div class="container-fluid lg-nav-container">
+                <a class="lg-brand" asp-controller="Home" asp-action="Index" aria-label="Loading Games - início"><span class="lg-brand-icon">🎮</span><span>LOADING<span class="lg-brand-accent">GAMES</span><small>SEU MUNDO DE JOGOS</small></span></a>
+                <button class="navbar-toggler lg-nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#lgNavbar" aria-controls="lgNavbar" aria-expanded="false" aria-label="Abrir menu"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse lg-nav-collapse" id="lgNavbar">
+                    <form class="lg-search" asp-controller="Jogo" asp-action="Index" method="get" role="search"><input type="search" name="pesquisa" placeholder="Buscar jogos..." aria-label="Buscar jogos" /><button type="submit" aria-label="Pesquisar">⌕</button></form>
+                    <ul class="navbar-nav lg-nav-links">
+                        <li class="nav-item"><a class="nav-link @(controllerAtual == "Home" ? "lg-active" : "")" asp-controller="Home" asp-action="Index">Início</a></li>
+                        <li class="nav-item"><a class="nav-link @(controllerAtual == "Jogo" ? "lg-active" : "")" asp-controller="Jogo" asp-action="Index">Jogos</a></li>
+                        <li class="nav-item"><a class="nav-link @(controllerAtual == "Carrinho" ? "lg-active" : "")" asp-controller="Carrinho" asp-action="Index">Carrinho</a></li>
+                        @if (usuarioLogado) { <li class="nav-item"><a class="nav-link @(controllerAtual == "Biblioteca" ? "lg-active" : "")" asp-controller="Biblioteca" asp-action="Index">Biblioteca</a></li> }
+                    </ul>
+                    <div class="lg-nav-user">
+                        @if (usuarioLogado)
+                        {
                             @if (ehAdministrador)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       asp-area=""
-                                       asp-controller="Jogo"
-                                       asp-action="Crud">
-                                        Gerenciar Jogos
-                                    </a>
-                                </li>
+                                <div class="dropdown"><button class="lg-admin-trigger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Administração</button><ul class="dropdown-menu dropdown-menu-dark lg-admin-menu"><li><a class="dropdown-item" asp-controller="Jogo" asp-action="Crud">Gerenciar jogos</a></li><li><a class="dropdown-item" asp-controller="AdminCatalogo" asp-action="Index">Gerenciar categorias</a></li><li><a class="dropdown-item" asp-controller="AdminUsuario" asp-action="Index">Gerenciar usuários</a></li></ul></div>
                             }
-
-                            @if (ehAdministrador)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       asp-controller="AdminCatalogo"
-                                       asp-action="Index">
-                                        Gerenciar Categorias
-                                    </a>
-                                </li>
-                            }
-
-                            @if (ehAdministrador)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       asp-area=""
-                                       asp-controller="AdminUsuario"
-                                       asp-action="Index">
-                                        Gerenciar Usuários
-                                    </a>
-                                </li>
-                            }
-
-                        </ul>
-
-                        <div class="usuario-area">
-
-                            @if (Context.Session.GetString("UsuarioNome") != null)
-                            {
-                                <div class="usuario-logado">
-
-                                    <div class="usuario-icone">
-                                        👤
-                                    </div>
-
-                                    <div class="usuario-info">
-
-                                        <span class="usuario-nome">
-                                            @Context.Session.GetString("UsuarioNome")
-                                        </span>
-
-                                        <span class="usuario-status">
-                                            ● Online
-                                        </span>
-
-                                    </div>
-
-                                    <form asp-controller="Login"
-                                          asp-action="Sair"
-                                          method="post"
-                                          class="ms-3">
-
-                                        <button type="submit"
-                                                class="btn btn-outline-light btn-sm">
-                                            Sair
-                                        </button>
-
-                                    </form>
-
-                                </div>
-                            }
-                            else
-                            {
-                                <a asp-controller="Login"
-                                   asp-action="Index"
-                                   class="btn-login">
-                                    Entrar
-                                </a>
-                            }
-
-                        </div>
-
+                            <span class="lg-user-name" title="Usuário conectado">👤 @nomeUsuario</span>
+                            <form asp-controller="Login" asp-action="Sair" method="post">@Html.AntiForgeryToken()<button class="lg-signout" type="submit">Sair</button></form>
+                        }
+                        else
+                        {
+                            <a class="lg-signin" asp-controller="Login" asp-action="Index">Entrar</a>
+                            <a class="lg-signup" asp-controller="Usuario" asp-action="Cadastro">Criar conta</a>
+                        }
                     </div>
-
                 </div>
-
-            </nav>
-
-        </header>
-    }
-
-    @if (hideNavbar)
-    {
-        @RenderBody()
-    }
-    else
-    {
-        <div class="container">
-
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-
-        </div>
-    }
-
-    @if (!hideNavbar)
-    {
-        <footer class="border-top footer text-muted">
-
-            <div class="container">
-
-                &copy; 2026 - Loading Games -
-
-                <a asp-area=""
-                   asp-controller="Home"
-                   asp-action="Privacy">
-                    Privacy
-                </a>
-
             </div>
-
-        </footer>
-    }
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="~/js/site.js"
-            asp-append-version="true"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
-
+        </nav>
+    </header>
+}
+@if (hideNavbar) { @RenderBody() }
+else
+{
+    <div class="container lg-page-container"><main role="main" class="pb-3">@RenderBody()</main></div>
+    <footer class="lg-footer"><div class="container">© 2026 Loading Games <span>Projeto acadêmico • Compras simuladas</span></div></footer>
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>

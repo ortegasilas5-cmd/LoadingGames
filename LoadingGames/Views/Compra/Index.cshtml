@@ -1,147 +1,32 @@
-﻿@model LoadingGames.Models.Carrinho
-
+@model LoadingGames.Models.Carrinho
 @{
     ViewData["Title"] = "Finalizar Compra";
-
-    decimal total = Model.Itens.Sum(i => i.Jogo.Preco);
+    decimal total = Model?.Itens.Sum(i => i.Jogo.Preco) ?? 0;
 }
-
-<div class="container mt-4">
-
-    <h2 class="mb-4">Finalizar Compra</h2>
-
-    <div class="row">
-
-        <!-- JOGOS DA COMPRA -->
-        <div class="col-md-8">
-
-            <h4 class="mb-3">Seus jogos</h4>
-
+<section class="lg-shop-page container">
+    <header class="lg-shop-heading"><span class="lg-shop-kicker">QUASE LÁ</span><h1>Finalizar compra</h1><p>Revise seus jogos e escolha a forma de pagamento.</p></header>
+    @if (Model == null || !Model.Itens.Any())
+    {
+        <div class="lg-shop-empty"><h2>Não há jogos para finalizar</h2><p>Adicione jogos ao carrinho para continuar.</p><a asp-controller="Jogo" asp-action="Index" class="lg-shop-primary">Explorar jogos</a></div>
+    }
+    else
+    {
+        <div class="lg-shop-layout"><div class="lg-shop-products"><h2>Seus jogos <span>(@Model.Itens.Count)</span></h2>
             @foreach (var item in Model.Itens)
             {
-                <div class="card mb-3">
-
-                    <div class="row g-0">
-
-                        <div class="col-md-3">
-
-                            <img src="@item.Jogo.ImagemPrincipalUrl"
-                                 class="img-fluid rounded-start"
-                                 alt="@item.Jogo.Nome"
-                                 style="height: 140px; width: 100%; object-fit: cover;" />
-
-                        </div>
-
-                        <div class="col-md-9">
-
-                            <div class="card-body">
-
-                                <h5 class="card-title">
-                                    @item.Jogo.Nome
-                                </h5>
-
-                                <p class="card-text">
-
-                                    @item.Jogo.Preco.ToString(
-                                        "C",
-                                        new System.Globalization.CultureInfo("pt-BR")
-                                    )
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <article class="lg-shop-product"><div class="lg-shop-product-image">
+                    @if (!string.IsNullOrWhiteSpace(item.Jogo.ImagemPrincipalUrl)) { <img src="@item.Jogo.ImagemPrincipalUrl" alt="Capa de @item.Jogo.Nome" loading="lazy" /> }
+                    else { <span>🎮</span> }
+                    </div><div class="lg-shop-product-info"><h3>@item.Jogo.Nome</h3><span class="lg-shop-product-label">Jogo digital</span><strong>@item.Jogo.Preco.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</strong></div></article>
             }
-
-        </div>
-
-        <!-- RESUMO DA COMPRA -->
-        <div class="col-md-4">
-
-            <div class="card">
-
-                <div class="card-body">
-
-                    <h4>Resumo da compra</h4>
-
-                    <hr />
-
-                    <p>
-                        Jogos:
-                        <strong>@Model.Itens.Count</strong>
-                    </p>
-
-                    <h5>
-                        Total:
-
-                        @total.ToString(
-                            "C",
-                            new System.Globalization.CultureInfo("pt-BR")
-                        )
-                    </h5>
-
-                    <hr />
-
-                    <form asp-controller="Compra"
-                          asp-action="Finalizar"
-                          method="post">
-
-                        <div class="mb-3">
-
-                            <label for="formaPagamento"
-                                   class="form-label">
-                                Forma de pagamento
-                            </label>
-
-                            <select id="formaPagamento"
-                                    name="formaPagamento"
-                                    class="form-select"
-                                    required>
-
-                                <option value="">
-                                    Selecione
-                                </option>
-
-                                <option value="Cartao">
-                                    Cartão
-                                </option>
-
-                                <option value="Pix">
-                                    Pix
-                                </option>
-
-                                <option value="Boleto">
-                                    Boleto
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-success w-100">
-                            Confirmar compra
-                        </button>
-
-                    </form>
-
-                    <a asp-controller="Carrinho"
-                       asp-action="Index"
-                       class="btn btn-secondary w-100 mt-2">
-                        Voltar ao carrinho
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
+            <a asp-controller="Carrinho" asp-action="Index" class="lg-shop-back">← Voltar ao carrinho</a>
+        </div><aside class="lg-shop-summary"><h2>Resumo da compra</h2><div class="lg-shop-summary-row"><span>Jogos</span><span>@Model.Itens.Count</span></div><div class="lg-shop-summary-total"><span>Total</span><strong>@total.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</strong></div>
+            <form asp-controller="Compra" asp-action="Finalizar" method="post" class="lg-shop-checkout-form">
+                @Html.AntiForgeryToken()
+                <label for="formaPagamento">Forma de pagamento</label>
+                <select id="formaPagamento" name="formaPagamento" required><option value="">Selecione</option><option value="Cartao">Cartão</option><option value="Pix">Pix</option><option value="Boleto">Boleto</option></select>
+                <button type="submit" class="lg-shop-primary lg-shop-full">Confirmar compra →</button>
+            </form><p class="lg-shop-note">Compra simulada para fins acadêmicos. Não há cobrança real.</p>
+        </aside></div>
+    }
+</section>

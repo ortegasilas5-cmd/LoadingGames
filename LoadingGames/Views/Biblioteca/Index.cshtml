@@ -1,79 +1,60 @@
-﻿@model IEnumerable<LoadingGames.Models.PosseJogo>
-
+@model IEnumerable<LoadingGames.Models.PosseJogo>
 @{
     ViewData["Title"] = "Minha Biblioteca";
+    var jogos = Model.ToList();
 }
 
-<div class="container mt-4">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
+<section class="lg-library-page">
+    <div class="lg-management-heading">
         <div>
-            <h2 class="mb-1">Minha Biblioteca</h2>
-            <p class="text-muted mb-0">
-                Seus jogos adquiridos ficam disponíveis aqui.
-            </p>
+            <span class="lg-eyebrow">SUA COLEÇÃO</span>
+            <h1>Minha Biblioteca</h1>
+            <p>Todos os seus jogos adquiridos em um só lugar.</p>
         </div>
-
-        <a asp-controller="Jogo"
-           asp-action="Index"
-           class="btn btn-primary">
-            Ver loja
-        </a>
-
+        <a asp-controller="Jogo" asp-action="Index" class="lg-action-primary">Explorar jogos →</a>
     </div>
 
-    @if (!Model.Any())
+    <div class="lg-library-count">
+        <span>🎮</span>
+        <strong>@jogos.Count</strong>
+        <span>@(jogos.Count == 1 ? "jogo na biblioteca" : "jogos na biblioteca")</span>
+    </div>
+
+    @if (jogos.Count == 0)
     {
-        <div class="alert alert-info">
-            Você ainda não possui nenhum jogo na sua biblioteca.
+        <div class="lg-empty-state">
+            <div class="lg-empty-icon">🎮</div>
+            <h2>Sua biblioteca está esperando!</h2>
+            <p>Explore o catálogo e descubra sua próxima aventura.</p>
+            <a asp-controller="Jogo" asp-action="Index" class="lg-action-primary">Ver catálogo</a>
         </div>
     }
     else
     {
-        <div class="row">
-
-            @foreach (var posse in Model)
+        <div class="lg-library-grid">
+            @foreach (var posse in jogos)
             {
-                <div class="col-md-6 col-lg-4 mb-4">
-
-                    <div class="card h-100">
-
-                        <img src="@posse.Jogo.ImagemPrincipalUrl"
-                             class="card-img-top"
-                             alt="@posse.Jogo.Nome"
-                             style="height: 220px; object-fit: cover;" />
-
-                        <div class="card-body d-flex flex-column">
-
-                            <h5 class="card-title">
-                                @posse.Jogo.Nome
-                            </h5>
-
-                            <p class="text-muted mb-3">
-                                Adquirido em
-                                @posse.DataAquisicao.ToString("dd/MM/yyyy")
-                            </p>
-
-                            <div class="mt-auto">
-
-                                <a asp-controller="Jogo"
-                                   asp-action="Details"
-                                   asp-route-id="@posse.Jogo.IdJogo"
-                                   class="btn btn-outline-primary w-100">
-                                    Ver detalhes
-                                </a>
-
-                            </div>
-
-                        </div>
-
+                <article class="lg-library-card">
+                    <a asp-controller="Jogo" asp-action="Details" asp-route-id="@posse.Jogo.IdJogo"
+                       class="lg-library-art" aria-label="Ver detalhes de @posse.Jogo.Nome">
+                        @if (!string.IsNullOrWhiteSpace(posse.Jogo.ImagemPrincipalUrl))
+                        {
+                            <img src="@posse.Jogo.ImagemPrincipalUrl" alt="Capa de @posse.Jogo.Nome" loading="lazy" />
+                        }
+                        else
+                        {
+                            <span class="lg-library-no-art">🎮</span>
+                        }
+                        <span class="lg-library-owned">✓ Na biblioteca</span>
+                    </a>
+                    <div class="lg-library-content">
+                        <h2>@posse.Jogo.Nome</h2>
+                        <p>Adquirido em @posse.DataAquisicao.ToString("dd/MM/yyyy")</p>
+                        <a asp-controller="Jogo" asp-action="Details" asp-route-id="@posse.Jogo.IdJogo"
+                           class="lg-library-detail">Ver detalhes <span aria-hidden="true">→</span></a>
                     </div>
-
-                </div>
+                </article>
             }
-
         </div>
     }
-
-</div>
+</section>

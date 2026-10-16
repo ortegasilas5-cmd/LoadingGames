@@ -1,166 +1,38 @@
-﻿@model LoadingGames.Models.Carrinho
-
+@model LoadingGames.Models.Carrinho
 @{
     ViewData["Title"] = "Meu Carrinho";
-
-    decimal total = 0;
-
-    if (Model != null)
-    {
-        total = Model.Itens.Sum(i => i.Jogo.Preco);
-    }
+    decimal total = Model?.Itens.Sum(i => i.Jogo.Preco) ?? 0;
 }
-
-<div class="container mt-4">
-
-    <h2 class="mb-4">Meu Carrinho</h2>
-
-    @if (TempData["Sucesso"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show"
-             role="alert">
-
-            @TempData["Sucesso"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Fechar">
-            </button>
-
-        </div>
-    }
-
-    @if (TempData["Aviso"] != null)
-    {
-        <div class="alert alert-warning alert-dismissible fade show"
-             role="alert">
-
-            @TempData["Aviso"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Fechar">
-            </button>
-
-        </div>
-    }
-
+<section class="lg-shop-page container">
+    <header class="lg-shop-heading"><span class="lg-shop-kicker">SUA PRÓXIMA AVENTURA</span><h1>Meu Carrinho</h1><p>Confira os jogos escolhidos antes de finalizar.</p></header>
+    @if (TempData["Sucesso"] != null) { <div class="alert alert-success" role="alert">@TempData["Sucesso"]</div> }
+    @if (TempData["Aviso"] != null) { <div class="alert alert-warning" role="alert">@TempData["Aviso"]</div> }
     @if (Model == null || !Model.Itens.Any())
     {
-        <div class="alert alert-info">
-            Seu carrinho está vazio.
-        </div>
-
-        <a asp-controller="Jogo"
-           asp-action="Index"
-           class="btn btn-primary">
-            Ver jogos
-        </a>
+        <div class="lg-shop-empty"><div class="lg-shop-empty-icon">🎮</div><h2>Seu carrinho está vazio</h2><p>Que tal encontrar seu próximo jogo favorito?</p><a asp-controller="Jogo" asp-action="Index" class="lg-shop-primary">Explorar jogos →</a></div>
     }
     else
     {
-        <div class="row">
-
-            <div class="col-md-8">
-
+        <div class="lg-shop-layout">
+            <div class="lg-shop-products"><h2>Jogos selecionados <span>(@Model.Itens.Count)</span></h2>
                 @foreach (var item in Model.Itens)
                 {
-                    <div class="card mb-3">
-
-                        <div class="row g-0">
-
-                            <div class="col-md-3">
-
-                                <img src="@item.Jogo.ImagemPrincipalUrl"
-                                     class="img-fluid rounded-start"
-                                     alt="@item.Jogo.Nome"
-                                     style="height: 160px; width: 100%; object-fit: cover;" />
-
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <div class="card-body">
-
-                                    <h5 class="card-title">
-                                        @item.Jogo.Nome
-                                    </h5>
-
-                                    <p class="card-text">
-                                        @item.Jogo.Preco.ToString(
-                                            "C",
-                                            new System.Globalization.CultureInfo("pt-BR")
-                                        )
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-3 d-flex align-items-center justify-content-center">
-
-                                <form asp-controller="Carrinho"
-                                      asp-action="Remover"
-                                      method="post">
-
-                                    <input type="hidden"
-                                           name="idItemCarrinho"
-                                           value="@item.IdItemCarrinho" />
-
-                                    <button type="submit"
-                                            class="btn btn-danger">
-                                        Remover
-                                    </button>
-
-                                </form>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                }
-
-            </div>
-
-            <div class="col-md-4">
-
-                <div class="card">
-
-                    <div class="card-body">
-
-                        <h4>Resumo</h4>
-
-                        <hr />
-
-                        <p>
-                            Jogos:
-                            <strong>@Model.Itens.Count</strong>
-                        </p>
-
-                        <h5>
-                            Total:
-                            @total.ToString(
-                                "C",
-                                new System.Globalization.CultureInfo("pt-BR")
-                            )
-                        </h5>
-
-                        <a asp-controller="Compra"
-                           asp-action="Index"
-                           class="btn btn-success w-100 mt-3">
-                            Finalizar compra
+                    <article class="lg-shop-product">
+                        <a asp-controller="Jogo" asp-action="Details" asp-route-id="@item.Jogo.IdJogo" class="lg-shop-product-image">
+                            @if (!string.IsNullOrWhiteSpace(item.Jogo.ImagemPrincipalUrl)) { <img src="@item.Jogo.ImagemPrincipalUrl" alt="Capa de @item.Jogo.Nome" loading="lazy" /> }
+                            else { <span>🎮</span> }
                         </a>
-
-                    </div>
-
-                </div>
-
+                        <div class="lg-shop-product-info"><h3><a asp-controller="Jogo" asp-action="Details" asp-route-id="@item.Jogo.IdJogo">@item.Jogo.Nome</a></h3><span class="lg-shop-product-label">Jogo digital</span><strong>@item.Jogo.Preco.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</strong></div>
+                        <form asp-controller="Carrinho" asp-action="Remover" method="post" class="lg-shop-remove-form">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="idItemCarrinho" value="@item.IdItemCarrinho" />
+                            <button type="submit" class="lg-shop-remove">Remover</button>
+                        </form>
+                    </article>
+                }
+                <a asp-controller="Jogo" asp-action="Index" class="lg-shop-back">← Continuar comprando</a>
             </div>
-
+            <aside class="lg-shop-summary"><h2>Resumo do pedido</h2><div class="lg-shop-summary-row"><span>Jogos</span><span>@Model.Itens.Count</span></div><div class="lg-shop-summary-total"><span>Total</span><strong>@total.ToString("C", new System.Globalization.CultureInfo("pt-BR"))</strong></div><a asp-controller="Compra" asp-action="Index" class="lg-shop-primary lg-shop-full">Finalizar compra →</a><p class="lg-shop-note">Confira os detalhes antes de confirmar.</p></aside>
         </div>
     }
-
-</div>
+</section>
